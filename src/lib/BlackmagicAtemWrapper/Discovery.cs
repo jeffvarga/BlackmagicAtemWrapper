@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// <copyright file="Input.cs">
+// <copyright file="Discovery.cs">
 //   Copyright (c) 2023 Jeff Varga
 //
 //   Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -26,17 +26,27 @@ namespace BlackmagicAtemWrapper
 {
     using BMDSwitcherAPI;
 
+    /// <summary>
+    /// The Discovery class is used to connect to a physical switcher device.
+    /// </summary>
+    /// <remarks>Blackmagic Switcher SDK - 2.3.1</remarks>
     public class Discovery
     {
         /// <summary>
-        /// 
+        /// The ConnectTo method connects to the specified switcher and returns an <see cref="Switcher"/> object for the switcher.
         /// </summary>
-        /// <param name="connectionString"></param>
-        /// <returns></returns>
-        public static Switcher Connect(string connectionString)
+        /// <remarks>
+        /// <para>ConnectTo performs a synchronous network connection. This may take several seconds depending upon hostname resolution and network response times.</para>
+        /// <para>If a network connection cannot be established, ConnectTo will attempt to connect via USB if the switcher supports it</para>
+        /// </remarks>
+        /// <param name="deviceAddress">Network hostname or IP address of switcher to connect to. Set this empty to only connect via USB.</param>
+        /// <returns><see cref="Switcher"/> object for the connected switcher.</returns>
+        /// <exception cref="FailedException">Reason for connection failure as a BMDSwitcherConnectToFailure value.</exception>
+        /// <remarks>Blackmagic Switcher SDK - 2.3.1.1</remarks>
+        public static Switcher ConnectTo(string deviceAddress)
         {
             IBMDSwitcherDiscovery discovery = new CBMDSwitcherDiscovery();
-            discovery.ConnectTo(connectionString, out IBMDSwitcher switcherDevice, out _BMDSwitcherConnectToFailure failReason);
+            discovery.ConnectTo(deviceAddress, out IBMDSwitcher switcherDevice, out _BMDSwitcherConnectToFailure failReason);
 
             if (null == switcherDevice)
             {

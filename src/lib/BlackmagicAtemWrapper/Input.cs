@@ -162,9 +162,9 @@ namespace BlackmagicAtemWrapper
         /// The AreNamesDefault method is used to check whether the long name and short name for this input are both set to the factory defaults.
         /// </summary>
         /// <returns>Boolean value indicating whether the long name and short name are both set to the factory defaults.</returns>
+        /// <bug>IDL declares AreNamesDefault as an [in] parameter</bug>
         public bool AreNamesDefault()
         {
-            // BUG: Interface specifies ref instead of out
             int isDefault = 0;
             this.switcherInput.AreNamesDefault(ref isDefault);
             return isDefault != 0;

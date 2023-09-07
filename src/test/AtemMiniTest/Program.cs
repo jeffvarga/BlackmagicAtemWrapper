@@ -6,7 +6,7 @@
     {
         static void Main(string[] args)
         {
-            BMD.Switcher switcher = BMD.Discovery.Connect("");
+            BMD.Switcher switcher = BMD.Discovery.ConnectTo("");
 
             foreach (BMD.MixEffectBlock meb in switcher.MixEffectBlocks)
             {
