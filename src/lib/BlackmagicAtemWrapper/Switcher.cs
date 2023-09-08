@@ -176,35 +176,20 @@ namespace BlackmagicAtemWrapper
             }
         }
 
+        /// <summary>
+        /// Gets the <see cref="MixEffectBlockCollection"/> representing the available Mix Effect blocks on the switcher.
+        /// </summary>
         public IEnumerable<MixEffectBlock> MixEffectBlocks
         {
             get
             {
-                // Create a mix effect block iterator
-                this.InternalSwitcherReference.CreateIterator(typeof(IBMDSwitcherMixEffectBlockIterator).GUID, out IntPtr mixEffectIteratorPtr);
-                IBMDSwitcherMixEffectBlockIterator mixEffectIterator = Marshal.GetObjectForIUnknown(mixEffectIteratorPtr) as IBMDSwitcherMixEffectBlockIterator;
-                if (mixEffectIterator == null)
-                {
-                    yield break;
-                }
-
-                // Iterate through all mix effect blocks
-                while (true)
-                {
-                    mixEffectIterator.Next(out IBMDSwitcherMixEffectBlock me);
-
-                    if (me != null)
-                    {
-                        yield return new MixEffectBlock(me);
-                    }
-                    else
-                    {
-                        yield break;
-                    }
-                }
+                return new MixEffectBlockCollection(this.InternalSwitcherReference);
             }
         }
 
+        /// <summary>
+        /// Gets the <see cref="InputCollection"/> representing the available inputs on the switcher.
+        /// </summary>
         public InputCollection Inputs
         {
             get
