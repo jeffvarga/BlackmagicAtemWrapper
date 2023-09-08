@@ -62,8 +62,8 @@ namespace BlackmagicAtemWrapper
                 throw new ArgumentNullException(nameof(switcher));
             }
 
-            switcher.CreateIterator(typeof(IBMDSwitcherMixEffectBlockIterator).GUID, out IntPtr mixEffectBLockIteratorPtr);
-            this.InternalMixEffectBlockIteratorReference = Marshal.GetObjectForIUnknown(mixEffectBLockIteratorPtr) as IBMDSwitcherMixEffectBlockIterator;
+            switcher.CreateIterator(typeof(IBMDSwitcherMixEffectBlockIterator).GUID, out IntPtr mixEffectBlockIteratorPtr);
+            this.InternalMixEffectBlockIteratorReference = Marshal.GetObjectForIUnknown(mixEffectBlockIteratorPtr) as IBMDSwitcherMixEffectBlockIterator;
 
             return;
         }

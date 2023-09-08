@@ -419,6 +419,7 @@ namespace BlackmagicAtemWrapper
 
                 throw;
             }
+
             return;
         }
 
