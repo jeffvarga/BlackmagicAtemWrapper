@@ -24,7 +24,6 @@
 
 namespace BlackmagicAtemWrapper
 {
-    using System;
     using System.Runtime.InteropServices;
     using BMDSwitcherAPI;
 
@@ -39,7 +38,7 @@ namespace BlackmagicAtemWrapper
         /// <summary>
         /// Internal reference to the raw <seealso cref="IBMDSwitcherKey"/>
         /// </summary>
-        private readonly IBMDSwitcherKey switcherKey;
+        private readonly IBMDSwitcherKey InternalSwitcherKeyReference;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Key" /> class.
@@ -47,8 +46,8 @@ namespace BlackmagicAtemWrapper
         /// <param name="switcherKey">The native <seealso cref="IBMDSwitcherKey"/> from the BMDSwitcherAPI.</param>
         public Key(IBMDSwitcherKey switcherKey)
         {
-            this.switcherKey = switcherKey;
-            this.switcherKey.AddCallback(this);
+            this.InternalSwitcherKeyReference = switcherKey;
+            this.InternalSwitcherKeyReference.AddCallback(this);
         }
 
         /// <summary>
@@ -56,8 +55,8 @@ namespace BlackmagicAtemWrapper
         /// </summary>
         ~Key()
         {
-            this.switcherKey.RemoveCallback(this);
-            Marshal.ReleaseComObject(this.switcherKey);
+            this.InternalSwitcherKeyReference.RemoveCallback(this);
+            Marshal.ReleaseComObject(this.InternalSwitcherKeyReference);
         }
 
         #region Events
@@ -121,17 +120,26 @@ namespace BlackmagicAtemWrapper
         /// <summary>
         /// Gets the <see cref="SwitcherKeyPatternParameters"/> property
         /// </summary>
-        public SwitcherKeyPatternParameters SwitcherKeyPatternParameters => new SwitcherKeyPatternParameters(this.switcherKey as IBMDSwitcherKeyPatternParameters);
+        public SwitcherKeyPatternParameters SwitcherKeyPatternParameters
+        {
+            get { return new SwitcherKeyPatternParameters(this.InternalSwitcherKeyReference as IBMDSwitcherKeyPatternParameters); }
+        }
 
         /// <summary>
         /// Gets the <see cref="SwitcherKeyDVEParameters"/> property
         /// </summary>
-        public SwitcherKeyDVEParameters SwitcherKeyDVEParameters => new SwitcherKeyDVEParameters(this.switcherKey as IBMDSwitcherKeyDVEParameters);
+        public SwitcherKeyDVEParameters SwitcherKeyDVEParameters
+        {
+            get { return new SwitcherKeyDVEParameters(this.InternalSwitcherKeyReference as IBMDSwitcherKeyDVEParameters); }
+        }
 
         /// <summary>
         /// Gets the <see cref="SwitcherKeyFlyParameters"/> property
         /// </summary>
-        public SwitcherKeyFlyParameters SwitcherKeyFlyParameters => new SwitcherKeyFlyParameters(this.switcherKey as IBMDSwitcherKeyFlyParameters);
+        public SwitcherKeyFlyParameters SwitcherKeyFlyParameters
+        {
+            get { return new SwitcherKeyFlyParameters(this.InternalSwitcherKeyReference as IBMDSwitcherKeyFlyParameters); }
+        }
         #endregion
 
         /// <summary>
@@ -144,70 +152,103 @@ namespace BlackmagicAtemWrapper
         {
             get
             {
-                this.switcherKey.CanBeDVEKey(out int canDVE);
+                this.InternalSwitcherKeyReference.CanBeDVEKey(out int canDVE);
                 return canDVE != 0;
             }
         }
 
         #region Properties
+        /// <summary>
+        /// Gets or sets the current key type.
+        /// </summary>
         public _BMDSwitcherKeyType Type
         {
             get { return this.GetType(); }
             set { this.SetType(value); }
         }
 
+        /// <summary>
+        /// Gets or sets the current cut input source.
+        /// </summary>
         public long InputCut
         {
             get { return this.GetInputCut(); }
             set { this.SetInputCut(value); }
         }
 
+        /// <summary>
+        /// Gets or sets the current fill input source.
+        /// </summary>
         public long InputFill
         {
             get { return this.GetInputFill(); }
             set { this.SetinputFill(value); }
         }
 
+        /// <summary>
+        /// Gets the availability mask for the fill of this input.
+        /// </summary>
         public _BMDSwitcherInputAvailability FillInputAvailabilityMask
         {
             get { return this.GetFillInputAvailabilityMask(); }
         }
 
+        /// <summary>
+        /// Gets the availability mask for the cut of this input.
+        /// </summary>
         public _BMDSwitcherInputAvailability CutInputAvailabilityMask
         {
             get { return this.GetCutInputAvailabilityMask(); }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the current key is on-air.
+        /// </summary>
         public bool OnAir
         {
             get { return this.GetOnAir(); }
             set { this.SetOnAir(value); }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the current key is masked.
+        /// </summary>
         public bool Masked
         {
             get { return this.GetMasked(); }
             set { this.SetMasked(value); }
         }
 
+        /// <summary>
+        /// Gets or sets the current mask top value.
+        /// </summary>
         public double MaskTop
         {
             get { return this.GetMaskTop(); }
             set { this.SetMaskTop(value); }
         }
 
+        /// <summary>
+        ///  Gets or sets the current mask bottom value.
+        /// </summary>
         public double MaskBottom
         {
             get { return this.GetMaskBottom(); }
             set { this.SetMaskBottom(value); }
         }
 
+        /// <summary>
+        /// Gets or sets the current mask left value.
+        /// </summary>
         public double MaskLeft
         {
             get { return this.GetMaskLeft(); }
             set { this.SetMaskLeft(value); }
         }
 
+        /// <summary>
+        /// Gets or sets the current mask right value.
+        /// </summary>
         public double MaskRight
         {
             get { return this.GetMaskRight(); }
@@ -281,7 +322,7 @@ namespace BlackmagicAtemWrapper
         /// <returns>The current key type.</returns>
         public new _BMDSwitcherKeyType GetType()
         {
-            this.switcherKey.GetType(out _BMDSwitcherKeyType type);
+            this.InternalSwitcherKeyReference.GetType(out _BMDSwitcherKeyType type);
             return type;
         }
 
@@ -291,7 +332,7 @@ namespace BlackmagicAtemWrapper
         /// <param name="type">The desired key type.</param>
         public void SetType(_BMDSwitcherKeyType type)
         {
-            this.switcherKey.SetType(type);
+            this.InternalSwitcherKeyReference.SetType(type);
             return;
         }
 
@@ -301,7 +342,7 @@ namespace BlackmagicAtemWrapper
         /// <returns>BMDSwitcherInputId of the selected cut input source.</returns>
         public long GetInputCut()
         {
-            this.switcherKey.GetInputCut(out long input);
+            this.InternalSwitcherKeyReference.GetInputCut(out long input);
             return input;
         }
 
@@ -311,7 +352,7 @@ namespace BlackmagicAtemWrapper
         /// <param name="input">The desired cut input source’s BMDSwitcherInputId.</param>
         public void SetInputCut(long input)
         {
-            this.switcherKey.SetInputCut(input);
+            this.InternalSwitcherKeyReference.SetInputCut(input);
             return;
         }
 
@@ -321,7 +362,7 @@ namespace BlackmagicAtemWrapper
         /// <returns>BMDSwitcherInputId of the selected fill input source.</returns>
         public long GetInputFill()
         {
-            this.switcherKey.GetInputFill(out long input);
+            this.InternalSwitcherKeyReference.GetInputFill(out long input);
             return input;
         }
 
@@ -331,7 +372,7 @@ namespace BlackmagicAtemWrapper
         /// <param name="input">The desired fill input source’s BMDSwitcherInputId.</param>
         public void SetinputFill(long input)
         {
-            this.switcherKey.SetInputFill(input);
+            this.InternalSwitcherKeyReference.SetInputFill(input);
             return;
         }
 
@@ -344,7 +385,7 @@ namespace BlackmagicAtemWrapper
         /// <returns>BMDSwitcherInputAvailability bit mask.</returns>
         public _BMDSwitcherInputAvailability GetFillInputAvailabilityMask()
         {
-            this.switcherKey.GetFillInputAvailabilityMask(out _BMDSwitcherInputAvailability availabilityMask);
+            this.InternalSwitcherKeyReference.GetFillInputAvailabilityMask(out _BMDSwitcherInputAvailability availabilityMask);
             return availabilityMask;
         }
 
@@ -357,7 +398,7 @@ namespace BlackmagicAtemWrapper
         /// <returns>BMDSwitcherInputAvailability bit mask.</returns>
         public _BMDSwitcherInputAvailability GetCutInputAvailabilityMask()
         {
-            this.switcherKey.GetCutInputAvailabilityMask(out _BMDSwitcherInputAvailability availabilityMask);
+            this.InternalSwitcherKeyReference.GetCutInputAvailabilityMask(out _BMDSwitcherInputAvailability availabilityMask);
             return availabilityMask;
         }
 
@@ -367,7 +408,7 @@ namespace BlackmagicAtemWrapper
         /// <returns>Boolean on-air flag.</returns>
         public bool GetOnAir()
         {
-            this.switcherKey.GetOnAir(out int onAir);
+            this.InternalSwitcherKeyReference.GetOnAir(out int onAir);
             return onAir != 0;
         }
 
@@ -377,7 +418,7 @@ namespace BlackmagicAtemWrapper
         /// <param name="onAir">The desired on-air flag.</param>
         public void SetOnAir(bool onAir)
         {
-            this.switcherKey.SetOnAir(onAir ? 1 : 0);
+            this.InternalSwitcherKeyReference.SetOnAir(onAir ? 1 : 0);
             return;
         }
 
@@ -387,7 +428,7 @@ namespace BlackmagicAtemWrapper
         /// <returns>Boolean flag of whether masking is enabled.</returns>
         public bool GetMasked()
         {
-            this.switcherKey.GetMasked(out int maskEnabled);
+            this.InternalSwitcherKeyReference.GetMasked(out int maskEnabled);
             return maskEnabled != 0;
         }
 
@@ -397,7 +438,7 @@ namespace BlackmagicAtemWrapper
         /// <param name="maskEnabled">The desired masked value.</param>
         public void SetMasked(bool maskEnabled)
         {
-            this.switcherKey.SetMasked(maskEnabled ? 1 : 0);
+            this.InternalSwitcherKeyReference.SetMasked(maskEnabled ? 1 : 0);
             return;
         }
 
@@ -407,7 +448,7 @@ namespace BlackmagicAtemWrapper
         /// <returns>The current mask top value.</returns>
         public double GetMaskTop()
         {
-            this.switcherKey.GetMaskTop(out double top);
+            this.InternalSwitcherKeyReference.GetMaskTop(out double top);
             return top;
         }
 
@@ -417,7 +458,7 @@ namespace BlackmagicAtemWrapper
         /// <param name="top">The desired mask top value.</param>
         public void SetMaskTop(double top)
         {
-            this.switcherKey.SetMaskTop(top);
+            this.InternalSwitcherKeyReference.SetMaskTop(top);
             return;
         }
 
@@ -427,7 +468,7 @@ namespace BlackmagicAtemWrapper
         /// <returns>The current mask bottom value.</returns>
         public double GetMaskBottom()
         {
-            this.switcherKey.GetMaskBottom(out double bottom);
+            this.InternalSwitcherKeyReference.GetMaskBottom(out double bottom);
             return bottom;
         }
 
@@ -437,7 +478,7 @@ namespace BlackmagicAtemWrapper
         /// <param name="bottom">The desired mask bottom value.</param>
         public void SetMaskBottom(double bottom)
         {
-            this.switcherKey.SetMaskBottom(bottom);
+            this.InternalSwitcherKeyReference.SetMaskBottom(bottom);
             return;
         }
 
@@ -447,7 +488,7 @@ namespace BlackmagicAtemWrapper
         /// <returns>The current mask left value.</returns>
         public double GetMaskLeft()
         {
-            this.switcherKey.GetMaskLeft(out double left);
+            this.InternalSwitcherKeyReference.GetMaskLeft(out double left);
             return left;
         }
 
@@ -457,7 +498,7 @@ namespace BlackmagicAtemWrapper
         /// <param name="left">The desired mask left value.</param>
         public void SetMaskLeft(double left)
         {
-            this.switcherKey.SetMaskLeft(left);
+            this.InternalSwitcherKeyReference.SetMaskLeft(left);
             return;
         }
 
@@ -467,7 +508,7 @@ namespace BlackmagicAtemWrapper
         /// <returns>The current mask right value.</returns>
         public double GetMaskRight()
         {
-            this.switcherKey.GetMaskRight(out double right);
+            this.InternalSwitcherKeyReference.GetMaskRight(out double right);
             return right;
         }
 
@@ -477,7 +518,7 @@ namespace BlackmagicAtemWrapper
         /// <param name="right">The desired mask right value.</param>
         public void SetMaskRight(double right)
         {
-            this.switcherKey.SetMaskRight(right);
+            this.InternalSwitcherKeyReference.SetMaskRight(right);
             return;
         }
 
@@ -486,7 +527,7 @@ namespace BlackmagicAtemWrapper
         /// </summary>
         public void ResetMask()
         {
-            this.switcherKey.ResetMask();
+            this.InternalSwitcherKeyReference.ResetMask();
         }
 
         /// <summary>
@@ -496,7 +537,7 @@ namespace BlackmagicAtemWrapper
         /// <returns>BMDSwitcherTransitionSelection bit mask.</returns>
         public _BMDSwitcherTransitionSelection GetTransitionSelectionMask()
         {
-            this.switcherKey.GetTransitionSelectionMask(out _BMDSwitcherTransitionSelection selectionMask);
+            this.InternalSwitcherKeyReference.GetTransitionSelectionMask(out _BMDSwitcherTransitionSelection selectionMask);
             return selectionMask;
         }
     }
