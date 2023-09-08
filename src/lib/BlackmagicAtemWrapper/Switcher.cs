@@ -154,6 +154,17 @@ namespace BlackmagicAtemWrapper
             }
         }
 
+        /// <summary>
+        /// Gets the <see cref="SerialPortCollection"/> representing the available serial ports on the switcher.
+        /// </summary>
+        public SerialPortCollection SerialPorts
+        {
+            get
+            {
+                return new SerialPortCollection(this.InternalSwitcherReference);
+            }
+        }
+
         public IEnumerable<MixEffectBlock> MixEffectBlocks
         {
             get
