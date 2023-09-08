@@ -218,6 +218,14 @@ namespace BlackmagicAtemWrapper
         }
 
         /// <summary>
+        /// Gets the operating state object which can be used to save and recall state.
+        /// </summary>
+        public SaveRecall OperatingState
+        {
+            get { return new SaveRecall(this.InternalSwitcherReference as IBMDSwitcherSaveRecall); }
+        }
+
+        /// <summary>
         /// Gets the product name of the switcher.
         /// </summary>
         public string ProductName
