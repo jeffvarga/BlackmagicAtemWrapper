@@ -27,22 +27,56 @@ namespace BlackmagicAtemWrapper
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Runtime.InteropServices;
     using BMDSwitcherAPI;
 
+    /// <summary>
+    /// The MultiViewCollection class is used to iterate over MixEffectBlocks.
+    /// </summary>
+    /// <remarks>Wraps Blackmagic Switcher SDK - 2.1.1</remarks>
     public class InputCollection : IEnumerable<Input>
     {
-        private readonly IBMDSwitcherInputIterator switcherInputIterator;
+        /// <summary>
+        /// Internal reference to the raw <seealso cref="IBMDSwitcherInputIterator"/>.
+        /// </summary>
+        private readonly IBMDSwitcherInputIterator InternalInputIterator;
 
-        public InputCollection(IBMDSwitcherInputIterator sii)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="InputCollection"/> class.
+        /// </summary>
+        /// <param name="inputIterator">The native <seealso cref="IBMDSwitcherInputIterator"/> from the BMDSwitcherAPI.</param>
+        public InputCollection(IBMDSwitcherInputIterator inputIterator)
         {
-            this.switcherInputIterator = sii;
+            this.InternalInputIterator = inputIterator;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="InputCollection"/> class from a <seealso cref="IBMDSwitcher"/>.
+        /// </summary>
+        /// <param name="switcher">The native <seealso cref="IBMDSwitcher"/> from the BMDSwitcherAPI.</param>
+        public InputCollection(IBMDSwitcher switcher)
+        {
+            if (null == switcher)
+            {
+                throw new ArgumentNullException(nameof(switcher));
+            }
+
+            switcher.CreateIterator(typeof(IBMDSwitcherInputIterator).GUID, out IntPtr inputIteratorPtr);
+            this.InternalInputIterator = Marshal.GetObjectForIUnknown(inputIteratorPtr) as IBMDSwitcherInputIterator;
+
+            return;
+        }
+
+        #region IEnumerable
+        /// <summary>
+        /// Returns an enumerator that iterates through the collection.
+        /// </summary>
+        /// <returns>Enumerator that iterates through the collection.</returns>
         public IEnumerator<Input> GetEnumerator()
         {
             while (true)
             {
-                this.switcherInputIterator.Next(out IBMDSwitcherInput input);
+                this.InternalInputIterator.Next(out IBMDSwitcherInput input);
 
                 if (input != null)
                 {
@@ -55,10 +89,15 @@ namespace BlackmagicAtemWrapper
             }
         }
 
+        /// <summary>
+        /// Returns an enumerator that iterates through the collection.
+        /// </summary>
+        /// <returns>Enumerator that iterates through the collection.</returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
             return this.GetEnumerator();
         }
+        #endregion
 
         /// <summary>
         /// The GetById method returns the IBMDSwitcherInput object interface corresponding to the specified Id.
@@ -68,7 +107,7 @@ namespace BlackmagicAtemWrapper
         /// <exception cref="ArgumentException">The <paramref name="inputId"/> parameter is invalid.</exception>
         public Input GetById(long inputId)
         {
-            this.switcherInputIterator.GetById(inputId, out IBMDSwitcherInput input);
+            this.InternalInputIterator.GetById(inputId, out IBMDSwitcherInput input);
             return new Input(input);
         }
     }

@@ -194,11 +194,7 @@ namespace BlackmagicAtemWrapper
         {
             get
             {
-                // Create an input iterator
-                this.InternalSwitcherReference.CreateIterator(typeof(IBMDSwitcherInputIterator).GUID, out IntPtr inputIteratorPtr);
-                IBMDSwitcherInputIterator inputIterator = Marshal.GetObjectForIUnknown(inputIteratorPtr) as IBMDSwitcherInputIterator;
-
-                return new InputCollection(inputIterator);
+                return new InputCollection(this.InternalSwitcherReference);
             }
         }
 
