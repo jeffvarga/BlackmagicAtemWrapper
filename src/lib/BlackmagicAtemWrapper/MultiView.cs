@@ -140,10 +140,10 @@ namespace BlackmagicAtemWrapper
         }
 
         /// <summary>
-        /// <para>Gets a flag indicating whether the switcher supports quadrant layout.</para>
+        /// <para>Gets a value indicating whether the switcher supports quadrant layout.</para>
         /// <para>Some switchers are capable of configuring each quadrant of the MultiView as either one large window or four small windows. Switchers that are not capable of independent quadrant configuration are still capable of displaying the classic ten window configuration which is made up of two large windows either at the top, bottom, left or right side of the display and eight small windows in the remaining area of the display.</para>
         /// </summary>
-        ///  <remarks>Blackmagic Switcher SDK - 2.3.15.4</remarks>
+        /// <remarks>Blackmagic Switcher SDK - 2.3.15.4</remarks>
         public bool SupportsQuadrantLayout
         {
             get
@@ -304,6 +304,7 @@ namespace BlackmagicAtemWrapper
                 {
                     throw new FailedException(e);
                 }
+
                 throw;
             }
 
@@ -392,6 +393,7 @@ namespace BlackmagicAtemWrapper
                 {
                     throw new FailedException(e);
                 }
+
                 throw;
             }
         }
@@ -414,6 +416,7 @@ namespace BlackmagicAtemWrapper
                 {
                     throw new FailedException(e);
                 }
+
                 throw;
             }
             return;
@@ -436,10 +439,11 @@ namespace BlackmagicAtemWrapper
             }
             catch (COMException e)
             {
-                if(FailedException.IsFailedException(e.ErrorCode))
+                if (FailedException.IsFailedException(e.ErrorCode))
                 {
                     throw new FailedException(e);
                 }
+
                 throw;
             }
         }
@@ -478,6 +482,7 @@ namespace BlackmagicAtemWrapper
                 {
                     throw new FailedException(e);
                 }
+
                 throw;
             }
         }

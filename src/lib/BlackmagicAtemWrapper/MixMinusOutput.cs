@@ -156,10 +156,11 @@ namespace BlackmagicAtemWrapper
             }
             catch (COMException e)
             {
-                if(FailedException.IsFailedException(e.ErrorCode))
+                if (FailedException.IsFailedException(e.ErrorCode))
                 {
                     throw new FailedException(e);
                 }
+
                 throw;
             }
         }
@@ -183,6 +184,7 @@ namespace BlackmagicAtemWrapper
                 {
                     throw new FailedException(e);
                 }
+
                 throw;
             }
         }

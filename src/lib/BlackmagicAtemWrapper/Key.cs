@@ -52,7 +52,7 @@ namespace BlackmagicAtemWrapper
         }
 
         /// <summary>
-        /// Destructor for <see cref="Key"/>.
+        /// Finalizes an instance of the <see cref="Key"/> class.
         /// </summary>
         ~Key()
         {
@@ -135,7 +135,7 @@ namespace BlackmagicAtemWrapper
         #endregion
 
         /// <summary>
-        /// The CanBeDVEKey method returns a status flag of whether this key can be set to the DVE type. The DVE
+        /// Gets a value indicating whether this key can be set to the DVE type. The DVE
         /// hardware is a shared resource; if another component is currently using the resource, it may not be
         /// available for this key
         /// </summary>

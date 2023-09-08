@@ -32,7 +32,7 @@ namespace BlackmagicAtemWrapper
     /// The InputAux class is used for managing an auxiliary output port.
     /// </summary>
     /// <remarks>Blackmagic Switcher SDK - 2.3.12</remarks>
-    class InputAux : IBMDSwitcherInputAuxCallback
+    public class InputAux : IBMDSwitcherInputAuxCallback
     {
         /// <summary>
         /// Internal reference to the raw <seealso cref="IBMDSwitcherInputAux"/>.
@@ -40,7 +40,7 @@ namespace BlackmagicAtemWrapper
         private readonly IBMDSwitcherInputAux InternalInputAuxReference;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Switcher"/> class.
+        /// Initializes a new instance of the <see cref="InputAux"/> class.
         /// </summary>
         /// <param name="input">The native <seealso cref="IBMDSwitcherInputAux"/> from the BMDSwitcherAPI.</param>
         public InputAux(IBMDSwitcherInputAux input)
@@ -58,6 +58,10 @@ namespace BlackmagicAtemWrapper
             _ = Marshal.ReleaseComObject(this.InternalInputAuxReference);
         }
 
+        /// <summary>
+        /// Handles an InputAux event.
+        /// </summary>
+        /// <param name="sender">The object that received the event.</param>
         public delegate void InputAuxEventHandler(object sender);
 
         #region Events

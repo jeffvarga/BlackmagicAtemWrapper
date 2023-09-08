@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// <copyright file="InputCollection.cs">
+// <copyright file="KeyCollection.cs">
 //   Copyright (c) 2023 Jeff Varga
 //
 //   Permission is hereby granted, free of charge, to any person obtaining a copy

@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// <copyright file="MixMinusOutput.cs">
+// <copyright file="SaveRecall.cs">
 //   Copyright (c) 2023 Jeff Varga
 //
 //   Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -27,6 +27,10 @@ namespace BlackmagicAtemWrapper
     using System;
     using BMDSwitcherAPI;
 
+    /// <summary>
+    /// The SaveRecall class provides functionality for storing and clearing operating states.
+    /// </summary>
+    /// <remarks>Blackmagic Switcher SDK - 2.3.23</remarks>
     public class SaveRecall
     {
         /// <summary>
