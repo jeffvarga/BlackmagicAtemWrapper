@@ -165,6 +165,17 @@ namespace BlackmagicAtemWrapper
             }
         }
 
+        /// <summary>
+        /// Gets the <see cref="MixMinusOutputCollection"/> representing the available mix minus outputs on the switcher.
+        /// </summary>
+        public MixMinusOutputCollection MixMinusOutputs
+        {
+            get
+            {
+                return new MixMinusOutputCollection(this.InternalSwitcherReference);
+            }
+        }
+
         public IEnumerable<MixEffectBlock> MixEffectBlocks
         {
             get

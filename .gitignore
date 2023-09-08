@@ -2,3 +2,4 @@ bin
 obj
 .vs
 StyleCop.cache
+/src/lib/BlackmagicAtemWrapper/BlackmagicAtemWrapper.xml

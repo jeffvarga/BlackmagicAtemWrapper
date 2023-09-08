@@ -1,5 +1,6 @@
 ﻿namespace AtemMiniTest
 {
+    using System;
     using BMD=BlackmagicAtemWrapper;
 
     class Program
@@ -12,8 +13,12 @@
             {
                 meb.PerformFadeToBlack();
             }
-            System.Threading.Thread.Sleep(1000);
 
+            foreach (BMD.SerialPort sp in switcher.SerialPorts)
+            {
+                Console.WriteLine("Got a serial port!");
+            }
+            System.Threading.Thread.Sleep(1000);
         }
     }
 }
