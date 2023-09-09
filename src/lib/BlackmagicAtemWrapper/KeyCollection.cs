@@ -30,24 +30,49 @@ namespace BlackmagicAtemWrapper
     using System.Runtime.InteropServices;
     using BMDSwitcherAPI;
 
+    /// <summary>
+    /// The MultiViewCollection class is used to iterate over MixEffectBlocks.
+    /// </summary>
+    /// <remarks>Wraps Blackmagic Switcher SDK - 5.2.1</remarks>
     public class KeyCollection : IEnumerable<Key>
     {
+        /// <summary>
+        /// Internal reference to the raw <seealso cref="IBMDSwitcherKeyIterator"/>.
+        /// </summary>
         private readonly IBMDSwitcherKeyIterator InternalSwitcherKeyIteratorReference;
 
-        public KeyCollection(IBMDSwitcherKeyIterator ski)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="KeyCollection"/> class.
+        /// </summary>
+        /// <param name="switcherKeyIterator">The native <seealso cref="IBMDSwitcherKeyIterator"/> from the BMDSwitcherAPI.</param>
+        public KeyCollection(IBMDSwitcherKeyIterator switcherKeyIterator)
         {
-            this.InternalSwitcherKeyIteratorReference = ski;
+            this.InternalSwitcherKeyIteratorReference = switcherKeyIterator;
         }
 
-        public KeyCollection(IBMDSwitcherMixEffectBlock meb)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="KeyCollection"/> class from a <seealso cref="IBMDSwitcherMixEffectBlock"/>.
+        /// </summary>
+        /// <param name="mixEffectBlock">The native <seealso cref="IBMDSwitcherMixEffectBlock"/> from the BMDSwitcherAPI.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="mixEffectBlock"/> was null.</exception>
+        public KeyCollection(IBMDSwitcherMixEffectBlock mixEffectBlock)
         {
-            meb.CreateIterator(typeof(IBMDSwitcherKeyIterator).GUID, out IntPtr mebIteratorPtr);
+            if (null == mixEffectBlock)
+            {
+                throw new ArgumentNullException(nameof(mixEffectBlock));
+            }
+
+            mixEffectBlock.CreateIterator(typeof(IBMDSwitcherKeyIterator).GUID, out IntPtr mebIteratorPtr);
             this.InternalSwitcherKeyIteratorReference = Marshal.GetObjectForIUnknown(mebIteratorPtr) as IBMDSwitcherKeyIterator;
 
             return;
         }
 
         #region IEnumerable
+        /// <summary>
+        /// Returns an enumerator that iterates through the collection.
+        /// </summary>
+        /// <returns>Enumerator that iterates through the collection.</returns>
         public IEnumerator<Key> GetEnumerator()
         {
             while (true)
@@ -65,6 +90,10 @@ namespace BlackmagicAtemWrapper
             }
         }
 
+        /// <summary>
+        /// Returns an enumerator that iterates through the collection.
+        /// </summary>
+        /// <returns>Enumerator that iterates through the collection.</returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
             return this.GetEnumerator();
