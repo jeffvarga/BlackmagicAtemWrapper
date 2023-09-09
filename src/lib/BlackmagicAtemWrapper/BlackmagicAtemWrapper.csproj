@@ -27,4 +27,8 @@
     </COMReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="audio\" />
+  </ItemGroup>
+
 </Project>
