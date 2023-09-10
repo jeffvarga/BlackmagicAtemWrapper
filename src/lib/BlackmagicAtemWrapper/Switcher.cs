@@ -207,6 +207,20 @@ namespace BlackmagicAtemWrapper
         }
 
         /// <summary>
+        /// Gets the switcher's <see cref="audio.FairlightAudioMixer"/>
+        /// </summary>
+        public audio.FairlightAudioMixer AudioMixer
+        {
+            get
+            {
+                Guid guidAudioMixer = typeof(IBMDSwitcherFairlightAudioMixer).GUID;
+                Marshal.QueryInterface(Marshal.GetIUnknownForObject(this.InternalSwitcherReference), ref guidAudioMixer, out IntPtr ppv);
+
+                return new audio.FairlightAudioMixer(this.InternalSwitcherReference as IBMDSwitcherFairlightAudioMixer);
+            }
+        }
+
+        /// <summary>
         /// Gets the product name of the switcher.
         /// </summary>
         public string ProductName
