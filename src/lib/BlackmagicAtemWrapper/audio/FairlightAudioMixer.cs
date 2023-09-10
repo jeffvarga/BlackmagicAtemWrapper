@@ -108,6 +108,14 @@ namespace BlackmagicAtemWrapper.audio
 
         #region Properties
         /// <summary>
+        /// Gets the collection of connected audio inputs.
+        /// </summary>
+        public FairlightAudioInputCollection AudioInputs
+        {
+            get { return new FairlightAudioInputCollection(InternalFairlightAudioMixerReference); }
+        }
+
+        /// <summary>
         /// Gets or sets the current program out gain value.
         /// </summary>
         public double MasterOutFaderGain
