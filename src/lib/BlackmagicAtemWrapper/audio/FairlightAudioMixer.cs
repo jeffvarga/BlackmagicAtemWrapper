@@ -24,15 +24,15 @@
 
 namespace BlackmagicAtemWrapper.audio
 {
-    using BMDSwitcherAPI;
     using System;
     using System.Runtime.InteropServices;
+    using BMDSwitcherAPI;
 
     /// <summary>
     /// The AudioMixer class is the root object for all original audio mixing control and feedback.
     /// </summary>
     /// <remarks>Wraps Blackmagic Switcher SDK - 7.5.1</remarks>
-    public class FairlightAudioMixer
+    public class FairlightAudioMixer : IBMDSwitcherFairlightAudioMixerCallback
     {
         /// <summary>
         /// Internal reference to the raw <seealso cref="IBMDSwitcherFairlightAudioMixer"/>.
@@ -51,6 +51,7 @@ namespace BlackmagicAtemWrapper.audio
             }
 
             this.InternalFairlightAudioMixerReference = audioMixer;
+            this.InternalFairlightAudioMixerReference.AddCallback(this);
         }
 
         /// <summary>
@@ -58,8 +59,52 @@ namespace BlackmagicAtemWrapper.audio
         /// </summary>
         ~FairlightAudioMixer()
         {
+            this.InternalFairlightAudioMixerReference.RemoveCallback(this);
             Marshal.ReleaseComObject(this.InternalFairlightAudioMixerReference);
         }
+
+        #region Events
+        /// <summary>
+        /// Handles a <see cref="FairlightAudioMixer"/> event.
+        /// </summary>
+        /// <param name="sender">The object that received the event.</param>
+        public delegate void FairlightAudioMixerEventHandler(object sender);
+
+        /// <summary>Handles MasterOutLevelNotification.</summary>
+        /// <param name="sender">The object that received the event.</param>
+        /// <param name="numLevels">The number of levels of the master out.</param>
+        /// <param name="levels">The current dB levels of the master out.</param>
+        /// <param name="numPeakLevels">The number of peak levels of the master out.</param>
+        /// <param name="peakLevels">The highest encountered peak dB level of the master out since the last reset.</param>
+        /// <remarks>Blackmagic Switcher SDK - 7.5.2.2</remarks>
+        public delegate void FairlighAudioMixerMasterOutLevelEventHandler(object sender, uint numLevels, double levels, uint numPeakLevels, double peakLevels);
+
+        /// <summary>
+        /// The <see cref="MasterOutFaderGain"/> changed.
+        /// </summary>
+        public event FairlightAudioMixerEventHandler OnMasterOutFaderGainChanged;
+
+        /// <summary>
+        /// The <see cref="OnMasterOutFollowFadeToBlackChanged"/> changed.
+        /// </summary>
+        public event FairlightAudioMixerEventHandler OnMasterOutFollowFadeToBlackChanged;
+
+        /// <summary>
+        /// The <see cref="DoesAudioFollowVideoCrossfadeTransition"/> flag changed.
+        /// </summary>
+        public event FairlightAudioMixerEventHandler OnAudioFollowVideoCrossfadeTransitionChanged;
+
+        /// <summary>
+        /// The <see cref="MicTalkbackGain"/> changed.
+        /// </summary>
+        public event FairlightAudioMixerEventHandler OnMicTalkbackGainChanged;
+
+        /// <summary>
+        /// <para>The OnAudioMixerMasterOutLevelChanged event is called periodically to report the current dB levels and the last known peak levels.These peak levels can be reset using IBMDSwitcherFairlightAudioMixer::ResetMasterOutPeakLevels.</para>
+        /// <para>Note that this is an opt-in subscription.Enable or disable receiving these calls using IBMDSwitcherFairlightAudioMixer::SetAllLevelNotificationsEnabled.</para>
+        /// </summary>
+        public event FairlighAudioMixerMasterOutLevelEventHandler OnAudioMixerMasterOutLevelChanged;
+        #endregion
 
         #region Properties
         /// <summary>
@@ -87,6 +132,15 @@ namespace BlackmagicAtemWrapper.audio
         {
             get { return this.GetAudioFollowVideoCrossfadeTransition(); }
             set { this.SetAudioFollowVideoCrossfadeTransition(value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the current talkback mic gain.
+        /// </summary>
+        public double MicTalkbackGain
+        {
+            get { return this.GetMicTalkbackGain(); }
+            set { this.SetMicTalkbackGain(value); }
         }
         #endregion
 
@@ -220,6 +274,135 @@ namespace BlackmagicAtemWrapper.audio
 
                 throw;
             }
+        }
+
+        /// <summary>
+        /// The ResetMasterOutPeakLevels method resets the switcher’s master out peak level statistics.
+        /// </summary>
+        /// <exception cref="FailedException">Failed.</exception>
+        /// <remarks>Blackmagic Switcher SDK - 7.5.1.9</remarks>
+        public void ResetMasterOutPeakLevels()
+        {
+            try
+            {
+                this.InternalFairlightAudioMixerReference.ResetMasterOutPeakLevels();
+                return;
+            }
+            catch (COMException e)
+            {
+                if (FailedException.IsFailedException(e.ErrorCode))
+                {
+                    throw new FailedException(e);
+                }
+
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// The ResetAllPeakLevels method resets peak level statistics for all Fairlight audio mixer inputs and outputs.
+        /// </summary>
+        /// <exception cref="FailedException">Failed.</exception>
+        /// <remarks>Blackmagic Switcher SDK - 7.5.1.10</remarks>
+        public void ResetAllPeakLevels()
+        {
+            try
+            {
+                this.InternalFairlightAudioMixerReference.ResetAllPeakLevels();
+                return;
+            }
+            catch (COMException e)
+            {
+                if (FailedException.IsFailedException(e.ErrorCode))
+                {
+                    throw new FailedException(e);
+                }
+
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Gets the gain for the talkback mic.
+        /// </summary>
+        /// <returns>The gain level for the talkback mic.</returns>
+        /// <bug>Not in documentation</bug>
+        public double GetMicTalkbackGain()
+        {
+            this.InternalFairlightAudioMixerReference.GetMicTalkbackGain(out double gain);
+            return gain;
+        }
+
+        /// <summary>
+        /// Sets the gain for the talkback mic.
+        /// </summary>
+        /// <param name="gain">The intended gain level for the talkback mic.</param>
+        /// <exception cref="FailedException">Failed.</exception>
+        /// <bug>Not in documentation.</bug>
+        public void SetMicTalkbackGain(double gain)
+        {
+            try
+            {
+                this.SetMicTalkbackGain(gain);
+                return;
+            }
+            catch (COMException e)
+            {
+                if (FailedException.IsFailedException(e.ErrorCode))
+                {
+                    throw new FailedException(e);
+                }
+
+                throw;
+            }
+        }
+        #endregion
+
+        #region IBMDSwitcherFairlightAudioMixerCallback
+        /// <summary>
+        /// <para>The Notify method is called when IBMDSwitcherFairlightAudioMixer events occur, such as property changes.</para>
+        /// <para>This method is called from a separate thread created by the switcher SDK so care should be exercised when interacting with other threads. Callbacks should be processed as quickly as possible to avoid delaying other callbacks or affecting the connection to the switcher.</para>
+        /// <para>The return value (required by COM) is ignored by the caller. </para>
+        /// </summary>
+        /// <param name="eventType">BMDSwitcherFairlightAudioMixerEventType that describes the type of event that has occurred.</param>
+        /// <remarks>Blackmagic Switcher SDK - 7.5.2.1</remarks>
+        void IBMDSwitcherFairlightAudioMixerCallback.Notify(_BMDSwitcherFairlightAudioMixerEventType eventType)
+        {
+            switch (eventType)
+            {
+                case _BMDSwitcherFairlightAudioMixerEventType.bmdSwitcherFairlightAudioMixerEventTypeMasterOutFaderGainChanged:
+                    this.OnMasterOutFaderGainChanged?.Invoke(this);
+                    break;
+
+                case _BMDSwitcherFairlightAudioMixerEventType.bmdSwitcherFairlightAudioMixerEventTypeMasterOutFollowFadeToBlackChanged:
+                    this.OnMasterOutFollowFadeToBlackChanged?.Invoke(this);
+                    break;
+
+                case _BMDSwitcherFairlightAudioMixerEventType.bmdSwitcherFairlightAudioMixerEventTypeAudioFollowVideoCrossfadeTransitionChanged:
+                    this.OnAudioFollowVideoCrossfadeTransitionChanged?.Invoke(this);
+                    break;
+
+                case _BMDSwitcherFairlightAudioMixerEventType.bmdSwitcherFairlightAudioMixerEventTypeMicTalkbackGainChanged:
+                    this.OnMicTalkbackGainChanged?.Invoke(this);
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// <para>The MasterOutLevelNotification method is called periodically to report the current dB levels and the last known peak levels.These peak levels can be reset using IBMDSwitcherFairlightAudioMixer::ResetMasterOutPeakLevels.</para>
+        /// <para>Note that this is an opt-in subscription.Enable or disable receiving these calls using IBMDSwitcherFairlightAudioMixer::SetAllLevelNotificationsEnabled.</para>
+        /// <para>This method is called from a separate thread created by the switcher SDK so care should be exercised when interacting with other threads.Callbacks should be processed as quickly as possible to avoid delaying other callbacks or affecting the connection to the switcher.</para>
+        /// <para>The return value (required by COM) is ignored by the caller.</para>
+        /// </summary>
+        /// <param name="numLevels">The number of levels of the master out.</param>
+        /// <param name="levels">The current dB levels of the master out.</param>
+        /// <param name="numPeakLevels">The number of peak levels of the master out.</param>
+        /// <param name="peakLevels">The highest encountered peak dB level of the master out since the last reset.</param>
+        /// <bug>levels and peakLevels are set as [in,out]</bug>
+        /// <remarks>Blackmagic Switcher SDK - 7.5.2.2</remarks>
+        void IBMDSwitcherFairlightAudioMixerCallback.MasterOutLevelNotification(uint numLevels, ref double levels, uint numPeakLevels, ref double peakLevels)
+        {
+            this.OnAudioMixerMasterOutLevelChanged?.Invoke(this, numLevels, levels, numPeakLevels, peakLevels);
         }
         #endregion
     }
