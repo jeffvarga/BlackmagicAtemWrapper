@@ -38,7 +38,7 @@ namespace BlackmagicAtemWrapper
         /// <summary>
         /// Internal reference to the raw <seealso cref="IBMDSwitcher"/>.
         /// </summary>
-        private readonly IBMDSwitcher InternalSwitcherReference;
+        internal readonly IBMDSwitcher InternalSwitcherReference;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Switcher"/> class.
@@ -152,6 +152,15 @@ namespace BlackmagicAtemWrapper
             {
                 return new MultiViewCollection(this.InternalSwitcherReference);
             }
+        }
+
+        /// <summary>
+        /// Gets the <see cref="Identity"/> object representing the switcher's identity.
+        /// </summary>
+        /// <exception cref="NotSupportedException">Unable to get a reference to <see cref="Identity"/>.  Likely because switcher or ATEM software is not version 9.0 or higher.</exception>
+        public Identity Identity
+        {
+            get { return new Identity(this); }
         }
 
         /// <summary>
