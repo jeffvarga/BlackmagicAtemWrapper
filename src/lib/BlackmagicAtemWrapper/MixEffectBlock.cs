@@ -143,7 +143,7 @@ namespace BlackmagicAtemWrapper
         public IBMDSwitcherTransitionMixParameters TransitionMixParameters => this.mixEffectBlock as IBMDSwitcherTransitionMixParameters;
 
         /// <summary>
-        /// Gets the collection of <see cref="Key"/> objects for the <see cref="MixEffectBlock"/>.
+        /// Gets the collection of <see cref="video.Key"/> objects for the <see cref="MixEffectBlock"/>.
         /// </summary>
         public video.KeyCollection SwitcherKeys
         {
