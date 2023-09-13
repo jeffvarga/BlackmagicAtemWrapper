@@ -22,7 +22,7 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-namespace BlackmagicAtemWrapper
+namespace BlackmagicAtemWrapper.video
 {
     using System;
     using System.Runtime.InteropServices;
