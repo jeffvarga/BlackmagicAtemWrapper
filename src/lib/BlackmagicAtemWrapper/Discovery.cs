@@ -24,6 +24,7 @@
 
 namespace BlackmagicAtemWrapper
 {
+    using System;
     using BMDSwitcherAPI;
 
     /// <summary>
@@ -41,7 +42,7 @@ namespace BlackmagicAtemWrapper
         /// </remarks>
         /// <param name="deviceAddress">Network hostname or IP address of switcher to connect to. Set this empty to only connect via USB.</param>
         /// <returns><see cref="Switcher"/> object for the connected switcher.</returns>
-        /// <exception cref="FailedException">Reason for connection failure as a BMDSwitcherConnectToFailure value.</exception>
+        /// <exception cref="Exception">Reason for connection failure as a BMDSwitcherConnectToFailure value.</exception>
         /// <remarks>Blackmagic Switcher SDK - 2.3.1.1</remarks>
         public static Switcher ConnectTo(string deviceAddress)
         {

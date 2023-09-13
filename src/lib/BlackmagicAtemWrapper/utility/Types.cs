@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace BlackmagicAtemWrapper
+namespace BlackmagicAtemWrapper.utility
 {
     public class FailedException : Exception
     {

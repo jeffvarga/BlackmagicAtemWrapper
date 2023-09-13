@@ -24,8 +24,9 @@
 
 namespace BlackmagicAtemWrapper.audio
 {
-    using BMDSwitcherAPI;
     using System.Runtime.InteropServices;
+    using BlackmagicAtemWrapper.utility;
+    using BMDSwitcherAPI;
 
     /// <summary>
     /// The FairlightAudioInput class is used for managing a Fairlight audio input.

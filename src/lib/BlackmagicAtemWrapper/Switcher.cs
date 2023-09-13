@@ -27,6 +27,7 @@ namespace BlackmagicAtemWrapper
     using System;
     using System.Collections.Generic;
     using System.Runtime.InteropServices;
+    using BlackmagicAtemWrapper.device;
     using BMDSwitcherAPI;
 
     /// <summary>

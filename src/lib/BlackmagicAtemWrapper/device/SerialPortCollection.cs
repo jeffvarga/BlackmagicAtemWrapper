@@ -22,7 +22,7 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-namespace BlackmagicAtemWrapper
+namespace BlackmagicAtemWrapper.device
 {
     using System;
     using System.Collections;
@@ -47,7 +47,7 @@ namespace BlackmagicAtemWrapper
         /// <param name="serialPortIterator">The native <seealso cref="IBMDSwitcherSerialPortIterator"/> from the BMDSwitcherAPI.</param>
         public SerialPortCollection(IBMDSwitcherSerialPortIterator serialPortIterator)
         {
-            this.InternalSerialPortIteratorReference = serialPortIterator;
+            InternalSerialPortIteratorReference = serialPortIterator;
             return;
         }
 
@@ -63,7 +63,7 @@ namespace BlackmagicAtemWrapper
             }
 
             switcher.CreateIterator(typeof(IBMDSwitcherSerialPortIterator).GUID, out IntPtr serialPortIteratorPtr);
-            this.InternalSerialPortIteratorReference = Marshal.GetObjectForIUnknown(serialPortIteratorPtr) as IBMDSwitcherSerialPortIterator;
+            InternalSerialPortIteratorReference = Marshal.GetObjectForIUnknown(serialPortIteratorPtr) as IBMDSwitcherSerialPortIterator;
 
             return;
         }
@@ -77,7 +77,7 @@ namespace BlackmagicAtemWrapper
         {
             while (true)
             {
-                this.InternalSerialPortIteratorReference.Next(out IBMDSwitcherSerialPort serialPort);
+                InternalSerialPortIteratorReference.Next(out IBMDSwitcherSerialPort serialPort);
 
                 if (serialPort != null)
                 {
@@ -96,7 +96,7 @@ namespace BlackmagicAtemWrapper
         /// <returns>Enumerator that iterates through the collection.</returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return this.GetEnumerator();
+            return GetEnumerator();
         }
         #endregion
     }

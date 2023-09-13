@@ -26,6 +26,7 @@ namespace BlackmagicAtemWrapper.audio
 {
     using System;
     using System.Runtime.InteropServices;
+    using BlackmagicAtemWrapper.utility;
     using BMDSwitcherAPI;
 
     /// <summary>

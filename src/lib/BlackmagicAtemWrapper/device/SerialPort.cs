@@ -22,7 +22,7 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-namespace BlackmagicAtemWrapper
+namespace BlackmagicAtemWrapper.device
 {
     using System;
     using System.Runtime.InteropServices;
@@ -45,8 +45,8 @@ namespace BlackmagicAtemWrapper
         /// <param name="serialPort">The native <seealso cref="IBMDSwitcherSerialPort"/> from the BMDSwitcherAPI.</param>
         public SerialPort(IBMDSwitcherSerialPort serialPort)
         {
-            this.InternalSerialPortReference = serialPort;
-            this.InternalSerialPortReference.AddCallback(this);
+            InternalSerialPortReference = serialPort;
+            InternalSerialPortReference.AddCallback(this);
         }
 
         /// <summary>
@@ -54,8 +54,8 @@ namespace BlackmagicAtemWrapper
         /// </summary>
         ~SerialPort()
         {
-            this.InternalSerialPortReference.RemoveCallback(this);
-            Marshal.ReleaseComObject(this.InternalSerialPortReference);
+            InternalSerialPortReference.RemoveCallback(this);
+            Marshal.ReleaseComObject(InternalSerialPortReference);
         }
 
         /// <summary>
@@ -75,8 +75,8 @@ namespace BlackmagicAtemWrapper
         /// </summary>
         public _BMDSwitcherSerialPortFunction Function
         {
-            get { return this.GetFunction(); }
-            set { this.SetFunction(value); }
+            get { return GetFunction(); }
+            set { SetFunction(value); }
         }
         #endregion
 
@@ -89,7 +89,7 @@ namespace BlackmagicAtemWrapper
         /// <remarks>Blackmagic Switcher SDK - 2.3.18.1</remarks>
         public void SetFunction(_BMDSwitcherSerialPortFunction function)
         {
-            this.InternalSerialPortReference.SetFunction(function);
+            InternalSerialPortReference.SetFunction(function);
             return;
         }
 
@@ -100,7 +100,7 @@ namespace BlackmagicAtemWrapper
         /// <remarks>Blackmagic Switcher SDK - 2.3.18.2</remarks>
         public _BMDSwitcherSerialPortFunction GetFunction()
         {
-            this.InternalSerialPortReference.GetFunction(out _BMDSwitcherSerialPortFunction function);
+            InternalSerialPortReference.GetFunction(out _BMDSwitcherSerialPortFunction function);
             return function;
         }
 
@@ -113,7 +113,7 @@ namespace BlackmagicAtemWrapper
         /// <remarks>Blackmagic Switcher SDK - 2.3.18.3</remarks>
         public bool DoesSupportFunction(_BMDSwitcherSerialPortFunction function)
         {
-            this.InternalSerialPortReference.DoesSupportFunction(function, out int supported);
+            InternalSerialPortReference.DoesSupportFunction(function, out int supported);
             return supported != 0;
         }
         #endregion
@@ -132,7 +132,7 @@ namespace BlackmagicAtemWrapper
             switch (eventType)
             {
                 case _BMDSwitcherSerialPortEventType.bmdSwitcherSerialPortEventTypeFunctionChanged:
-                    this.OnFunctionChanged?.Invoke(this);
+                    OnFunctionChanged?.Invoke(this);
                     break;
             }
 
