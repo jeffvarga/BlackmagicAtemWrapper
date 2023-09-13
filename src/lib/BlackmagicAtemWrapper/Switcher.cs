@@ -149,10 +149,7 @@ namespace BlackmagicAtemWrapper
 
         public MultiViewCollection MultiViews
         {
-            get
-            {
-                return new MultiViewCollection(this.InternalSwitcherReference);
-            }
+            get { return new MultiViewCollection(this.InternalSwitcherReference); }
         }
 
         /// <summary>
@@ -169,10 +166,7 @@ namespace BlackmagicAtemWrapper
         /// </summary>
         public SerialPortCollection SerialPorts
         {
-            get
-            {
-                return new SerialPortCollection(this.InternalSwitcherReference);
-            }
+            get { return new SerialPortCollection(this.InternalSwitcherReference); } 
         }
 
         /// <summary>
@@ -180,21 +174,15 @@ namespace BlackmagicAtemWrapper
         /// </summary>
         public MixMinusOutputCollection MixMinusOutputs
         {
-            get
-            {
-                return new MixMinusOutputCollection(this.InternalSwitcherReference);
-            }
+            get { return new MixMinusOutputCollection(this.InternalSwitcherReference); }
         }
 
         /// <summary>
         /// Gets the <see cref="MixEffectBlockCollection"/> representing the available Mix Effect blocks on the switcher.
         /// </summary>
-        public IEnumerable<MixEffectBlock> MixEffectBlocks
+        public MixEffectBlockCollection MixEffectBlocks
         {
-            get
-            {
-                return new MixEffectBlockCollection(this.InternalSwitcherReference);
-            }
+            get { return new MixEffectBlockCollection(this.InternalSwitcherReference); }
         }
 
         /// <summary>
@@ -202,10 +190,7 @@ namespace BlackmagicAtemWrapper
         /// </summary>
         public InputCollection Inputs
         {
-            get
-            {
-                return new InputCollection(this.InternalSwitcherReference);
-            }
+            get { return new InputCollection(this.InternalSwitcherReference); }
         }
 
         /// <summary>
