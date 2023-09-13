@@ -25,6 +25,7 @@
 namespace BlackmagicAtemWrapper.device
 {
     using System;
+    using System.Runtime.InteropServices;
     using BMDSwitcherAPI;
 
     /// <summary>
@@ -45,7 +46,15 @@ namespace BlackmagicAtemWrapper.device
         /// <param name="saveRecall">The native <seealso cref="IBMDSwitcherSaveRecall"/> from the BMDSwitcherAPI.</param>
         public SaveRecall(IBMDSwitcherSaveRecall saveRecall)
         {
-            InternalSaveRecallReference = saveRecall;
+            this.InternalSaveRecallReference = saveRecall;
+        }
+
+        /// <summary>
+        /// Finalizes an instance of the <see cref="SaveRecall"/> class.
+        /// </summary>
+        ~SaveRecall()
+        {
+            _ = Marshal.ReleaseComObject(this.InternalSaveRecallReference);
         }
 
         #region IBMDSwitcherSaveRecall
@@ -57,7 +66,7 @@ namespace BlackmagicAtemWrapper.device
         /// <remarks>Blackmagic Switcher SDK - 2.3.23.1</remarks>
         public void Save(_BMDSwitcherSaveRecallType type = _BMDSwitcherSaveRecallType.bmdSwitcherSaveRecallTypeStartupState)
         {
-            InternalSaveRecallReference.Save(type);
+            this.InternalSaveRecallReference.Save(type);
             return;
         }
 
@@ -69,7 +78,7 @@ namespace BlackmagicAtemWrapper.device
         /// <remarks>Blackmagic Switcher SDK - 2.3.23.2</remarks>
         public void Clear(_BMDSwitcherSaveRecallType type = _BMDSwitcherSaveRecallType.bmdSwitcherSaveRecallTypeStartupState)
         {
-            InternalSaveRecallReference.Clear(type);
+            this.InternalSaveRecallReference.Clear(type);
             return;
         }
         #endregion

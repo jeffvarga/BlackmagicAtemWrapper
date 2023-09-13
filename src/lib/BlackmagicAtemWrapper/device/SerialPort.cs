@@ -45,8 +45,8 @@ namespace BlackmagicAtemWrapper.device
         /// <param name="serialPort">The native <seealso cref="IBMDSwitcherSerialPort"/> from the BMDSwitcherAPI.</param>
         public SerialPort(IBMDSwitcherSerialPort serialPort)
         {
-            InternalSerialPortReference = serialPort;
-            InternalSerialPortReference.AddCallback(this);
+            this.InternalSerialPortReference = serialPort;
+            this.InternalSerialPortReference.AddCallback(this);
         }
 
         /// <summary>
@@ -54,8 +54,8 @@ namespace BlackmagicAtemWrapper.device
         /// </summary>
         ~SerialPort()
         {
-            InternalSerialPortReference.RemoveCallback(this);
-            Marshal.ReleaseComObject(InternalSerialPortReference);
+            this.InternalSerialPortReference.RemoveCallback(this);
+            _ = Marshal.ReleaseComObject(this.InternalSerialPortReference);
         }
 
         /// <summary>

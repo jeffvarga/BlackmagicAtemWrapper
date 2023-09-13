@@ -47,8 +47,8 @@ namespace BlackmagicAtemWrapper.device
         /// <param name="identityObject">The native <seealso cref="IBMDSwitcherIdentityInformation"/> from the BMDSwitcherAPI.</param>
         public Identity(IBMDSwitcherIdentityInformation identityObject)
         {
-            InternalIdentityInformationReference = identityObject ?? throw new ArgumentNullException(nameof(identityObject));
-            InternalIdentityInformationReference.AddCallback(this);
+            this.InternalIdentityInformationReference = identityObject ?? throw new ArgumentNullException(nameof(identityObject));
+            this.InternalIdentityInformationReference.AddCallback(this);
         }
 
         /// <summary>
@@ -61,14 +61,14 @@ namespace BlackmagicAtemWrapper.device
         {
             if (null == switcher) { throw new ArgumentNullException(nameof(switcher)); }
 
-            InternalIdentityInformationReference = switcher.InternalSwitcherReference as IBMDSwitcherIdentityInformation;
+            this.InternalIdentityInformationReference = switcher.InternalSwitcherReference as IBMDSwitcherIdentityInformation;
 
-            if (InternalIdentityInformationReference == null)
+            if (this.InternalIdentityInformationReference == null)
             {
                 throw new NotSupportedException("Requires at least ATEM Switchers 9.0 software and firmware.");
             }
 
-            InternalIdentityInformationReference.AddCallback(this);
+            this.InternalIdentityInformationReference.AddCallback(this);
         }
 
         /// <summary>
@@ -76,8 +76,8 @@ namespace BlackmagicAtemWrapper.device
         /// </summary>
         ~Identity()
         {
-            InternalIdentityInformationReference.RemoveCallback(this);
-            _ = Marshal.ReleaseComObject(InternalIdentityInformationReference);
+            this.InternalIdentityInformationReference.RemoveCallback(this);
+            _ = Marshal.ReleaseComObject(this.InternalIdentityInformationReference);
         }
 
         #region Events
@@ -99,7 +99,7 @@ namespace BlackmagicAtemWrapper.device
         /// </summary>
         public string UniqueId
         {
-            get { return GetUniqueId(); }
+            get { return this.GetUniqueId(); }
         }
 
         /// <summary>
@@ -107,7 +107,7 @@ namespace BlackmagicAtemWrapper.device
         /// </summary>
         public string IpAddress
         {
-            get { return GetIpAddress(); }
+            get { return this.GetIpAddress(); }
         }
 
         /// <summary>
@@ -115,7 +115,7 @@ namespace BlackmagicAtemWrapper.device
         /// </summary>
         public string MdnsName
         {
-            get { return GetMdnsName(); }
+            get { return this.GetMdnsName(); }
         }
 
         /// <summary>
@@ -123,7 +123,7 @@ namespace BlackmagicAtemWrapper.device
         /// </summary>
         public string DeviceName
         {
-            get { return GetDeviceName(); }
+            get { return this.GetDeviceName(); }
         }
         #endregion
 
@@ -138,7 +138,7 @@ namespace BlackmagicAtemWrapper.device
         {
             try
             {
-                InternalIdentityInformationReference.GetUniqueId(out string uniqueId);
+                this.InternalIdentityInformationReference.GetUniqueId(out string uniqueId);
                 return uniqueId;
             }
             catch (COMException e)
@@ -162,7 +162,7 @@ namespace BlackmagicAtemWrapper.device
         {
             try
             {
-                InternalIdentityInformationReference.GetIpAddress(out string ipAddress);
+                this.InternalIdentityInformationReference.GetIpAddress(out string ipAddress);
                 return ipAddress;
             }
             catch (COMException e)
@@ -186,7 +186,7 @@ namespace BlackmagicAtemWrapper.device
         {
             try
             {
-                InternalIdentityInformationReference.GetMdnsName(out string mdnsName);
+                this.InternalIdentityInformationReference.GetMdnsName(out string mdnsName);
                 return mdnsName;
             }
             catch (COMException e)
@@ -210,7 +210,7 @@ namespace BlackmagicAtemWrapper.device
         {
             try
             {
-                InternalIdentityInformationReference.GetDeviceName(out string deviceName);
+                this.InternalIdentityInformationReference.GetDeviceName(out string deviceName);
                 return deviceName;
             }
             catch (COMException e)
@@ -238,7 +238,7 @@ namespace BlackmagicAtemWrapper.device
             switch (eventType)
             {
                 case _BMDSwitcherIdentityInformationEventType.bmdSwitcherIdentityInformationEventTypeFieldsChanged:
-                    OnFieldsChanged?.Invoke(this);
+                    this.OnFieldsChanged?.Invoke(this);
                     break;
             }
 
