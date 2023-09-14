@@ -214,6 +214,14 @@ namespace BlackmagicAtemWrapper
                 return Convert.ToBoolean(supportsBorder);
             }
         }
+
+        /// <summary>
+        /// Gets an object used to enumerate the available supersource boxes for a supersource input.
+        /// </summary>
+        public SuperSourceBoxCollection SuperSourceBoxes
+        {
+            get { return new SuperSourceBoxCollection(this.InternalInputSuperSourceReference); }
+        }
         #endregion
 
         #region IBMDSwitcherInputSuperSource
