@@ -31,7 +31,7 @@ namespace BlackmagicAtemWrapper
     using BMDSwitcherAPI;
 
     /// <summary>
-    /// The MultiViewCollection class is used to iterate over MixEffectBlocks.
+    /// The InputCollection class is used to iterate over Inputs.
     /// </summary>
     /// <remarks>Wraps Blackmagic Switcher SDK - 2.1.1</remarks>
     public class InputCollection : IEnumerable<Input>
