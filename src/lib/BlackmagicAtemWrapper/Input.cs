@@ -180,7 +180,7 @@ namespace BlackmagicAtemWrapper
         }
 
         /// <summary>
-        /// Gets the SuperSource object for this Input.  Returns <code>null</code> if this input is not a SuperSource input.
+        /// Gets the <see cref="InputSuperSource"/> object for this Input.  Returns null if this input is not a SuperSource input.
         /// </summary>
         public InputSuperSource SuperSource
         {
