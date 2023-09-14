@@ -38,7 +38,7 @@ namespace BlackmagicAtemWrapper
         /// <summary>
         /// Internal reference to the raw <seealso cref="IBMDSwitcherInput"/>.
         /// </summary>
-        private readonly IBMDSwitcherInput InternalSwitcherInputReference;
+        internal readonly IBMDSwitcherInput InternalSwitcherInputReference;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Input"/> class.
@@ -159,7 +159,7 @@ namespace BlackmagicAtemWrapper
         /// <remarks>Blackmagic Switcher SDK - 2.3.5.12</remarks>
         public bool IsProgramTallied
         {
-            get 
+            get
             {
                 this.InternalSwitcherInputReference.IsProgramTallied(out int isTallied);
                 return isTallied != 0;
@@ -176,6 +176,24 @@ namespace BlackmagicAtemWrapper
             {
                 this.InternalSwitcherInputReference.IsPreviewTallied(out int isTallied);
                 return isTallied != 0;
+            }
+        }
+
+        /// <summary>
+        /// Gets the SuperSource object for this Input.  Returns <code>null</code> if this input is not a SuperSource input.
+        /// </summary>
+        public InputSuperSource SuperSource
+        {
+            get
+            {
+                try
+                {
+                    return new InputSuperSource(this);
+                }
+                catch (NotSupportedException)
+                {
+                    return null;
+                }
             }
         }
         #endregion
