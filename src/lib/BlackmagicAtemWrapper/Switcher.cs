@@ -208,9 +208,6 @@ namespace BlackmagicAtemWrapper
         {
             get
             {
-                Guid guidAudioMixer = typeof(IBMDSwitcherFairlightAudioMixer).GUID;
-                Marshal.QueryInterface(Marshal.GetIUnknownForObject(this.InternalSwitcherReference), ref guidAudioMixer, out IntPtr ppv);
-
                 return new audio.FairlightAudioMixer(this.InternalSwitcherReference as IBMDSwitcherFairlightAudioMixer);
             }
         }
