@@ -118,6 +118,14 @@ namespace BlackmagicAtemWrapper.Keyers
 
         #region QueryInterface fields
         /// <summary>
+        /// Gets the <see cref="KeyLumaParameters"/> property.
+        /// </summary>
+        public KeyLumaParameters LumaParameters
+        {
+            get { return new KeyLumaParameters(this.InternalSwitcherKeyReference as IBMDSwitcherKeyLumaParameters); }
+        }
+
+        /// <summary>
         /// Gets the <see cref="SwitcherKeyPatternParameters"/> property
         /// </summary>
         public SwitcherKeyPatternParameters SwitcherKeyPatternParameters
