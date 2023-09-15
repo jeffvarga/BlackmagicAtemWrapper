@@ -222,6 +222,14 @@ namespace BlackmagicAtemWrapper
         {
             get { return new SuperSourceBoxCollection(this.InternalInputSuperSourceReference); }
         }
+
+        /// <summary>
+        /// Gets the SuperSourceBorder object.
+        /// </summary>
+        public SuperSourceBorder SuperSourceBorder
+        {
+            get { return new SuperSourceBorder(this.InternalInputSuperSourceReference as IBMDSwitcherSuperSourceBorder); }
+        }
         #endregion
 
         #region IBMDSwitcherInputSuperSource
