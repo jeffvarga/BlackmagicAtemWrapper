@@ -2,7 +2,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace BlackmagicAtemWrapper.video
+namespace BlackmagicAtemWrapper.Keyers
 {
     public class SwitcherKeyFlyParameters : IDisposable
     {

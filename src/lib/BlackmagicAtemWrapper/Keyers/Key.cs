@@ -22,7 +22,7 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-namespace BlackmagicAtemWrapper.video
+namespace BlackmagicAtemWrapper.Keyers
 {
     using System.Runtime.InteropServices;
     using BMDSwitcherAPI;
