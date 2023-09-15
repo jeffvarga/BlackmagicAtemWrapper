@@ -22,7 +22,7 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-namespace BlackmagicAtemWrapper
+namespace BlackmagicAtemWrapper.SuperSource
 {
     using BMDSwitcherAPI;
     using System.Collections;

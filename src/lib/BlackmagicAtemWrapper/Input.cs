@@ -102,10 +102,10 @@ namespace BlackmagicAtemWrapper
         public event InputEventHandler OnAreNamesDefaultChanged;
         #endregion
 
+        #region Properties
         /// <summary>
         /// Gets the Id of this input.
         /// </summary>
-        #region Properties
         public long InputId
         {
             get { return this.GetInputId(); }
@@ -180,15 +180,15 @@ namespace BlackmagicAtemWrapper
         }
 
         /// <summary>
-        /// Gets the <see cref="InputSuperSource"/> object for this Input.  Returns null if this input is not a SuperSource input.
+        /// Gets the <see cref="SuperSource.InputSuperSource"/> object for this Input.  Returns null if this input is not a SuperSource input.
         /// </summary>
-        public InputSuperSource SuperSource
+        public SuperSource.InputSuperSource SuperSource
         {
             get
             {
                 try
                 {
-                    return new InputSuperSource(this);
+                    return new SuperSource.InputSuperSource(this);
                 }
                 catch (NotSupportedException)
                 {
