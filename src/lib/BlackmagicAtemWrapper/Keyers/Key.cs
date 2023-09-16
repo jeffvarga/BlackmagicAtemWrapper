@@ -145,9 +145,9 @@ namespace BlackmagicAtemWrapper.Keyers
         /// <summary>
         /// Gets the <see cref="SwitcherKeyPatternParameters"/> property
         /// </summary>
-        public SwitcherKeyPatternParameters SwitcherKeyPatternParameters
+        public PatternParameters SwitcherKeyPatternParameters
         {
-            get { return new SwitcherKeyPatternParameters(this.InternalSwitcherKeyReference as IBMDSwitcherKeyPatternParameters); }
+            get { return new PatternParameters(this.InternalSwitcherKeyReference as IBMDSwitcherKeyPatternParameters); }
         }
 
         /// <summary>
