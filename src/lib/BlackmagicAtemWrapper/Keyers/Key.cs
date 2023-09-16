@@ -143,25 +143,25 @@ namespace BlackmagicAtemWrapper.Keyers
         }
 
         /// <summary>
-        /// Gets the <see cref="SwitcherKeyPatternParameters"/> property
+        /// Gets the <see cref="PatternParameters"/> property
         /// </summary>
-        public PatternParameters SwitcherKeyPatternParameters
+        public PatternParameters PatternParameters
         {
             get { return new PatternParameters(this.InternalSwitcherKeyReference as IBMDSwitcherKeyPatternParameters); }
         }
 
         /// <summary>
-        /// Gets the <see cref="SwitcherKeyDVEParameters"/> property
+        /// Gets the <see cref="DVEParameters"/> property
         /// </summary>
-        public DVEParameters SwitcherKeyDVEParameters
+        public DVEParameters DVEParameters
         {
             get { return new DVEParameters(this.InternalSwitcherKeyReference as IBMDSwitcherKeyDVEParameters); }
         }
 
         /// <summary>
-        /// Gets the <see cref="SwitcherKeyFlyParameters"/> property
+        /// Gets the <see cref="FlyParameters"/> property
         /// </summary>
-        public FlyParameters SwitcherKeyFlyParameters
+        public FlyParameters FlyParameters
         {
             get { return new FlyParameters(this.InternalSwitcherKeyReference as IBMDSwitcherKeyFlyParameters); }
         }
