@@ -4,11 +4,11 @@ using System.Runtime.InteropServices;
 
 namespace BlackmagicAtemWrapper.Keyers
 {
-    public class SwitcherKeyFlyParameters : IDisposable
+    public class FlyParameters : IDisposable
     {
         private readonly IBMDSwitcherKeyFlyParameters skpp;
 
-        public SwitcherKeyFlyParameters(IBMDSwitcherKeyFlyParameters skpp) => this.skpp = skpp;
+        public FlyParameters(IBMDSwitcherKeyFlyParameters skpp) => this.skpp = skpp;
 
         public void Dispose()
         {

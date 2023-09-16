@@ -161,9 +161,9 @@ namespace BlackmagicAtemWrapper.Keyers
         /// <summary>
         /// Gets the <see cref="SwitcherKeyFlyParameters"/> property
         /// </summary>
-        public SwitcherKeyFlyParameters SwitcherKeyFlyParameters
+        public FlyParameters SwitcherKeyFlyParameters
         {
-            get { return new SwitcherKeyFlyParameters(this.InternalSwitcherKeyReference as IBMDSwitcherKeyFlyParameters); }
+            get { return new FlyParameters(this.InternalSwitcherKeyReference as IBMDSwitcherKeyFlyParameters); }
         }
         #endregion
 
