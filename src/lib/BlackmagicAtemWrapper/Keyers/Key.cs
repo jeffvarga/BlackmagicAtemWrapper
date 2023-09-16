@@ -24,6 +24,7 @@
 
 namespace BlackmagicAtemWrapper.Keyers
 {
+    using System;
     using System.Runtime.InteropServices;
     using BMDSwitcherAPI;
 
@@ -56,7 +57,7 @@ namespace BlackmagicAtemWrapper.Keyers
         ~Key()
         {
             this.InternalSwitcherKeyReference.RemoveCallback(this);
-            Marshal.ReleaseComObject(this.InternalSwitcherKeyReference);
+            _ = Marshal.ReleaseComObject(this.InternalSwitcherKeyReference);
         }
 
         #region Events
@@ -158,22 +159,36 @@ namespace BlackmagicAtemWrapper.Keyers
         }
         #endregion
 
+        #region Properties
+        /// <summary>
+        /// Gets a value indicating whether advanced chroma key is supported by the switcher.
+        /// </summary>
+        /// <remarks>Blackmagic Switcher SDK - 5.2.2.1</remarks>
+        public bool DoesSupportAdvancedChroma
+        {
+            get
+            {
+                this.InternalSwitcherKeyReference.DoesSupportAdvancedChroma(out int supportsAdvancedChroma);
+                return Convert.ToBoolean(supportsAdvancedChroma);
+            }
+        }
+
         /// <summary>
         /// Gets a value indicating whether this key can be set to the DVE type. The DVE
         /// hardware is a shared resource; if another component is currently using the resource, it may not be
         /// available for this key
         /// </summary>
         /// <returns>Boolean status of whether this key can be a DVE key</returns>
+        /// <remarks>Blackmagic Switcher SDK - 5.2.2.12</remarks>
         public bool CanBeDVEKey
         {
             get
             {
                 this.InternalSwitcherKeyReference.CanBeDVEKey(out int canDVE);
-                return canDVE != 0;
+                return Convert.ToBoolean(canDVE);
             }
         }
-
-        #region Properties
+        
         /// <summary>
         /// Gets or sets the current key type.
         /// </summary>
@@ -272,6 +287,256 @@ namespace BlackmagicAtemWrapper.Keyers
         }
         #endregion
 
+        #region IBMDSwitcherKey
+        /// <summary>
+        /// The GetType method returns the current key type.
+        /// </summary>
+        /// <returns>The current key type.</returns>
+        /// <remarks>Blackmagic Switcher SDK - 5.2.2.2</remarks>
+        public new _BMDSwitcherKeyType GetType()
+        {
+            this.InternalSwitcherKeyReference.GetType(out _BMDSwitcherKeyType type);
+            return type;
+        }
+
+        /// <summary>
+        /// The SetType method sets the key to the specified type.
+        /// </summary>
+        /// <param name="type">The desired key type.</param>
+        /// <remarks>Blackmagic Switcher SDK - 5.2.2.3</remarks>
+        public void SetType(_BMDSwitcherKeyType type)
+        {
+            this.InternalSwitcherKeyReference.SetType(type);
+            return;
+        }
+
+        /// <summary>
+        /// The GetInputCut method returns the selected cut input source.
+        /// </summary>
+        /// <returns>BMDSwitcherInputId of the selected cut input source.</returns>
+        /// <remarks>Blackmagic Switcher SDK - 5.2.2.4</remarks>
+        public long GetInputCut()
+        {
+            this.InternalSwitcherKeyReference.GetInputCut(out long input);
+            return input;
+        }
+
+        /// <summary>
+        /// The SetInputCut method sets the cut input source.
+        /// </summary>
+        /// <param name="input">The desired cut input source’s BMDSwitcherInputId.</param>
+        /// <remarks>Blackmagic Switcher SDK - 5.2.2.5</remarks>
+        public void SetInputCut(long input)
+        {
+            this.InternalSwitcherKeyReference.SetInputCut(input);
+            return;
+        }
+
+        /// <summary>
+        /// The GetInputFill method returns the selected fill input source.
+        /// </summary>
+        /// <returns>BMDSwitcherInputId of the selected fill input source.</returns>
+        /// <remarks>Blackmagic Switcher SDK - 5.2.2.6</remarks>
+        public long GetInputFill()
+        {
+            this.InternalSwitcherKeyReference.GetInputFill(out long input);
+            return input;
+        }
+
+        /// <summary>
+        /// The SetInputFill method sets the fill input source.
+        /// </summary>
+        /// <param name="input">The desired fill input source’s BMDSwitcherInputId.</param>
+        /// <remarks>Blackmagic Switcher SDK - 5.2.2.7</remarks>
+        public void SetinputFill(long input)
+        {
+            this.InternalSwitcherKeyReference.SetInputFill(input);
+            return;
+        }
+
+        /// <summary>
+        /// The GetFillInputAvailabilityMask method returns the corresponding <seealso cref="_BMDSwitcherInputAvailability">BMDSwitcherInputAvailability</seealso> bit mask
+        /// value for fill inputs available to this key. The input availability property of an IBMDSwitcherInput can be
+        /// bitwise-ANDed with this mask value. If the result of the bitwise-AND is equal to the mask value then this
+        /// input is available for use as a fill input for this key.
+        /// </summary>
+        /// <returns>BMDSwitcherInputAvailability bit mask.</returns>
+        /// <remarks>Blackmagic Switcher SDK - 5.2.2.8</remarks>
+        public _BMDSwitcherInputAvailability GetFillInputAvailabilityMask()
+        {
+            this.InternalSwitcherKeyReference.GetFillInputAvailabilityMask(out _BMDSwitcherInputAvailability availabilityMask);
+            return availabilityMask;
+        }
+
+        /// <summary>
+        /// The GetCutInputAvailabilityMask method returns the corresponding BMDSwitcherInputAvailability bit mask
+        /// value for cut inputs available to this key. The input availability property of an IBMDSwitcherInput can be
+        /// bitwise-ANDed with this mask value. If the result of the bitwise-AND is equal to the mask value then this
+        /// input is available for use as a cut input for this key.
+        /// </summary>
+        /// <returns>BMDSwitcherInputAvailability bit mask.</returns>
+        /// <remarks>Blackmagic Switcher SDK - 5.2.2.9</remarks>
+        public _BMDSwitcherInputAvailability GetCutInputAvailabilityMask()
+        {
+            this.InternalSwitcherKeyReference.GetCutInputAvailabilityMask(out _BMDSwitcherInputAvailability availabilityMask);
+            return availabilityMask;
+        }
+
+        /// <summary>
+        /// The GetOnAir method returns the on-air flag.
+        /// </summary>
+        /// <returns>Boolean on-air flag.</returns>
+        /// <remarks>Blackmagic Switcher SDK - 5.2.2.10</remarks>
+        public bool GetOnAir()
+        {
+            this.InternalSwitcherKeyReference.GetOnAir(out int onAir);
+            return Convert.ToBoolean(onAir);
+        }
+
+        /// <summary>
+        /// The SetOnAir method sets the on-air flag.
+        /// </summary>
+        /// <param name="onAir">The desired on-air flag.</param>
+        /// <remarks>Blackmagic Switcher SDK - 5.2.2.11</remarks>
+        public void SetOnAir(bool onAir)
+        {
+            this.InternalSwitcherKeyReference.SetOnAir(Convert.ToInt32(onAir));
+            return;
+        }
+
+        /// <summary>
+        /// The GetMasked method returns whether masking is enabled or not.
+        /// </summary>
+        /// <returns>Boolean flag of whether masking is enabled.</returns>
+        /// <remarks>Blackmagic Switcher SDK - 5.2.2.13</remarks>
+        public bool GetMasked()
+        {
+            this.InternalSwitcherKeyReference.GetMasked(out int maskEnabled);
+            return Convert.ToBoolean(maskEnabled);
+        }
+
+        /// <summary>
+        /// Use SetMasked method to enable or disable masking.
+        /// </summary>
+        /// <param name="maskEnabled">The desired masked value.</param>
+        /// <remarks>Blackmagic Switcher SDK - 5.2.2.14</remarks>
+        public void SetMasked(bool maskEnabled)
+        {
+            this.InternalSwitcherKeyReference.SetMasked(Convert.ToInt32(maskEnabled));
+            return;
+        }
+
+        /// <summary>
+        /// The GetMaskTop method returns the current mask top value.
+        /// </summary>
+        /// <returns>The current mask top value.</returns>
+        /// <remarks>Blackmagic Switcher SDK - 5.2.2.15</remarks>
+        public double GetMaskTop()
+        {
+            this.InternalSwitcherKeyReference.GetMaskTop(out double top);
+            return top;
+        }
+
+        /// <summary>
+        /// The SetMaskTop method sets the mask top value.
+        /// </summary>
+        /// <param name="top">The desired mask top value.</param>
+        /// <remarks>Blackmagic Switcher SDK - 5.2.2.16</remarks>
+        public void SetMaskTop(double top)
+        {
+            this.InternalSwitcherKeyReference.SetMaskTop(top);
+            return;
+        }
+
+        /// <summary>
+        /// The GetMaskBottom method returns the current mask bottom value.
+        /// </summary>
+        /// <returns>The current mask bottom value.</returns>
+        /// <remarks>Blackmagic Switcher SDK - 5.2.2.17</remarks>
+        public double GetMaskBottom()
+        {
+            this.InternalSwitcherKeyReference.GetMaskBottom(out double bottom);
+            return bottom;
+        }
+
+        /// <summary>
+        /// The SetMaskBottom method sets the mask bottom value.
+        /// </summary>
+        /// <param name="bottom">The desired mask bottom value.</param>
+        /// <remarks>Blackmagic Switcher SDK - 5.2.2.18</remarks>
+        public void SetMaskBottom(double bottom)
+        {
+            this.InternalSwitcherKeyReference.SetMaskBottom(bottom);
+            return;
+        }
+
+        /// <summary>
+        /// The GetMaskLeft method returns the current mask left value.
+        /// </summary>
+        /// <returns>The current mask left value.</returns>
+        /// <remarks>Blackmagic Switcher SDK - 5.2.2.19</remarks>
+        public double GetMaskLeft()
+        {
+            this.InternalSwitcherKeyReference.GetMaskLeft(out double left);
+            return left;
+        }
+
+        /// <summary>
+        /// The SetMaskLeft method sets the mask left value.
+        /// </summary>
+        /// <param name="left">The desired mask left value.</param>
+        /// <remarks>Blackmagic Switcher SDK - 5.2.2.20</remarks>
+        public void SetMaskLeft(double left)
+        {
+            this.InternalSwitcherKeyReference.SetMaskLeft(left);
+            return;
+        }
+
+        /// <summary>
+        /// The GetMaskRight method returns the current mask right value.
+        /// </summary>
+        /// <returns>The current mask right value.</returns>
+        /// <remarks>Blackmagic Switcher SDK - 5.2.2.21</remarks>
+        public double GetMaskRight()
+        {
+            this.InternalSwitcherKeyReference.GetMaskRight(out double right);
+            return right;
+        }
+
+        /// <summary>
+        /// The SetMaskRight method sets the mask right value.
+        /// </summary>
+        /// <param name="right">The desired mask right value.</param>
+        /// <remarks>Blackmagic Switcher SDK - 5.2.2.22</remarks>
+        public void SetMaskRight(double right)
+        {
+            this.InternalSwitcherKeyReference.SetMaskRight(right);
+            return;
+        }
+
+        /// <summary>
+        /// Use the ResetMask method to reset mask settings to default values.
+        /// </summary>
+        /// <remarks>Blackmagic Switcher SDK - 5.2.2.23</remarks>
+        public void ResetMask()
+        {
+            this.InternalSwitcherKeyReference.ResetMask();
+            return;
+        }
+
+        /// <summary>
+        /// The GetTransitionSelectionMask method returns the corresponding BMDSwitcherTransitionSelection bit mask for
+        /// this key.
+        /// </summary>
+        /// <returns>BMDSwitcherTransitionSelection bit mask.</returns>
+        /// <remarks>Blackmagic Switcher SDK - 5.2.2.24</remarks>
+        public _BMDSwitcherTransitionSelection GetTransitionSelectionMask()
+        {
+            this.InternalSwitcherKeyReference.GetTransitionSelectionMask(out _BMDSwitcherTransitionSelection selectionMask);
+            return selectionMask;
+        }
+        #endregion
+
         #region IBMDSwitcherKeyCallback
         /// <summary>
         /// The Notify method is called when IBMDSwitcherKey events occur, such as property changes.
@@ -331,230 +596,5 @@ namespace BlackmagicAtemWrapper.Keyers
             return;
         }
         #endregion
-
-        /// <summary>
-        /// The GetType method returns the current key type.
-        /// </summary>
-        /// <returns>The current key type.</returns>
-        public new _BMDSwitcherKeyType GetType()
-        {
-            this.InternalSwitcherKeyReference.GetType(out _BMDSwitcherKeyType type);
-            return type;
-        }
-
-        /// <summary>
-        /// The SetType method sets the key to the specified type.
-        /// </summary>
-        /// <param name="type">The desired key type.</param>
-        public void SetType(_BMDSwitcherKeyType type)
-        {
-            this.InternalSwitcherKeyReference.SetType(type);
-            return;
-        }
-
-        /// <summary>
-        /// The GetInputCut method returns the selected cut input source.
-        /// </summary>
-        /// <returns>BMDSwitcherInputId of the selected cut input source.</returns>
-        public long GetInputCut()
-        {
-            this.InternalSwitcherKeyReference.GetInputCut(out long input);
-            return input;
-        }
-
-        /// <summary>
-        /// The SetInputCut method sets the cut input source.
-        /// </summary>
-        /// <param name="input">The desired cut input source’s BMDSwitcherInputId.</param>
-        public void SetInputCut(long input)
-        {
-            this.InternalSwitcherKeyReference.SetInputCut(input);
-            return;
-        }
-
-        /// <summary>
-        /// The GetInputFill method returns the selected fill input source.
-        /// </summary>
-        /// <returns>BMDSwitcherInputId of the selected fill input source.</returns>
-        public long GetInputFill()
-        {
-            this.InternalSwitcherKeyReference.GetInputFill(out long input);
-            return input;
-        }
-
-        /// <summary>
-        /// The SetInputFill method sets the fill input source.
-        /// </summary>
-        /// <param name="input">The desired fill input source’s BMDSwitcherInputId.</param>
-        public void SetinputFill(long input)
-        {
-            this.InternalSwitcherKeyReference.SetInputFill(input);
-            return;
-        }
-
-        /// <summary>
-        /// The GetFillInputAvailabilityMask method returns the corresponding <seealso cref="_BMDSwitcherInputAvailability">BMDSwitcherInputAvailability</seealso> bit mask
-        /// value for fill inputs available to this key. The input availability property of an IBMDSwitcherInput can be
-        /// bitwise-ANDed with this mask value. If the result of the bitwise-AND is equal to the mask value then this
-        /// input is available for use as a fill input for this key.
-        /// </summary>
-        /// <returns>BMDSwitcherInputAvailability bit mask.</returns>
-        public _BMDSwitcherInputAvailability GetFillInputAvailabilityMask()
-        {
-            this.InternalSwitcherKeyReference.GetFillInputAvailabilityMask(out _BMDSwitcherInputAvailability availabilityMask);
-            return availabilityMask;
-        }
-
-        /// <summary>
-        /// The GetCutInputAvailabilityMask method returns the corresponding BMDSwitcherInputAvailability bit mask
-        /// value for cut inputs available to this key. The input availability property of an IBMDSwitcherInput can be
-        /// bitwise-ANDed with this mask value. If the result of the bitwise-AND is equal to the mask value then this
-        /// input is available for use as a cut input for this key.
-        /// </summary>
-        /// <returns>BMDSwitcherInputAvailability bit mask.</returns>
-        public _BMDSwitcherInputAvailability GetCutInputAvailabilityMask()
-        {
-            this.InternalSwitcherKeyReference.GetCutInputAvailabilityMask(out _BMDSwitcherInputAvailability availabilityMask);
-            return availabilityMask;
-        }
-
-        /// <summary>
-        /// The GetOnAir method returns the on-air flag.
-        /// </summary>
-        /// <returns>Boolean on-air flag.</returns>
-        public bool GetOnAir()
-        {
-            this.InternalSwitcherKeyReference.GetOnAir(out int onAir);
-            return onAir != 0;
-        }
-
-        /// <summary>
-        /// The SetOnAir method sets the on-air flag.
-        /// </summary>
-        /// <param name="onAir">The desired on-air flag.</param>
-        public void SetOnAir(bool onAir)
-        {
-            this.InternalSwitcherKeyReference.SetOnAir(onAir ? 1 : 0);
-            return;
-        }
-
-        /// <summary>
-        /// The GetMasked method returns whether masking is enabled or not.
-        /// </summary>
-        /// <returns>Boolean flag of whether masking is enabled.</returns>
-        public bool GetMasked()
-        {
-            this.InternalSwitcherKeyReference.GetMasked(out int maskEnabled);
-            return maskEnabled != 0;
-        }
-
-        /// <summary>
-        /// Use SetMasked method to enable or disable masking.
-        /// </summary>
-        /// <param name="maskEnabled">The desired masked value.</param>
-        public void SetMasked(bool maskEnabled)
-        {
-            this.InternalSwitcherKeyReference.SetMasked(maskEnabled ? 1 : 0);
-            return;
-        }
-
-        /// <summary>
-        /// The GetMaskTop method returns the current mask top value.
-        /// </summary>
-        /// <returns>The current mask top value.</returns>
-        public double GetMaskTop()
-        {
-            this.InternalSwitcherKeyReference.GetMaskTop(out double top);
-            return top;
-        }
-
-        /// <summary>
-        /// The SetMaskTop method sets the mask top value.
-        /// </summary>
-        /// <param name="top">The desired mask top value.</param>
-        public void SetMaskTop(double top)
-        {
-            this.InternalSwitcherKeyReference.SetMaskTop(top);
-            return;
-        }
-
-        /// <summary>
-        /// The GetMaskBottom method returns the current mask bottom value.
-        /// </summary>
-        /// <returns>The current mask bottom value.</returns>
-        public double GetMaskBottom()
-        {
-            this.InternalSwitcherKeyReference.GetMaskBottom(out double bottom);
-            return bottom;
-        }
-
-        /// <summary>
-        /// The SetMaskBottom method sets the mask bottom value.
-        /// </summary>
-        /// <param name="bottom">The desired mask bottom value.</param>
-        public void SetMaskBottom(double bottom)
-        {
-            this.InternalSwitcherKeyReference.SetMaskBottom(bottom);
-            return;
-        }
-
-        /// <summary>
-        /// The GetMaskLeft method returns the current mask left value.
-        /// </summary>
-        /// <returns>The current mask left value.</returns>
-        public double GetMaskLeft()
-        {
-            this.InternalSwitcherKeyReference.GetMaskLeft(out double left);
-            return left;
-        }
-
-        /// <summary>
-        /// The SetMaskLeft method sets the mask left value.
-        /// </summary>
-        /// <param name="left">The desired mask left value.</param>
-        public void SetMaskLeft(double left)
-        {
-            this.InternalSwitcherKeyReference.SetMaskLeft(left);
-            return;
-        }
-
-        /// <summary>
-        /// The GetMaskRight method returns the current mask right value.
-        /// </summary>
-        /// <returns>The current mask right value.</returns>
-        public double GetMaskRight()
-        {
-            this.InternalSwitcherKeyReference.GetMaskRight(out double right);
-            return right;
-        }
-
-        /// <summary>
-        /// The SetMaskRight method sets the mask right value.
-        /// </summary>
-        /// <param name="right">The desired mask right value.</param>
-        public void SetMaskRight(double right)
-        {
-            this.InternalSwitcherKeyReference.SetMaskRight(right);
-            return;
-        }
-
-        /// <summary>
-        /// Use the ResetMask method to reset mask settings to default values.
-        /// </summary>
-        public void ResetMask()
-        {
-            this.InternalSwitcherKeyReference.ResetMask();
-        }
-
-        /// <summary>
-        /// The GetTransitionSelectionMask method returns the corresponding BMDSwitcherTransitionSelection bit mask for
-        /// this key.
-        /// </summary>
-        /// <returns>BMDSwitcherTransitionSelection bit mask.</returns>
-        public _BMDSwitcherTransitionSelection GetTransitionSelectionMask()
-        {
-            this.InternalSwitcherKeyReference.GetTransitionSelectionMask(out _BMDSwitcherTransitionSelection selectionMask);
-            return selectionMask;
-        }
     }
 }
