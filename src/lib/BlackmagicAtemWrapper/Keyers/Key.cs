@@ -135,6 +135,14 @@ namespace BlackmagicAtemWrapper.Keyers
         }
 
         /// <summary>
+        /// Gets the <see cref="AdvancedChromaParameters"/> object.
+        /// </summary>
+        public AdvancedChromaParameters AdvancedChromaParameters
+        {
+            get { return new AdvancedChromaParameters(this.InternalSwitcherKeyReference as IBMDSwitcherKeyAdvancedChromaParameters); }
+        }
+
+        /// <summary>
         /// Gets the <see cref="SwitcherKeyPatternParameters"/> property
         /// </summary>
         public SwitcherKeyPatternParameters SwitcherKeyPatternParameters
