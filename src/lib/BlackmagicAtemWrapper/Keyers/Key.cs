@@ -153,9 +153,9 @@ namespace BlackmagicAtemWrapper.Keyers
         /// <summary>
         /// Gets the <see cref="SwitcherKeyDVEParameters"/> property
         /// </summary>
-        public KeyDVEParameters SwitcherKeyDVEParameters
+        public DVEParameters SwitcherKeyDVEParameters
         {
-            get { return new KeyDVEParameters(this.InternalSwitcherKeyReference as IBMDSwitcherKeyDVEParameters); }
+            get { return new DVEParameters(this.InternalSwitcherKeyReference as IBMDSwitcherKeyDVEParameters); }
         }
 
         /// <summary>

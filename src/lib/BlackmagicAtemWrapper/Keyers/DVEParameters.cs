@@ -33,7 +33,7 @@ namespace BlackmagicAtemWrapper.Keyers
     /// The KeyDVEParameters object is used for manipulating settings specific to the DVE-type key. Note that properties that affect a fly key also affects a DVE key; they are access through the IBMDSwitcherKeyFlyParameters object interface. Also note that the mask properties in this interface only affect keys with their type set to DVE.
     /// </summary>
     /// <remarks>Blackmagic Switcher SDK - 5.2.12</remarks>
-    public class KeyDVEParameters : IBMDSwitcherKeyDVEParametersCallback
+    public class DVEParameters : IBMDSwitcherKeyDVEParametersCallback
     {
         /// <summary>
         /// Internal reference to the raw <seealso cref="IBMDSwitcherKeyDVEParameters"/>.
@@ -41,128 +41,128 @@ namespace BlackmagicAtemWrapper.Keyers
         private readonly IBMDSwitcherKeyDVEParameters InternalKeyDVEParametersReference;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="KeyDVEParameters"/> class.
+        /// Initializes a new instance of the <see cref="DVEParameters"/> class.
         /// </summary>
         /// <param name="switcherKeyDVEParameters">The native <seealso cref="IBMDSwitcherKeyDVEParameters"/> from the BMDSwitcherAPI.</param>
-        public KeyDVEParameters(IBMDSwitcherKeyDVEParameters switcherKeyDVEParameters)
+        public DVEParameters(IBMDSwitcherKeyDVEParameters switcherKeyDVEParameters)
         {
             this.InternalKeyDVEParametersReference = switcherKeyDVEParameters;
             this.InternalKeyDVEParametersReference.AddCallback(this);
         }
 
         /// <summary>
-        /// Finalizes an instance of the <see cref="KeyDVEParameters"/> class.
+        /// Finalizes an instance of the <see cref="DVEParameters"/> class.
         /// </summary>
-        ~KeyDVEParameters()
+        ~DVEParameters()
         {
             this.InternalKeyDVEParametersReference.RemoveCallback(this);
-            Marshal.ReleaseComObject(this.InternalKeyDVEParametersReference);
+            _ = Marshal.ReleaseComObject(this.InternalKeyDVEParametersReference);
         }
 
         #region Events
         /// <summary>
-        /// A delegate to handle events from <see cref="KeyDVEParameters"/>.
+        /// A delegate to handle events from <see cref="DVEParameters"/>.
         /// </summary>
-        /// <param name="sender">The <see cref="KeyDVEParameters"/> that received the event.</param>
+        /// <param name="sender">The <see cref="DVEParameters"/> that received the event.</param>
         public delegate void KeyDVEParametersEventHandler(object sender);
 
         /// <summary>
-        /// The shadow flag changed.
+        /// The <see cref="HasShadow"/> flag changed.
         /// </summary>
         public event KeyDVEParametersEventHandler OnShadowChanged;
 
         /// <summary>
-        /// The light source direction value changed.
+        /// The <see cref="LightSourceDirection"/> value changed.
         /// </summary>
         public event KeyDVEParametersEventHandler OnLightSourceDirectionChanged;
 
         /// <summary>
-        /// The light source altitude value changed.
+        /// The <see cref="LightSourceAltitude"/> value changed.
         /// </summary>
         public event KeyDVEParametersEventHandler OnLightSourceAltitudeChanged;
 
         /// <summary>
-        /// The border enabled flag changed.
+        /// The <see cref="IsBorderEnabled"/> flag changed.
         /// </summary>
         public event KeyDVEParametersEventHandler OnBorderEnabledChanged;
 
         /// <summary>
-        /// The border bevel option changed.
+        /// The <see cref="BorderBevel"/> option changed.
         /// </summary>
         public event KeyDVEParametersEventHandler OnBorderBevelChanged;
 
         /// <summary>
-        /// The border inner width value changed.
+        /// The <see cref="BorderInnerWidth"/> value changed.
         /// </summary>
-        public event KeyDVEParametersEventHandler OnBorderWidthInChanged;
+        public event KeyDVEParametersEventHandler OnBorderInnerWidthChanged;
 
         /// <summary>
-        /// The border outer width value changed.
+        /// The <see cref="BorderOuterWidth"/> value changed.
         /// </summary>
-        public event KeyDVEParametersEventHandler OnBorderWidthOutChanged;
+        public event KeyDVEParametersEventHandler OnBorderOuterWidthChanged;
 
         /// <summary>
-        /// The border inner softness value changed.
+        /// The <see cref="OnBorderInnerSoftnessChanged"/> value changed.
         /// </summary>
-        public event KeyDVEParametersEventHandler OnBorderSoftnessInChanged;
+        public event KeyDVEParametersEventHandler OnBorderInnerSoftnessChanged;
 
         /// <summary>
-        /// The border outer softness value changed.
+        /// The <see cref="OnBorderOuterSoftnessChanged"/> value changed.
         /// </summary>
-        public event KeyDVEParametersEventHandler OnBorderSoftnessOutChanged;
+        public event KeyDVEParametersEventHandler OnBorderOuterSoftnessChanged;
 
         /// <summary>
-        /// The border bevel softness value changed.
+        /// The <see cref="BorderBevelSoftness"/> value changed.
         /// </summary>
         public event KeyDVEParametersEventHandler OnBorderBevelSoftnessChanged;
 
         /// <summary>
-        /// The border bevel position value changed.
+        /// The <see cref="BorderBevelPosition"/> value changed.
         /// </summary>
         public event KeyDVEParametersEventHandler OnBorderBevelPositionChanged;
 
         /// <summary>
-        /// The border opacity value changed.
+        /// The <see cref="BorderOpacity"/> value changed.
         /// </summary>
         public event KeyDVEParametersEventHandler OnBorderOpacityChanged;
 
         /// <summary>
-        /// The border hue value changed.
+        /// The <see cref="BorderHue"/> value changed.
         /// </summary>
         public event KeyDVEParametersEventHandler OnBorderHueChanged;
 
         /// <summary>
-        /// The border saturation value changed.
+        /// The <see cref="BorderSaturation"/> value changed.
         /// </summary>
         public event KeyDVEParametersEventHandler OnBorderSaturationChanged;
 
         /// <summary>
-        /// The border luminance value changed.
+        /// The <see cref="BorderLuma"/> value changed.
         /// </summary>
         public event KeyDVEParametersEventHandler OnBorderLumaChanged;
 
         /// <summary>
-        /// The masked flag changed.
+        /// The <see cref="IsMasked"/> flag changed.
         /// </summary>
         public event KeyDVEParametersEventHandler OnMaskedChanged;
 
         /// <summary>
-        /// The mask top value changed.
+        /// The <see cref="MaskTop"/> value changed.
         /// </summary>
         public event KeyDVEParametersEventHandler OnMaskTopChanged;
 
         /// <summary>
-        /// The mask bottom value changed.
+        /// The <see cref="MaskBottom"/> value changed.
         /// </summary>
         public event KeyDVEParametersEventHandler OnMaskBottomChanged;
 
         /// <summary>
-        /// The mask left value changed.
+        /// The <see cref="MaskLeft"/> value changed.
         /// </summary>
         public event KeyDVEParametersEventHandler OnMaskLeftChanged;
 
         /// <summary>
-        /// The mask right value changed.
+        /// The <see cref="MaskRight"/> value changed.
         /// </summary>
         public event KeyDVEParametersEventHandler OnMaskRightChanged;
         #endregion
@@ -215,7 +215,7 @@ namespace BlackmagicAtemWrapper.Keyers
         /// <summary>
         /// Gets or sets the current border inner width value.
         /// </summary>
-        public double BorderWidthInner
+        public double BorderInnerWidth
         {
             get { return this.GetBorderWidthIn(); }
             set { this.SetBorderWidthIn(value); }
@@ -224,7 +224,7 @@ namespace BlackmagicAtemWrapper.Keyers
         /// <summary>
         /// Gets or sets the current border outer width value.
         /// </summary>
-        public double BorderWidthOuter
+        public double BorderOuterWidth
         {
             get { return this.GetBorderWidthOut(); }
             set { this.SetBorderWidthOut(value); }
@@ -233,7 +233,7 @@ namespace BlackmagicAtemWrapper.Keyers
         /// <summary>
         /// Gets or sets the current border inner softness value.
         /// </summary>
-        public double BorderSoftnessInner
+        public double BorderInnerSoftness
         {
             get { return this.GetBorderSoftnessIn(); }
             set { this.SetBorderSoftnessIn(value); }
@@ -242,7 +242,7 @@ namespace BlackmagicAtemWrapper.Keyers
         /// <summary>
         /// Gets or sets the current border outer softness value.
         /// </summary>
-        public double BorderSoftnessOuter
+        public double BorderOuterSoftness
         {
             get { return this.GetBorderSoftnessOut(); }
             set { this.SetBorderSoftnessOut(value); }
@@ -357,7 +357,7 @@ namespace BlackmagicAtemWrapper.Keyers
         public bool GetShadow()
         {
             this.InternalKeyDVEParametersReference.GetShadow(out int shadow);
-            return shadow != 0;
+            return Convert.ToBoolean(shadow);
         }
 
         /// <summary>
@@ -370,7 +370,8 @@ namespace BlackmagicAtemWrapper.Keyers
         {
             try
             {
-                this.InternalKeyDVEParametersReference.SetShadow(shadow ? 1 : 0);
+                this.InternalKeyDVEParametersReference.SetShadow(Convert.ToInt32(shadow));
+                return;
             }
             catch (COMException e)
             {
@@ -381,8 +382,6 @@ namespace BlackmagicAtemWrapper.Keyers
 
                 throw;
             }
-
-            return;
         }
 
         /// <summary>
@@ -407,6 +406,7 @@ namespace BlackmagicAtemWrapper.Keyers
             try
             {
                 this.InternalKeyDVEParametersReference.SetLightSourceDirection(degrees);
+                return;
             }
             catch (COMException e)
             {
@@ -417,8 +417,6 @@ namespace BlackmagicAtemWrapper.Keyers
 
                 throw;
             }
-
-            return;
         }
 
         /// <summary>
@@ -443,6 +441,7 @@ namespace BlackmagicAtemWrapper.Keyers
             try
             {
                 this.InternalKeyDVEParametersReference.SetLightSourceAltitude(altitude);
+                return;
             }
             catch (COMException e)
             {
@@ -453,8 +452,6 @@ namespace BlackmagicAtemWrapper.Keyers
 
                 throw;
             }
-
-            return;
         }
 
         /// <summary>
@@ -465,7 +462,7 @@ namespace BlackmagicAtemWrapper.Keyers
         public bool GetBorderEnabled()
         {
             this.InternalKeyDVEParametersReference.GetBorderEnabled(out int enabled);
-            return enabled != 0;
+            return Convert.ToBoolean(enabled);
         }
 
         /// <summary>
@@ -478,7 +475,8 @@ namespace BlackmagicAtemWrapper.Keyers
         {
             try
             {
-                this.InternalKeyDVEParametersReference.SetBorderEnabled(enabled ? 1 : 0);
+                this.InternalKeyDVEParametersReference.SetBorderEnabled(Convert.ToInt32(enabled));
+                return;
             }
             catch (COMException e)
             {
@@ -489,8 +487,6 @@ namespace BlackmagicAtemWrapper.Keyers
 
                 throw;
             }
-
-            return;
         }
 
         /// <summary>
@@ -540,6 +536,7 @@ namespace BlackmagicAtemWrapper.Keyers
             try
             {
                 this.InternalKeyDVEParametersReference.SetBorderWidthIn(widthIn);
+                return;
             }
             catch (COMException e)
             {
@@ -550,8 +547,6 @@ namespace BlackmagicAtemWrapper.Keyers
 
                 throw;
             }
-
-            return;
         }
 
         /// <summary>
@@ -576,6 +571,7 @@ namespace BlackmagicAtemWrapper.Keyers
             try
             {
                 this.InternalKeyDVEParametersReference.SetBorderWidthOut(widthOut);
+                return;
             }
             catch (COMException e)
             {
@@ -586,8 +582,6 @@ namespace BlackmagicAtemWrapper.Keyers
 
                 throw;
             }
-
-            return;
         }
 
         /// <summary>
@@ -625,6 +619,7 @@ namespace BlackmagicAtemWrapper.Keyers
             try
             {
                 this.InternalKeyDVEParametersReference.SetBorderSoftnessIn(softnessIn);
+                return;
             }
             catch (COMException e)
             {
@@ -635,8 +630,6 @@ namespace BlackmagicAtemWrapper.Keyers
 
                 throw;
             }
-
-            return;
         }
 
         /// <summary>
@@ -661,6 +654,7 @@ namespace BlackmagicAtemWrapper.Keyers
             try
             {
                 this.InternalKeyDVEParametersReference.SetBorderSoftnessOut(softOut);
+                return;
             }
             catch (COMException e)
             {
@@ -671,8 +665,6 @@ namespace BlackmagicAtemWrapper.Keyers
 
                 throw;
             }
-
-            return;
         }
 
         /// <summary>
@@ -697,6 +689,7 @@ namespace BlackmagicAtemWrapper.Keyers
             try
             {
                 this.InternalKeyDVEParametersReference.SetBorderBevelSoftness(bevelSoft);
+                return;
             }
             catch (COMException e)
             {
@@ -707,8 +700,6 @@ namespace BlackmagicAtemWrapper.Keyers
 
                 throw;
             }
-
-            return;
         }
 
         /// <summary>
@@ -733,6 +724,7 @@ namespace BlackmagicAtemWrapper.Keyers
             try
             {
                 this.InternalKeyDVEParametersReference.SetBorderBevelPosition(bevelPosition);
+                return;
             }
             catch (COMException e)
             {
@@ -743,8 +735,6 @@ namespace BlackmagicAtemWrapper.Keyers
 
                 throw;
             }
-
-            return;
         }
 
         /// <summary>
@@ -769,6 +759,7 @@ namespace BlackmagicAtemWrapper.Keyers
             try
             {
                 this.InternalKeyDVEParametersReference.SetBorderOpacity(opacity);
+                return;
             }
             catch (COMException e)
             {
@@ -779,8 +770,6 @@ namespace BlackmagicAtemWrapper.Keyers
 
                 throw;
             }
-
-            return;
         }
 
         /// <summary>
@@ -805,6 +794,7 @@ namespace BlackmagicAtemWrapper.Keyers
             try
             {
                 this.InternalKeyDVEParametersReference.SetBorderHue(hue);
+                return;
             }
             catch (COMException e)
             {
@@ -815,8 +805,6 @@ namespace BlackmagicAtemWrapper.Keyers
 
                 throw;
             }
-
-            return;
         }
 
         /// <summary>
@@ -841,6 +829,7 @@ namespace BlackmagicAtemWrapper.Keyers
             try
             {
                 this.InternalKeyDVEParametersReference.SetBorderSaturation(saturation);
+                return;
             }
             catch (COMException e)
             {
@@ -851,8 +840,6 @@ namespace BlackmagicAtemWrapper.Keyers
 
                 throw;
             }
-
-            return;
         }
 
         /// <summary>
@@ -877,6 +864,7 @@ namespace BlackmagicAtemWrapper.Keyers
             try
             {
                 this.InternalKeyDVEParametersReference.SetBorderLuma(luma);
+                return;
             }
             catch (COMException e)
             {
@@ -887,8 +875,6 @@ namespace BlackmagicAtemWrapper.Keyers
 
                 throw;
             }
-
-            return;
         }
 
         /// <summary>
@@ -899,7 +885,7 @@ namespace BlackmagicAtemWrapper.Keyers
         public bool GetMasked()
         {
             this.InternalKeyDVEParametersReference.GetMasked(out int maskEnabled);
-            return maskEnabled != 0;
+            return Convert.ToBoolean(maskEnabled);
         }
 
         /// <summary>
@@ -912,7 +898,8 @@ namespace BlackmagicAtemWrapper.Keyers
         {
             try
             {
-                this.InternalKeyDVEParametersReference.SetMasked(maskEnabled ? 1 : 0);
+                this.InternalKeyDVEParametersReference.SetMasked(Convert.ToInt32(maskEnabled));
+                return;
             }
             catch (COMException e)
             {
@@ -923,8 +910,6 @@ namespace BlackmagicAtemWrapper.Keyers
 
                 throw;
             }
-
-            return;
         }
 
         /// <summary>
@@ -949,6 +934,7 @@ namespace BlackmagicAtemWrapper.Keyers
             try
             {
                 this.InternalKeyDVEParametersReference.SetMaskTop(maskTop);
+                return;
             }
             catch (COMException e)
             {
@@ -959,8 +945,6 @@ namespace BlackmagicAtemWrapper.Keyers
 
                 throw;
             }
-
-            return;
         }
 
         /// <summary>
@@ -978,13 +962,14 @@ namespace BlackmagicAtemWrapper.Keyers
         /// The SetMaskBottom method sets the mask bottom value.
         /// </summary>
         /// <param name="maskBottom">The desired mask bottom value.</param>
-        /// <exception cref="FailedException">Failed.</exception>
+        /// <exception cref="FailedException">Failure.</exception>
         /// <remarks>Blackmagic Switcher SDK - 5.2.12.36</remarks>
         public void SetMaskBottom(double maskBottom)
         {
             try
             {
                 this.InternalKeyDVEParametersReference.SetMaskBottom(maskBottom);
+                return;
             }
             catch (COMException e)
             {
@@ -995,8 +980,6 @@ namespace BlackmagicAtemWrapper.Keyers
 
                 throw;
             }
-
-            return;
         }
 
         /// <summary>
@@ -1014,13 +997,14 @@ namespace BlackmagicAtemWrapper.Keyers
         /// The SetMaskLeft method sets the mask left value.
         /// </summary>
         /// <param name="maskLeft">The desired mask left value.</param>
-        /// <exception cref="FailedException">Failed.</exception>
+        /// <exception cref="FailedException">Failure.</exception>
         /// <remarks>Blackmagic Switcher SDK - 5.2.12.38</remarks>
         public void SetMaskLeft(double maskLeft)
         {
             try
             {
                 this.InternalKeyDVEParametersReference.SetMaskLeft(maskLeft);
+                return;
             }
             catch (COMException e)
             {
@@ -1031,8 +1015,6 @@ namespace BlackmagicAtemWrapper.Keyers
 
                 throw;
             }
-
-            return;
         }
 
         /// <summary>
@@ -1050,13 +1032,14 @@ namespace BlackmagicAtemWrapper.Keyers
         /// The SetMaskRight method sets the mask right value.
         /// </summary>
         /// <param name="maskRight">The desired mask right value.</param>
-        /// <exception cref="FailedException">Failed.</exception>
+        /// <exception cref="FailedException">Failure.</exception>
         /// <remarks>Blackmagic Switcher SDK - 5.2.12.40</remarks>
         public void SetMaskRight(double maskRight)
         {
             try
             {
                 this.InternalKeyDVEParametersReference.SetMaskRight(maskRight);
+                return;
             }
             catch (COMException e)
             {
@@ -1067,8 +1050,6 @@ namespace BlackmagicAtemWrapper.Keyers
 
                 throw;
             }
-
-            return;
         }
 
         /// <summary>
@@ -1081,6 +1062,7 @@ namespace BlackmagicAtemWrapper.Keyers
             try
             {
                 this.InternalKeyDVEParametersReference.ResetMask();
+                return;
             }
             catch (COMException e)
             {
@@ -1091,8 +1073,6 @@ namespace BlackmagicAtemWrapper.Keyers
 
                 throw;
             }
-
-            return;
         }
         #endregion
 
@@ -1122,19 +1102,19 @@ namespace BlackmagicAtemWrapper.Keyers
                     break;
 
                 case _BMDSwitcherKeyDVEParametersEventType.bmdSwitcherKeyDVEParametersEventTypeBorderWidthInChanged:
-                    this.OnBorderWidthInChanged?.Invoke(this);
+                    this.OnBorderInnerWidthChanged?.Invoke(this);
                     break;
 
                 case _BMDSwitcherKeyDVEParametersEventType.bmdSwitcherKeyDVEParametersEventTypeBorderWidthOutChanged:
-                    this.OnBorderWidthOutChanged?.Invoke(this);
+                    this.OnBorderOuterWidthChanged?.Invoke(this);
                     break;
 
                 case _BMDSwitcherKeyDVEParametersEventType.bmdSwitcherKeyDVEParametersEventTypeBorderSoftnessInChanged:
-                    this.OnBorderSoftnessInChanged?.Invoke(this);
+                    this.OnBorderInnerSoftnessChanged?.Invoke(this);
                     break;
 
                 case _BMDSwitcherKeyDVEParametersEventType.bmdSwitcherKeyDVEParametersEventTypeBorderSoftnessOutChanged:
-                    this.OnBorderSoftnessOutChanged?.Invoke(this);
+                    this.OnBorderOuterSoftnessChanged?.Invoke(this);
                     break;
 
                 case _BMDSwitcherKeyDVEParametersEventType.bmdSwitcherKeyDVEParametersEventTypeBorderBevelSoftnessChanged:
