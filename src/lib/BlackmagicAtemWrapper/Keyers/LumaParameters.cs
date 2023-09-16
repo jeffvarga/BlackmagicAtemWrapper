@@ -30,10 +30,10 @@ namespace BlackmagicAtemWrapper.Keyers
     using BMDSwitcherAPI;
 
     /// <summary>
-    /// The KeyLumaParameters object is used for manipulating parameters specific to luminance type key.
+    /// The LumaParameters object is used for manipulating parameters specific to luminance type key.
     /// </summary>
     /// <remarks>Blackmagic Switcher SDK - 5.2.4</remarks>
-    public class KeyLumaParameters : IBMDSwitcherKeyLumaParametersCallback
+    public class LumaParameters : IBMDSwitcherKeyLumaParametersCallback
     {
         /// <summary>
         /// Internal reference to the raw <seealso cref="IBMDSwitcherKeyLumaParameters"/>.
@@ -41,19 +41,19 @@ namespace BlackmagicAtemWrapper.Keyers
         private readonly IBMDSwitcherKeyLumaParameters InternalKeyLumaParametersReference;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="KeyLumaParameters"/> class.
+        /// Initializes a new instance of the <see cref="LumaParameters"/> class.
         /// </summary>
         /// <param name="switcherKeyLumaParameters">The native <seealso cref="IBMDSwitcherKeyLumaParameters"/> from the BMDSwitcherAPI.</param>
-        public KeyLumaParameters(IBMDSwitcherKeyLumaParameters switcherKeyLumaParameters)
+        public LumaParameters(IBMDSwitcherKeyLumaParameters switcherKeyLumaParameters)
         {
             this.InternalKeyLumaParametersReference = switcherKeyLumaParameters;
             this.InternalKeyLumaParametersReference.AddCallback(this);
         }
 
         /// <summary>
-        /// Finalizes an instance of the <see cref="KeyLumaParameters"/> class.
+        /// Finalizes an instance of the <see cref="LumaParameters"/> class.
         /// </summary>
-        ~KeyLumaParameters()
+        ~LumaParameters()
         {
             this.InternalKeyLumaParametersReference.RemoveCallback(this);
             Marshal.ReleaseComObject(this.InternalKeyLumaParametersReference);
@@ -61,9 +61,9 @@ namespace BlackmagicAtemWrapper.Keyers
 
         #region Events
         /// <summary>
-        /// A delegate to handle events from <see cref="KeyLumaParameters"/>.
+        /// A delegate to handle events from <see cref="LumaParameters"/>.
         /// </summary>
-        /// <param name="sender">The <see cref="KeyLumaParameters"/> that received the event.</param>
+        /// <param name="sender">The <see cref="LumaParameters"/> that received the event.</param>
         public delegate void KeyLumaParametersEventHandler(object sender);
 
         /// <summary>

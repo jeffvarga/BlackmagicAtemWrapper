@@ -30,11 +30,11 @@ namespace BlackmagicAtemWrapper.Keyers
     using BMDSwitcherAPI;
 
     /// <summary>
-    /// <para>The KeyChromaParameters class is used for manipulating settings specific to the chroma type key.</para>
+    /// <para>The ChromaParameters class is used for manipulating settings specific to the chroma type key.</para>
     /// <para>If a switcher is capable of using advanced chroma key, then this interface will not be available.Only if IBMDSwitcherKey::DoesSupportAdvancedChroma returns false, does the switcher support this IBMDSwitcherKeyChromaParameters interface.</para>
     /// </summary>
     /// <remarks>Blackmagic Switcher SDK - 5.2.6</remarks>
-    public class KeyChromaParameters : IBMDSwitcherKeyChromaParametersCallback
+    public class ChromaParameters : IBMDSwitcherKeyChromaParametersCallback
     {
         /// <summary>
         /// Internal reference to the raw <seealso cref="IBMDSwitcherKeyChromaParameters"/>.
@@ -42,19 +42,19 @@ namespace BlackmagicAtemWrapper.Keyers
         private readonly IBMDSwitcherKeyChromaParameters InternalKeyChromaParametersReference;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="KeyChromaParameters"/> class.
+        /// Initializes a new instance of the <see cref="ChromaParameters"/> class.
         /// </summary>
         /// <param name="switcherKeyChromaParameters">The native <seealso cref="IBMDSwitcherKeyChromaParameters"/> from the BMDSwitcherAPI.</param>
-        public KeyChromaParameters(IBMDSwitcherKeyChromaParameters switcherKeyChromaParameters)
+        public ChromaParameters(IBMDSwitcherKeyChromaParameters switcherKeyChromaParameters)
         {
             this.InternalKeyChromaParametersReference = switcherKeyChromaParameters;
             this.InternalKeyChromaParametersReference.AddCallback(this);
         }
 
         /// <summary>
-        /// Finalizes an instance of the <see cref="KeyChromaParameters"/> class.
+        /// Finalizes an instance of the <see cref="ChromaParameters"/> class.
         /// </summary>
-        ~KeyChromaParameters()
+        ~ChromaParameters()
         {
             this.InternalKeyChromaParametersReference.RemoveCallback(this);
             Marshal.ReleaseComObject(this.InternalKeyChromaParametersReference);
@@ -62,9 +62,9 @@ namespace BlackmagicAtemWrapper.Keyers
 
         #region Events
         /// <summary>
-        /// A delegate to handle events from <see cref="KeyChromaParameters"/>.
+        /// A delegate to handle events from <see cref="ChromaParameters"/>.
         /// </summary>
-        /// <param name="sender">The <see cref="KeyChromaParameters"/> that received the event.</param>
+        /// <param name="sender">The <see cref="ChromaParameters"/> that received the event.</param>
         public delegate void KeyChromaParametersEventHandler(object sender);
 
         /// <summary>

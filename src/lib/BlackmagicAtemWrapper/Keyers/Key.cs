@@ -119,19 +119,19 @@ namespace BlackmagicAtemWrapper.Keyers
 
         #region QueryInterface fields
         /// <summary>
-        /// Gets the <see cref="KeyLumaParameters"/> property.
+        /// Gets the <see cref="Keyers.LumaParameters"/> property.
         /// </summary>
-        public KeyLumaParameters LumaParameters
+        public LumaParameters LumaParameters
         {
-            get { return new KeyLumaParameters(this.InternalSwitcherKeyReference as IBMDSwitcherKeyLumaParameters); }
+            get { return new LumaParameters(this.InternalSwitcherKeyReference as IBMDSwitcherKeyLumaParameters); }
         }
 
         /// <summary>
-        /// Gets the <see cref="KeyChromaParameters"/> property.
+        /// Gets the <see cref="Keyers.ChromaParameters"/> property.
         /// </summary>
-        public KeyChromaParameters ChromaParameters
+        public ChromaParameters ChromaParameters
         {
-            get { return new KeyChromaParameters(this.InternalSwitcherKeyReference as IBMDSwitcherKeyChromaParameters); }
+            get { return new ChromaParameters(this.InternalSwitcherKeyReference as IBMDSwitcherKeyChromaParameters); }
         }
 
         /// <summary>

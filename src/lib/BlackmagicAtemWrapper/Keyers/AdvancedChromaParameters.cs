@@ -30,7 +30,7 @@ namespace BlackmagicAtemWrapper.Keyers
     using BMDSwitcherAPI;
 
     /// <summary>
-    /// <para>The IBMDSwitcherKeyAdvancedChromaParameters object interface is used for manipulating settings specific to the advanced chroma type key.</para>
+    /// <para>The AdvancedChromaParameters class is used for manipulating settings specific to the advanced chroma type key.</para>
     /// <para>Advanced chroma key is an improved version of chroma key and is not available on all models of switchers.</para>
     /// <para>Use <see cref="Key.DoesSupportAdvancedChroma"/> to determine if a switcher supports the IBMDSwitcherKeyAdvancedChromaParameters interface.</para>
     /// </summary>

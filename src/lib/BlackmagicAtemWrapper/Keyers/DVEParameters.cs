@@ -30,7 +30,7 @@ namespace BlackmagicAtemWrapper.Keyers
     using BMDSwitcherAPI;
 
     /// <summary>
-    /// The KeyDVEParameters object is used for manipulating settings specific to the DVE-type key. Note that properties that affect a fly key also affects a DVE key; they are access through the IBMDSwitcherKeyFlyParameters object interface. Also note that the mask properties in this interface only affect keys with their type set to DVE.
+    /// The DVEParameters object is used for manipulating settings specific to the DVE-type key. Note that properties that affect a fly key also affects a DVE key; they are access through the IBMDSwitcherKeyFlyParameters object interface. Also note that the mask properties in this interface only affect keys with their type set to DVE.
     /// </summary>
     /// <remarks>Blackmagic Switcher SDK - 5.2.12</remarks>
     public class DVEParameters : IBMDSwitcherKeyDVEParametersCallback
