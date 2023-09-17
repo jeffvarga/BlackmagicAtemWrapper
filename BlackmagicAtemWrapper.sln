@@ -1,15 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30907.101
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34024.191
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlackmagicAtemWrapper", "src\lib\BlackmagicAtemWrapper\BlackmagicAtemWrapper.csproj", "{60074266-C06B-45C2-9ACB-A05FD571BE5F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlackmagicAtemWrapper", "src\lib\BlackmagicAtemWrapper\BlackmagicAtemWrapper.csproj", "{60074266-C06B-45C2-9ACB-A05FD571BE5F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AtemMiniTest", "src\test\AtemMiniTest\AtemMiniTest.csproj", "{CE86B58D-F721-4941-B371-3795E07054C1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AtemMiniTest", "src\test\AtemMiniTest\AtemMiniTest.csproj", "{CE86B58D-F721-4941-B371-3795E07054C1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{74AB1A23-50DF-445F-8E4E-755D4474E6FB}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
+		.github\ISSUE_TEMPLATE\bug_report.md = .github\ISSUE_TEMPLATE\bug_report.md
+		.github\ISSUE_TEMPLATE\feature_request.md = .github\ISSUE_TEMPLATE\feature_request.md
 		LICENSE = LICENSE
 		README.md = README.md
 	EndProjectSection

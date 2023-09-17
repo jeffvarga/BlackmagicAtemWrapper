@@ -611,10 +611,10 @@ namespace BlackmagicAtemWrapper.Keyers
         /// <returns>IBMDSwitcherKeyFlyKeyFrameParameters object interface.</returns>
         /// <exception cref="ArgumentException">The <paramref name="keyFrame"/> parameter is invalid.</exception>
         /// <remarks>Blackmagic Switcher SDK - 5.2.14.25</remarks>
-        public IBMDSwitcherKeyFlyKeyFrameParameters GetKeyFrameParameters(_BMDSwitcherFlyKeyFrame keyFrame)
+        public FlyKeyFrameParameters GetKeyFrameParameters(_BMDSwitcherFlyKeyFrame keyFrame)
         {
             this.InternalFlyParametersReference.GetKeyFrameParameters(keyFrame, out IBMDSwitcherKeyFlyKeyFrameParameters keyFrameParameters);
-            return keyFrameParameters;
+            return new FlyKeyFrameParameters(keyFrameParameters);
         }
 
         /// <summary>
