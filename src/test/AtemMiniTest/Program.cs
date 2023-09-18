@@ -38,6 +38,29 @@
             }
             catch { };
 
+            Console.WriteLine("Downstream Keys");
+            foreach (BMD.Keyers.DownstreamKey dsk in switcher.DownstreamKeys)
+            {
+                Console.WriteLine("  Key:");
+                Console.WriteLine($"    OnAir: {dsk.OnAir}");
+                Console.WriteLine($"    InputCut: {dsk.InputCut}");
+                Console.WriteLine($"    InputFill: {dsk.InputFill}");
+                Console.WriteLine($"    FillInputAvailabilityMask: {dsk.FillInputAvailabilityMask.ToBitString()}");
+                Console.WriteLine($"    CutInputAvailabilityMask: {dsk.CutInputAvailabilityMask.ToBitString()}");
+                Console.WriteLine($"    Tie: {dsk.Tie}");
+                Console.WriteLine($"    Rate: {dsk.Rate}");
+                Console.WriteLine($"    IsTransitioning: {dsk.IsTransitioning}");
+                Console.WriteLine($"    IsAutoTransitioning: {dsk.IsAutoTransitioning}");
+                Console.WriteLine($"    IsTransitionTowardsOnAir: {dsk.IsTransitionTowardsOnAir}");
+                Console.WriteLine($"    FramesRemaining: {dsk.FramesRemaining}");
+                Console.WriteLine($"    PreMultiplied: {dsk.PreMultiplied}");
+                Console.WriteLine($"    Clip: {dsk.Clip}");
+                Console.WriteLine($"    Gain: {dsk.Gain}");
+                Console.WriteLine($"    IsInverse: {dsk.IsInverse}");
+                Console.WriteLine($"    IsMasked: {dsk.IsMasked}");
+                Console.WriteLine($"    Mask: (({dsk.MaskLeft}, {dsk.MaskTop}), ({dsk.MaskRight}, {dsk.MaskBottom}))");
+            }
+
             foreach (BMD.MixEffectBlock meb in switcher.MixEffectBlocks)
             {
                 Console.WriteLine("MixEffectBlock:");
