@@ -43,6 +43,35 @@
                 Console.WriteLine("MixEffectBlock:");
                 Console.WriteLine($"  ProgramInput: {meb.ProgramInput}");
                 Console.WriteLine($"  PreviewInput: {meb.PreviewInput}");
+
+                foreach (BMD.Keyers.Key key in meb.SwitcherKeys)
+                {
+                    Console.WriteLine("    Key:");
+                    BMD.Keyers.DVEParameters dp = key.DVEParameters;
+                    Console.WriteLine("      DVE:");
+                    Console.WriteLine($"        IsBorderEnabled: {dp.IsBorderEnabled}");
+
+                    BMD.Keyers.FlyParameters fp = key.FlyParameters;
+                    Console.WriteLine("      Fly:");
+                    Console.WriteLine($"        FlyEnabled: {fp.FlyEnabled}");
+                    Console.WriteLine($"        CanFly: {fp.CanFly}");
+                    Console.WriteLine($"        PositionX: {fp.PositionX}");
+                    Console.WriteLine($"        PositionY: {fp.PositionY}");
+                    Console.WriteLine($"        SizeX: {fp.SizeX}");
+                    Console.WriteLine($"        SizeY: {fp.SizeY}");
+
+                    Console.WriteLine("        KeyFrames:");
+                    foreach (_BMDSwitcherFlyKeyFrame keyFrame in typeof(_BMDSwitcherFlyKeyFrame).GetEnumValues())
+                    {
+                        Console.WriteLine($"          {keyFrame}: {fp.IsKeyFrameStored(keyFrame)}");
+                        if (fp.IsAtKeyFrames().HasFlag(keyFrame))
+                        {
+                            var x = fp.GetKeyFrameParameters(_BMDSwitcherFlyKeyFrame.bmdSwitcherFlyKeyFrameFull);
+                        }
+                    }
+
+                    Console.WriteLine($"      DoesSupportAdvancedChromaKey: {key.DoesSupportAdvancedChroma}");
+                }
             }
 
             foreach (BMD.Input input in switcher.Inputs)

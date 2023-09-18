@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// <copyright file="KeyCollection.cs">
+// <copyright file="DownstreamKeyCollection.cs">
 //   Copyright (c) 2023 Jeff Varga
 //
 //   Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -31,23 +31,23 @@ namespace BlackmagicAtemWrapper.Keyers
     using BMDSwitcherAPI;
 
     /// <summary>
-    /// The KeyCollection class is used to iterate over Keys.
+    /// The DownstreamKey class is used to iterate over DownstreamKeys.
     /// </summary>
-    /// <remarks>Wraps Blackmagic Switcher SDK - 5.2.1</remarks>
-    public class KeyCollection : IEnumerable<Key>
+    /// <remarks>Wraps Blackmagic Switcher SDK - 5.2.18</remarks>
+    public class DownstreamKeyCollection : IEnumerable<DownstreamKey>
     {
         /// <summary>
         /// Internal reference to the raw <seealso cref="IBMDSwitcherKeyIterator"/>.
         /// </summary>
-        private readonly IBMDSwitcherKeyIterator InternalSwitcherKeyIteratorReference;
+        private readonly IBMDSwitcherDownstreamKeyIterator InternalDownstreamKeyIteratorReference;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="KeyCollection"/> class.
+        /// Initializes a new instance of the <see cref="DownstreamKeyCollection"/> class.
         /// </summary>
-        /// <param name="switcherKeyIterator">The native <seealso cref="IBMDSwitcherKeyIterator"/> from the BMDSwitcherAPI.</param>
-        public KeyCollection(IBMDSwitcherKeyIterator switcherKeyIterator)
+        /// <param name="switcherKeyIterator">The native <seealso cref="IBMDSwitcherDownstreamKeyIterator"/> from the BMDSwitcherAPI.</param>
+        public DownstreamKeyCollection(IBMDSwitcherDownstreamKeyIterator switcherKeyIterator)
         {
-            this.InternalSwitcherKeyIteratorReference = switcherKeyIterator;
+            this.InternalDownstreamKeyIteratorReference = switcherKeyIterator;
         }
 
         /// <summary>
@@ -55,15 +55,15 @@ namespace BlackmagicAtemWrapper.Keyers
         /// </summary>
         /// <param name="mixEffectBlock">The native <seealso cref="IBMDSwitcherMixEffectBlock"/> from the BMDSwitcherAPI.</param>
         /// <exception cref="ArgumentNullException"><paramref name="mixEffectBlock"/> was null.</exception>
-        public KeyCollection(IBMDSwitcherMixEffectBlock mixEffectBlock)
+        public DownstreamKeyCollection(IBMDSwitcherMixEffectBlock mixEffectBlock)
         {
             if (null == mixEffectBlock)
             {
                 throw new ArgumentNullException(nameof(mixEffectBlock));
             }
 
-            mixEffectBlock.CreateIterator(typeof(IBMDSwitcherKeyIterator).GUID, out IntPtr mebIteratorPtr);
-            this.InternalSwitcherKeyIteratorReference = Marshal.GetObjectForIUnknown(mebIteratorPtr) as IBMDSwitcherKeyIterator;
+            mixEffectBlock.CreateIterator(typeof(IBMDSwitcherDownstreamKeyIterator).GUID, out IntPtr mebIteratorPtr);
+            this.InternalDownstreamKeyIteratorReference = Marshal.GetObjectForIUnknown(mebIteratorPtr) as IBMDSwitcherDownstreamKeyIterator;
 
             return;
         }
@@ -73,15 +73,15 @@ namespace BlackmagicAtemWrapper.Keyers
         /// Returns an enumerator that iterates through the collection.
         /// </summary>
         /// <returns>Enumerator that iterates through the collection.</returns>
-        public IEnumerator<Key> GetEnumerator()
+        public IEnumerator<DownstreamKey> GetEnumerator()
         {
             while (true)
             {
-                this.InternalSwitcherKeyIteratorReference.Next(out IBMDSwitcherKey input);
+                this.InternalDownstreamKeyIteratorReference.Next(out IBMDSwitcherDownstreamKey input);
 
                 if (input != null)
                 {
-                    yield return new Key(input);
+                    yield return new DownstreamKey(input);
                 }
                 else
                 {
