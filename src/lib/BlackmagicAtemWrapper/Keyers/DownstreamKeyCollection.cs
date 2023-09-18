@@ -51,18 +51,18 @@ namespace BlackmagicAtemWrapper.Keyers
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="KeyCollection"/> class from a <seealso cref="IBMDSwitcherMixEffectBlock"/>.
+        /// Initializes a new instance of the <see cref="DownstreamKeyCollection"/> class from a <seealso cref="IBMDSwitcherMixEffectBlock"/>.
         /// </summary>
-        /// <param name="mixEffectBlock">The native <seealso cref="IBMDSwitcherMixEffectBlock"/> from the BMDSwitcherAPI.</param>
-        /// <exception cref="ArgumentNullException"><paramref name="mixEffectBlock"/> was null.</exception>
-        public DownstreamKeyCollection(IBMDSwitcherMixEffectBlock mixEffectBlock)
+        /// <param name="switcher">The native <seealso cref="IBMDSwitcher"/> from the BMDSwitcherAPI.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="switcher"/> was null.</exception>
+        public DownstreamKeyCollection(IBMDSwitcher switcher)
         {
-            if (null == mixEffectBlock)
+            if (null == switcher)
             {
-                throw new ArgumentNullException(nameof(mixEffectBlock));
+                throw new ArgumentNullException(nameof(switcher));
             }
 
-            mixEffectBlock.CreateIterator(typeof(IBMDSwitcherDownstreamKeyIterator).GUID, out IntPtr mebIteratorPtr);
+            switcher.CreateIterator(typeof(IBMDSwitcherDownstreamKeyIterator).GUID, out IntPtr mebIteratorPtr);
             this.InternalDownstreamKeyIteratorReference = Marshal.GetObjectForIUnknown(mebIteratorPtr) as IBMDSwitcherDownstreamKeyIterator;
 
             return;

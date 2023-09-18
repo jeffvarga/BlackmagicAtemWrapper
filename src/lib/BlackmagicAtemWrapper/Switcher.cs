@@ -194,6 +194,14 @@ namespace BlackmagicAtemWrapper
         }
 
         /// <summary>
+        /// Gets the <see cref="Keyers.DownstreamKeyCollection"/> representing the available downstream keyers.
+        /// </summary>
+        public Keyers.DownstreamKeyCollection DownstreamKeys
+        {
+            get { return new Keyers.DownstreamKeyCollection(this.InternalSwitcherReference); }
+        }
+
+        /// <summary>
         /// Gets the operating state object which can be used to save and recall state.
         /// </summary>
         public SaveRecall OperatingState

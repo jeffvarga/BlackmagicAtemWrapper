@@ -781,7 +781,7 @@ namespace BlackmagicAtemWrapper.Keyers
         /// The GetMaskTop method returns the current mask top value.
         /// </summary>
         /// <returns>The current mask top value.</returns>
-        /// <remarks>Blackmagic Switcher SDK - 5.2.19.29/remarks>
+        /// <remarks>Blackmagic Switcher SDK - 5.2.19.29</remarks>
         public double GetMaskTop()
         {
             this.InternalDownstreamKeyReference.GetMaskTop(out double maskTop);
