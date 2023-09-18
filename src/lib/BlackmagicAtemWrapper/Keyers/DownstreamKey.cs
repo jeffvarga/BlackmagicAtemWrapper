@@ -228,7 +228,7 @@ namespace BlackmagicAtemWrapper.Keyers
             get
             {
                 this.InternalDownstreamKeyReference.IsTransitioning(out int isTransitioning);
-                return Convert.ToBoolean(IsTransitioning);
+                return Convert.ToBoolean(isTransitioning);
             }
         }
 
@@ -253,7 +253,7 @@ namespace BlackmagicAtemWrapper.Keyers
             get
             {
                 this.InternalDownstreamKeyReference.IsTransitionTowardsOnAir(out int isTransitionTowardsOnAir);
-                return Convert.ToBoolean(IsTransitionTowardsOnAir);
+                return Convert.ToBoolean(isTransitionTowardsOnAir);
             }
         }
 
