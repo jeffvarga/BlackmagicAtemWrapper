@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// <copyright file="TransitionMixParameters.cs">
+// <copyright file="MixParameters.cs">
 //   Copyright (c) 2023 Jeff Varga
 //
 //   Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -22,59 +22,54 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-namespace BlackmagicAtemWrapper
+namespace BlackmagicAtemWrapper.Transitions
 {
     using System;
-    using System.Diagnostics;
     using System.Runtime.InteropServices;
-    using System.Security.Cryptography;
-    using System.Threading.Channels;
-    using System.Threading;
     using BlackmagicAtemWrapper.utility;
     using BMDSwitcherAPI;
-    using Microsoft.VisualBasic;
 
     /// <summary>
-    /// The TransitionMixParameters class is used for manipulating transition settings specific to mix parameters.
+    /// The MixParameters class is used for manipulating transition settings specific to mix parameters.
     /// </summary>
     /// <remarks>Blackmagic Switcher SDK - 3.2.1</remarks>
-    public class TransitionMixParameters : IBMDSwitcherTransitionMixParametersCallback
+    public class MixParameters : IBMDSwitcherTransitionMixParametersCallback
     {
         /// <summary>
         /// Internal reference to the raw <seealso cref="IBMDSwitcherMixEffectBlock"/>.
         /// </summary>
-        private readonly IBMDSwitcherTransitionMixParameters InternalTransitionMixParametersReference;
+        private readonly IBMDSwitcherTransitionMixParameters InternalMixParametersReference;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TransitionMixParameters"/> class.
+        /// Initializes a new instance of the <see cref="MixParameters"/> class.
         /// </summary>
-        /// <param name="transitionMixParameters">The native <seealso cref="IBMDSwitcherTransitionMixParameters"/> from the BMDSwitcherAPI.</param>
-        public TransitionMixParameters(IBMDSwitcherTransitionMixParameters transitionMixParameters)
+        /// <param name="mixParameters">The native <seealso cref="IBMDSwitcherTransitionMixParameters"/> from the BMDSwitcherAPI.</param>
+        public MixParameters(IBMDSwitcherTransitionMixParameters mixParameters)
         {
-            this.InternalTransitionMixParametersReference = transitionMixParameters ?? throw new ArgumentNullException(nameof(transitionMixParameters));
-            this.InternalTransitionMixParametersReference.AddCallback(this);
+            this.InternalMixParametersReference = mixParameters ?? throw new ArgumentNullException(nameof(mixParameters));
+            this.InternalMixParametersReference.AddCallback(this);
         }
 
         /// <summary>
-        /// Finalizes an instance of the <see cref="TransitionMixParameters"/> class.
+        /// Finalizes an instance of the <see cref="MixParameters"/> class.
         /// </summary>
-        ~TransitionMixParameters()
+        ~MixParameters()
         {
-            this.InternalTransitionMixParametersReference.RemoveCallback(this);
-            _ = Marshal.ReleaseComObject(this.InternalTransitionMixParametersReference);
+            this.InternalMixParametersReference.RemoveCallback(this);
+            _ = Marshal.ReleaseComObject(this.InternalMixParametersReference);
         }
 
         #region Events
         /// <summary>
-        /// A delegate to handle events from <see cref="TransitionMixParameters"/>.
+        /// A delegate to handle events from <see cref="MixParameters"/>.
         /// </summary>
-        /// <param name="sender">The <see cref="TransitionMixParameters"/> that received the event.</param>
-        public delegate void TransitionMixParametersEventHandler(object sender);
+        /// <param name="sender">The <see cref="MixParameters"/> that received the event.</param>
+        public delegate void MixParametersEventHandler(object sender);
 
         /// <summary>
         /// The <see cref="Rate"/> changed.
         /// </summary>
-        public event TransitionMixParametersEventHandler OnRateChanged;
+        public event MixParametersEventHandler OnRateChanged;
         #endregion
 
         #region Properties
@@ -96,7 +91,7 @@ namespace BlackmagicAtemWrapper
         /// <remarks>Blackmagic Switcher SDK - 3.2.1</remarks>
         public uint GetRate()
         {
-            this.InternalTransitionMixParametersReference.GetRate(out uint frameRate);
+            this.InternalMixParametersReference.GetRate(out uint frameRate);
             return frameRate;
         }
 
@@ -110,7 +105,7 @@ namespace BlackmagicAtemWrapper
         {
             try
             {
-                this.InternalTransitionMixParametersReference.SetRate(frameRate);
+                this.InternalMixParametersReference.SetRate(frameRate);
                 return;
             }
             catch (COMException e)
