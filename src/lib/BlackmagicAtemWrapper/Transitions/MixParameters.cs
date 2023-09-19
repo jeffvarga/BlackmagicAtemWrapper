@@ -88,7 +88,7 @@ namespace BlackmagicAtemWrapper.Transitions
         /// The GetRate method returns the current rate in frames.
         /// </summary>
         /// <returns>The current rate.</returns>
-        /// <remarks>Blackmagic Switcher SDK - 3.2.1</remarks>
+        /// <remarks>Blackmagic Switcher SDK - 3.2.1.1</remarks>
         public uint GetRate()
         {
             this.InternalMixParametersReference.GetRate(out uint frameRate);
