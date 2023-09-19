@@ -148,6 +148,11 @@ namespace BlackmagicAtemWrapper
         public Transitions.DipParameters TransitionDipParameters => new(this.mixEffectBlock as IBMDSwitcherTransitionDipParameters);
 
         /// <summary>
+        /// Gets the transition wipe parameters object.
+        /// </summary>
+        public Transitions.WipeParameters TransitionWipeParameters => new(this.mixEffectBlock as IBMDSwitcherTransitionWipeParameters);
+
+        /// <summary>
         /// Gets the collection of <see cref="Keyers.Key"/> objects for the <see cref="MixEffectBlock"/>.
         /// </summary>
         public Keyers.KeyCollection SwitcherKeys
