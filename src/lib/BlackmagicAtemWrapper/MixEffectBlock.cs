@@ -158,6 +158,11 @@ namespace BlackmagicAtemWrapper
         public Transitions.DVEParameters TransitionDVEParameters => new(this.mixEffectBlock as IBMDSwitcherTransitionDVEParameters);
 
         /// <summary>
+        /// Gets the transition stinger parameters object.
+        /// </summary>
+        public Transitions.StingerParameters TransitionStingerParameters => new(this.mixEffectBlock as IBMDSwitcherTransitionStingerParameters);
+
+        /// <summary>
         /// Gets the collection of <see cref="Keyers.Key"/> objects for the <see cref="MixEffectBlock"/>.
         /// </summary>
         public Keyers.KeyCollection SwitcherKeys
