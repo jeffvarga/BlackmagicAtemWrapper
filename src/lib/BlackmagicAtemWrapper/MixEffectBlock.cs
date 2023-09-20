@@ -133,9 +133,9 @@ namespace BlackmagicAtemWrapper
         #endregion
 
         /// <summary>
-        /// Eventually convert this to a class
+        /// Gets the transition parameters object.
         /// </summary>
-        public IBMDSwitcherTransitionParameters TransitionParameters => this.mixEffectBlock as IBMDSwitcherTransitionParameters;
+        public Transitions.TransitionParameters TransitionParameters => new(this.mixEffectBlock as IBMDSwitcherTransitionParameters);
 
         /// <summary>
         /// Gets the transition mix parameters object.
