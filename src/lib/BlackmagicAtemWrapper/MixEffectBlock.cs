@@ -165,13 +165,7 @@ namespace BlackmagicAtemWrapper
         /// <summary>
         /// Gets the collection of <see cref="Keyers.Key"/> objects for the <see cref="MixEffectBlock"/>.
         /// </summary>
-        public Keyers.KeyCollection SwitcherKeys
-        {
-            get
-            {
-                return new Keyers.KeyCollection(this.mixEffectBlock);
-            }
-        }
+        public Keyers.KeyCollection SwitcherKeys => new(this.mixEffectBlock);
 
         #region Properties
         /// <summary>

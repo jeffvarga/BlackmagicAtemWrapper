@@ -583,7 +583,7 @@ namespace BlackmagicAtemWrapper.Transitions
         /// <para>The return value (required by COM) is ignored by the caller.</para>
         /// </summary>
         /// <param name="eventType">BMDSwitcherTransitionWipeParametersEventType that describes the type of event that has occurred.</param>
-        /// <remarks>Blackmagic Switcher SDK - 3.2.7.1</remarks>
+        /// <remarks>Blackmagic Switcher SDK - 3.2.5.1</remarks>
         void IBMDSwitcherTransitionWipeParametersCallback.Notify(_BMDSwitcherTransitionWipeParametersEventType eventType)
         {
             switch (eventType)
