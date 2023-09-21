@@ -220,6 +220,8 @@ namespace BlackmagicAtemWrapper
             }
         }
 
+        public Streaming.StreamRTMP Stream => new(this.InternalSwitcherReference as IBMDSwitcherStreamRTMP);
+
         /// <summary>
         /// Gets the product name of the switcher.
         /// </summary>
