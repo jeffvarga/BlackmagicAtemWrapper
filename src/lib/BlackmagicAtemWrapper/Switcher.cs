@@ -220,7 +220,15 @@ namespace BlackmagicAtemWrapper
             }
         }
 
+        /// <summary>
+        /// Gets the switcher's <see cref="Streaming.StreamRTMP"/> interface.
+        /// </summary>
         public Streaming.StreamRTMP Stream => new(this.InternalSwitcherReference as IBMDSwitcherStreamRTMP);
+
+        /// <summary>
+        /// Gets the switcher's <see cref="Macros.MacroPool"/>
+        /// </summary>
+        public Macros.MacroPool MacroPool => new(this.InternalSwitcherReference as IBMDSwitcherMacroPool);
 
         /// <summary>
         /// Gets the product name of the switcher.
