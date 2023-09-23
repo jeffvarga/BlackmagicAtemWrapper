@@ -231,6 +231,11 @@ namespace BlackmagicAtemWrapper
         public Macros.MacroPool MacroPool => new(this.InternalSwitcherReference as IBMDSwitcherMacroPool);
 
         /// <summary>
+        /// Gets the switcher's <see cref="Macros.MacroControl"/>.
+        /// </summary>
+        public Macros.MacroControl MacroControl => new(this.InternalSwitcherReference as IBMDSwitcherMacroControl);
+
+        /// <summary>
         /// Gets the product name of the switcher.
         /// </summary>
         public string ProductName
