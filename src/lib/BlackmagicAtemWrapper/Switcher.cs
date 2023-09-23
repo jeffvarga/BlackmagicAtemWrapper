@@ -271,6 +271,19 @@ namespace BlackmagicAtemWrapper
         }
 
         /// <summary>
+        /// Gets or sets a value indicating whehter setting the video output colorimetry mode is supported by the switcher.
+        /// </summary>
+        /// <remarks>Blackmagic Switcher SDK - 2.3.2.15</remarks>
+        public bool DoesSupportColorimetrySetting
+        {
+            get
+            {
+                this.InternalSwitcherReference.DoesSupportColorimetrySetting(out int supported);
+                return Convert.ToBoolean(supported);
+            }
+        }
+
+        /// <summary>
         /// Gets a value indicating the current timecode locked flag.
         /// </summary>
         public bool IsTimeCodeLocked
