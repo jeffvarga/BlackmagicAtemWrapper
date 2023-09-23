@@ -62,109 +62,92 @@ namespace BlackmagicAtemWrapper.Keyers
 
         #region Events
         /// <summary>
-        /// The can-be-DVE flag changed.
+        /// A delegate to handle events from <see cref="Key"/>.
         /// </summary>
-        public event SwitcherEventHandler OnCanBeDVEKeyChanged;
+        /// <param name="sender">The <see cref="Key"/> that received the event.</param>
+        public delegate void KeyEventHandler(object sender);
 
         /// <summary>
-        /// The cut input source changed.
+        /// The <see cref="CanBeDVEKey"/> flag changed.
         /// </summary>
-        public event SwitcherEventHandler OnInputCutChanged;
+        public event KeyEventHandler OnCanBeDVEKeyChanged;
 
         /// <summary>
-        /// The fill input source changed. 
+        /// The <see cref="CutInput"/> source changed.
         /// </summary>
-        public event SwitcherEventHandler OnInputFillChanged;
+        public event KeyEventHandler OnCutInputChanged;
 
         /// <summary>
-        /// The mask bottom value changed.
+        /// The <see cref="FillInput"/> source changed. 
         /// </summary>
-        public event SwitcherEventHandler OnMaskBottomChanged;
+        public event KeyEventHandler OnFillInputChanged;
 
         /// <summary>
-        /// The masked flag changed.
+        /// The <see cref="MaskBottom"/> value changed.
         /// </summary>
-        public event SwitcherEventHandler OnMaskedChanged;
+        public event KeyEventHandler OnMaskBottomChanged;
 
         /// <summary>
-        /// The mask left value changed. 
+        /// The <see cref="IsMasked"/> flag changed.
         /// </summary>
-        public event SwitcherEventHandler OnMaskLeftChanged;
+        public event KeyEventHandler OnMaskedChanged;
 
         /// <summary>
-        /// The mask right value changed.
+        /// The <see cref="MaskLeft"/> value changed. 
         /// </summary>
-        public event SwitcherEventHandler OnMaskRightChanged;
+        public event KeyEventHandler OnMaskLeftChanged;
 
         /// <summary>
-        /// The mask top value changed.
+        /// The <see cref="MaskRight"/> value changed.
         /// </summary>
-        public event SwitcherEventHandler OnMaskTopChanged;
+        public event KeyEventHandler OnMaskRightChanged;
 
         /// <summary>
-        /// The on-air flag changed.
+        /// The <see cref="MaskTop"/> value changed.
         /// </summary>
-        public event SwitcherEventHandler OnOnAirChanged;
+        public event KeyEventHandler OnMaskTopChanged;
 
         /// <summary>
-        /// The type changed.
+        /// The <see cref="IsOnAir"/> flag changed.
         /// </summary>
-        public event SwitcherEventHandler OnTypeChanged;
+        public event KeyEventHandler OnOnAirChanged;
 
         /// <summary>
-        /// An IBMDSwitcherKeyCallback event occurred.
+        /// The <see cref="Type"/> changed.
         /// </summary>
-        public event SwitcherEventHandler OnNotify;
+        public event KeyEventHandler OnTypeChanged;
         #endregion
 
         #region QueryInterface fields
         /// <summary>
         /// Gets the <see cref="Keyers.LumaParameters"/> property.
         /// </summary>
-        public LumaParameters LumaParameters
-        {
-            get { return new LumaParameters(this.InternalSwitcherKeyReference as IBMDSwitcherKeyLumaParameters); }
-        }
+        public LumaParameters LumaParameters => new(this.InternalSwitcherKeyReference as IBMDSwitcherKeyLumaParameters);
 
         /// <summary>
         /// Gets the <see cref="Keyers.ChromaParameters"/> property.
         /// </summary>
-        public ChromaParameters ChromaParameters
-        {
-            get { return new ChromaParameters(this.InternalSwitcherKeyReference as IBMDSwitcherKeyChromaParameters); }
-        }
+        public ChromaParameters ChromaParameters => new(this.InternalSwitcherKeyReference as IBMDSwitcherKeyChromaParameters);
 
         /// <summary>
         /// Gets the <see cref="AdvancedChromaParameters"/> object.
         /// </summary>
-        public AdvancedChromaParameters AdvancedChromaParameters
-        {
-            get { return new AdvancedChromaParameters(this.InternalSwitcherKeyReference as IBMDSwitcherKeyAdvancedChromaParameters); }
-        }
+        public AdvancedChromaParameters AdvancedChromaParameters => new(this.InternalSwitcherKeyReference as IBMDSwitcherKeyAdvancedChromaParameters);
 
         /// <summary>
         /// Gets the <see cref="PatternParameters"/> property
         /// </summary>
-        public PatternParameters PatternParameters
-        {
-            get { return new PatternParameters(this.InternalSwitcherKeyReference as IBMDSwitcherKeyPatternParameters); }
-        }
+        public PatternParameters PatternParameters => new(this.InternalSwitcherKeyReference as IBMDSwitcherKeyPatternParameters);
 
         /// <summary>
         /// Gets the <see cref="DVEParameters"/> property
         /// </summary>
-        public DVEParameters DVEParameters
-        {
-            get { return new DVEParameters(this.InternalSwitcherKeyReference as IBMDSwitcherKeyDVEParameters); }
-        }
+        public DVEParameters DVEParameters => new(this.InternalSwitcherKeyReference as IBMDSwitcherKeyDVEParameters);
 
         /// <summary>
         /// Gets the <see cref="FlyParameters"/> property
         /// </summary>
-        public FlyParameters FlyParameters
-        {
-            get { return new FlyParameters(this.InternalSwitcherKeyReference as IBMDSwitcherKeyFlyParameters); }
-        }
+        public FlyParameters FlyParameters => new(this.InternalSwitcherKeyReference as IBMDSwitcherKeyFlyParameters);
         #endregion
 
         #region Properties
@@ -182,9 +165,7 @@ namespace BlackmagicAtemWrapper.Keyers
         }
 
         /// <summary>
-        /// Gets a value indicating whether this key can be set to the DVE type. The DVE
-        /// hardware is a shared resource; if another component is currently using the resource, it may not be
-        /// available for this key
+        /// Gets a value indicating whether this key can be set to the DVE type. The DVE hardware is a shared resource; if another component is currently using the resource, it may not be available for this key.
         /// </summary>
         /// <returns>Boolean status of whether this key can be a DVE key</returns>
         /// <remarks>Blackmagic Switcher SDK - 5.2.2.12</remarks>
@@ -196,7 +177,7 @@ namespace BlackmagicAtemWrapper.Keyers
                 return Convert.ToBoolean(canDVE);
             }
         }
-        
+
         /// <summary>
         /// Gets or sets the current key type.
         /// </summary>
@@ -209,7 +190,7 @@ namespace BlackmagicAtemWrapper.Keyers
         /// <summary>
         /// Gets or sets the current cut input source.
         /// </summary>
-        public long InputCut
+        public long CutInput
         {
             get { return this.GetInputCut(); }
             set { this.SetInputCut(value); }
@@ -218,7 +199,7 @@ namespace BlackmagicAtemWrapper.Keyers
         /// <summary>
         /// Gets or sets the current fill input source.
         /// </summary>
-        public long InputFill
+        public long FillInput
         {
             get { return this.GetInputFill(); }
             set { this.SetinputFill(value); }
@@ -243,7 +224,7 @@ namespace BlackmagicAtemWrapper.Keyers
         /// <summary>
         /// Gets or sets a value indicating whether the current key is on-air.
         /// </summary>
-        public bool OnAir
+        public bool IsOnAir
         {
             get { return this.GetOnAir(); }
             set { this.SetOnAir(value); }
@@ -252,7 +233,7 @@ namespace BlackmagicAtemWrapper.Keyers
         /// <summary>
         /// Gets or sets a value indicating whether the current key is masked.
         /// </summary>
-        public bool Masked
+        public bool IsMasked
         {
             get { return this.GetMasked(); }
             set { this.SetMasked(value); }
@@ -556,48 +537,46 @@ namespace BlackmagicAtemWrapper.Keyers
         /// <param name="eventType">BMDSwitcherKeyEventType that describes the type of event that has occurred.</param>
         void IBMDSwitcherKeyCallback.Notify(_BMDSwitcherKeyEventType eventType)
         {
-            this.OnNotify?.Invoke(this, eventType);
-
             switch (eventType)
             {
                 case _BMDSwitcherKeyEventType.bmdSwitcherKeyEventTypeCanBeDVEKeyChanged:
-                    this.OnCanBeDVEKeyChanged?.Invoke(this, null);
+                    this.OnCanBeDVEKeyChanged?.Invoke(this);
                     break;
 
                 case _BMDSwitcherKeyEventType.bmdSwitcherKeyEventTypeInputCutChanged:
-                    this.OnInputCutChanged?.Invoke(this, null);
+                    this.OnCutInputChanged?.Invoke(this);
                     break;
 
                 case _BMDSwitcherKeyEventType.bmdSwitcherKeyEventTypeInputFillChanged:
-                    this.OnInputFillChanged?.Invoke(this, null);
+                    this.OnFillInputChanged?.Invoke(this);
                     break;
 
                 case _BMDSwitcherKeyEventType.bmdSwitcherKeyEventTypeMaskBottomChanged:
-                    this.OnMaskBottomChanged?.Invoke(this, null);
+                    this.OnMaskBottomChanged?.Invoke(this);
                     break;
 
                 case _BMDSwitcherKeyEventType.bmdSwitcherKeyEventTypeMaskedChanged:
-                    this.OnMaskedChanged?.Invoke(this, null);
+                    this.OnMaskedChanged?.Invoke(this);
                     break;
 
                 case _BMDSwitcherKeyEventType.bmdSwitcherKeyEventTypeMaskLeftChanged:
-                    this.OnMaskLeftChanged?.Invoke(this, null);
+                    this.OnMaskLeftChanged?.Invoke(this);
                     break;
 
                 case _BMDSwitcherKeyEventType.bmdSwitcherKeyEventTypeMaskRightChanged:
-                    this.OnMaskRightChanged?.Invoke(this, null);
+                    this.OnMaskRightChanged?.Invoke(this);
                     break;
 
                 case _BMDSwitcherKeyEventType.bmdSwitcherKeyEventTypeMaskTopChanged:
-                    this.OnMaskTopChanged?.Invoke(this, null);
+                    this.OnMaskTopChanged?.Invoke(this);
                     break;
 
                 case _BMDSwitcherKeyEventType.bmdSwitcherKeyEventTypeOnAirChanged:
-                    this.OnOnAirChanged?.Invoke(this, null);
+                    this.OnOnAirChanged?.Invoke(this);
                     break;
 
                 case _BMDSwitcherKeyEventType.bmdSwitcherKeyEventTypeTypeChanged:
-                    this.OnTypeChanged?.Invoke(this, null);
+                    this.OnTypeChanged?.Invoke(this);
                     break;
             }
 
