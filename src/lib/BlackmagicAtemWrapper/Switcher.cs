@@ -28,6 +28,7 @@ namespace BlackmagicAtemWrapper
     using System.Collections.Generic;
     using System.Runtime.InteropServices;
     using BlackmagicAtemWrapper.device;
+    using BlackmagicAtemWrapper.utility;
     using BMDSwitcherAPI;
 
     /// <summary>
@@ -60,10 +61,20 @@ namespace BlackmagicAtemWrapper
             _ = Marshal.ReleaseComObject(this.InternalSwitcherReference);
         }
 
-        public delegate void VideoModeChangedHandler(object sender, _BMDSwitcherVideoMode arg);
-        public delegate void SwitcherEventHandler(object sender, object args);
-
         #region Events
+        /// <summary>
+        /// A delegate to handle events from <see cref="Switcher"/>.
+        /// </summary>
+        /// <param name="sender">The <see cref="Switcher"/> that received the event.</param>
+        /// <param name="videoMode">The video mode that was changed.</param>
+        public delegate void VideoModeChangedHandler(object sender, _BMDSwitcherVideoMode videoMode);
+
+        /// <summary>
+        /// A delegate to handle events from <see cref="Switcher"/>.
+        /// </summary>
+        /// <param name="sender">The <see cref="Switcher"/> that received the event.</param>
+        public delegate void SwitcherEventHandler(object sender);
+
         /// <summary>
         /// The video standard changed.
         /// </summary>
@@ -147,6 +158,9 @@ namespace BlackmagicAtemWrapper
             }
         }
 
+        /// <summary>
+        /// Enumerates the available <see cref="MultiView"/> objects on the switcher.
+        /// </summary>
         public MultiViewCollection MultiViews
         {
             get { return new MultiViewCollection(this.InternalSwitcherReference); }
@@ -235,6 +249,7 @@ namespace BlackmagicAtemWrapper
         /// </summary>
         public Macros.MacroControl MacroControl => new(this.InternalSwitcherReference as IBMDSwitcherMacroControl);
 
+        #region Properties
         /// <summary>
         /// Gets the product name of the switcher.
         /// </summary>
@@ -318,20 +333,6 @@ namespace BlackmagicAtemWrapper
         }
 
         /// <summary>
-        /// Gets a value indicating whether the switcher supports auto video mode.
-        /// </summary>
-        /// <exception cref="NotImplementedException">The switcher does not support auto video mode.</exception>
-        /// <remarks>Blackmagic Switcher SDK - 2.3.2.26</remarks>
-        public bool DoesSupportAutoVideoMode
-        {
-            get
-            {
-                this.InternalSwitcherReference.DoesSupportAutoVideoMode(out int supported);
-                return supported != 0;
-            }
-        }
-
-        /// <summary>
         /// Gets a value indicating the current state of the input video mode detection.
         /// </summary>
         public bool IsAutoVideoModeDetected
@@ -348,76 +349,35 @@ namespace BlackmagicAtemWrapper
             set { this.SetAutoVideoMode(value); }
         }
 
-        #region IBMDSwitcherCallback interface
         /// <summary>
-        /// <para>The Notify is called when IBMDSwitcher events occur, such as property changes.</para>
-        /// <para>This method is called from a separate thread created by the switcher SDK so care should be exercised when interacting with other threads.</para>
-        /// <para>Callbacks should be processed as quickly as possible to avoid delaying other callbacks or affecting the connection to the switcher.</para>
-        /// <para>The return value (required by COM) is ignored by the caller.</para>
+        /// The DoesSupportFadeToBlackEnabledSetting method determines if the switcher supports enabling and disabling Fade To Black control.
         /// </summary>
-        /// <param name="eventType"><seealso cref="_BMDSwitcherEventType"/> that describes the type of event that has occurred.</param>
-        /// <param name="coreVideoMode">Video standard for which the event was triggered. This parameter is used in bmdSwitcherEventTypeDownConverted, HDVideoModeChanged and bmdSwitcherEventTypeMultiViewVideo ModeChanged event types.</param>
-        void IBMDSwitcherCallback.Notify(_BMDSwitcherEventType eventType, _BMDSwitcherVideoMode coreVideoMode)
+        /// <remarks>Blackmagic Switcher SDK - 2.3.2.29</remarks>
+        public bool DoesSupportFadeToBlackEnabledSetting
         {
-            switch (eventType)
+            get
             {
-                case _BMDSwitcherEventType.bmdSwitcherEventTypeVideoModeChanged:
-                    this.OnVideoModeChanged?.Invoke(this, coreVideoMode);
-                    break;
-
-                case _BMDSwitcherEventType.bmdSwitcherEventTypeMethodForDownConvertedSDChanged:
-                    this.OnMethodForDownConvertedSDChanged?.Invoke(this, null);
-                    break;
-
-                case _BMDSwitcherEventType.bmdSwitcherEventTypeDownConvertedHDVideoModeChanged:
-                    this.OnDownConvertedHDVideoModeChanged?.Invoke(this, coreVideoMode);
-                    break;
-
-                case _BMDSwitcherEventType.bmdSwitcherEventTypeMultiViewVideoModeChanged:
-                    this.OnMultiViewVideoModeChanged?.Invoke(this, coreVideoMode);
-                    break;
-
-                case _BMDSwitcherEventType.bmdSwitcherEventTypePowerStatusChanged:
-                    this.OnPowerStatusChanged?.Invoke(this, null);
-                    break;
-
-                case _BMDSwitcherEventType.bmdSwitcherEventTypeDisconnected:
-                    this.OnDisconnected?.Invoke(this, null);
-                    break;
-
-                case _BMDSwitcherEventType.bmdSwitcherEventType3GSDIOutputLevelChanged:
-                    this.On3GSDIOutputLevelChanged?.Invoke(this, null);
-                    break;
-
-                case _BMDSwitcherEventType.bmdSwitcherEventTypeTimeCodeChanged:
-                    this.OnTimeCodeChanged?.Invoke(this, null);
-                    break;
-
-                case _BMDSwitcherEventType.bmdSwitcherEventTypeTimeCodeLockedChanged:
-                    this.OnTimeCodeLockedChanged?.Invoke(this, null);
-                    break;
-
-                case _BMDSwitcherEventType.bmdSwitcherEventTypeTimeCodeModeChanged:
-                    this.OnTimeCodeModeChanged?.Invoke(this, null);
-                    break;
-
-                case _BMDSwitcherEventType.bmdSwitcherEventTypeSuperSourceCascadeChanged:
-                    this.OnSuperSourceCascadeChanged?.Invoke(this, null);
-                    break;
-
-                case _BMDSwitcherEventType.bmdSwitcherEventTypeAutoVideoModeChanged:
-                    this.OnAutoVideoModeChanged?.Invoke(this, null);
-                    break;
-
-                case _BMDSwitcherEventType.bmdSwitcherEventTypeAutoVideoModeDetectedChanged:
-                    this.OnAutoVideoModeDetectedChanged?.Invoke(this, null);
-                    break;
+                this.InternalSwitcherReference.DoesSupportFadeToBlackEnabledSetting(out int supported);
+                return Convert.ToBoolean(supported);
             }
-
-            return;
         }
-        #endregion IBMDSwitcherCallback interface
 
+        /// <summary>
+        /// Gets a value indicating whether the switcher supports auto video mode.
+        /// </summary>
+        /// <exception cref="NotImplementedException">The switcher does not support auto video mode.</exception>
+        /// <remarks>Blackmagic Switcher SDK - 2.3.2.32</remarks>
+        public bool DoesSupportAutoVideoMode
+        {
+            get
+            {
+                this.InternalSwitcherReference.DoesSupportAutoVideoMode(out int supported);
+                return Convert.ToBoolean(supported);
+            }
+        }
+        #endregion
+
+        #region IBMDSwitcher
         /// <summary>
         /// The GetProductName method gets the product name of the switcher.
         /// </summary>
@@ -460,7 +420,7 @@ namespace BlackmagicAtemWrapper
         public bool DoesSupportVideoMode(_BMDSwitcherVideoMode videoMode)
         {
             this.InternalSwitcherReference.DoesSupportVideoMode(videoMode, out int supported);
-            return supported != 0;
+            return Convert.ToBoolean(supported);
         }
 
         /// <summary>
@@ -474,7 +434,7 @@ namespace BlackmagicAtemWrapper
         public bool DoesVideoModeChangeRequireReconfiguration(_BMDSwitcherVideoMode videoMode)
         {
             this.InternalSwitcherReference.DoesVideoModeChangeRequireReconfiguration(videoMode, out int required);
-            return required != 0;
+            return Convert.ToBoolean(required);
         }
 
         /// <summary>
@@ -543,7 +503,7 @@ namespace BlackmagicAtemWrapper
         public bool DoesSupportDownConvertedHDVideoMode(_BMDSwitcherVideoMode coreVideoMode, _BMDSwitcherVideoMode downConvertedHDVideoMode)
         {
             this.InternalSwitcherReference.DoesSupportDownConvertedHDVideoMode(coreVideoMode, downConvertedHDVideoMode, out int supported);
-            return supported != 0;
+            return Convert.ToBoolean(supported);
         }
 
         /// <summary>
@@ -599,11 +559,47 @@ namespace BlackmagicAtemWrapper
         }
 
         /// <summary>
+        /// The GetColorimetryMode method returns the current video output colorimetry mode of the switcher.
+        /// </summary>
+        /// <returns>The current colorimetry mode.</returns>
+        /// <remarks>Blackmagic Switcher SDK - 2.3.2.16</remarks>
+        public _BMDSwitcherColorimetryMode GetColorimetryMode()
+        {
+            this.InternalSwitcherReference.GetColorimetryMode(out _BMDSwitcherColorimetryMode colorimetryMode);
+            return colorimetryMode;
+        }
+
+        /// <summary>
+        /// The SetColorimetryMode method sets the video output colorimetry mode of the switcher.
+        /// </summary>
+        /// <param name="colorimetryMode">The colorimetry mode to be set.</param>
+        /// <exception cref="NotImplementedException">The switcher does not support changing the colorimetry mode.</exception>
+        /// <exception cref="FailedException">Failure.</exception>
+        /// <remarks>Blackmagic Switcher SDK - 2.3.2.17</remarks>
+        public void SetColorimetryMode(_BMDSwitcherColorimetryMode colorimetryMode)
+        { 
+            try
+            {
+                this.InternalSwitcherReference.SetColorimetryMode(colorimetryMode);
+                return;
+            }
+            catch (COMException e)
+            {
+                if (FailedException.IsFailedException(e.ErrorCode))
+                {
+                    throw new FailedException(e);
+                }
+
+                throw;
+            }
+        }
+
+        /// <summary>
         /// The GetPowerStatus method gets the connected power status, useful for models supporting multiple power
         /// sources.
         /// </summary>
         /// <returns>The power status.</returns>
-        /// <remarks>Blackmagic Switcher SDK - 2.3.2.16</remarks>
+        /// <remarks>Blackmagic Switcher SDK - 2.3.2.19</remarks>
         public _BMDSwitcherPowerStatus GetPowerStatus()
         {
             this.InternalSwitcherReference.GetPowerStatus(out _BMDSwitcherPowerStatus powerStatus);
@@ -614,11 +610,11 @@ namespace BlackmagicAtemWrapper
         /// The GetTimeCode method returns the timecode that was last received from the switcher.
         /// </summary>
         /// <returns>The timecode.</returns>
-        /// <remarks>Blackmagic Switcher SDK - 2.3.2.17</remarks>
+        /// <remarks>Blackmagic Switcher SDK - 2.3.2.20</remarks>
         public Timecode GetTimeCode()
         {
             this.InternalSwitcherReference.GetTimeCode(out byte hours, out byte minutes, out byte seconds, out byte frames, out int dropFrame);
-            return new Timecode(hours, minutes, seconds, frames, dropFrame != 0);
+            return new Timecode(hours, minutes, seconds, frames, Convert.ToBoolean(dropFrame));
         }
 
         /// <summary>
@@ -629,7 +625,7 @@ namespace BlackmagicAtemWrapper
         /// <param name="seconds">The seconds value of the timecode.</param>
         /// <param name="frames">The frames value of the timecode.</param>
         /// <exception cref="ArgumentException">A parameter is not a valid value.</exception>
-        /// <remarks>Blackmagic Switcher SDK - 2.3.2.18</remarks>
+        /// <remarks>Blackmagic Switcher SDK - 2.3.2.21</remarks>
         public void SetTimeCode(byte hours, byte minutes, byte seconds, byte frames)
         {
             this.InternalSwitcherReference.SetTimeCode(hours, minutes, seconds, frames);
@@ -650,29 +646,42 @@ namespace BlackmagicAtemWrapper
         /// The RequestTimeCode method requests the current timecode from the switcher which will be cached when
         /// received. Use the GetTimeCode method to get the cached timecode.
         /// </summary>
-        /// <remarks>Blackmagic Switcher SDK - 2.3.2.19</remarks>
+        /// <exception cref="FailedException">Failure.</exception>
+        /// <remarks>Blackmagic Switcher SDK - 2.3.2.22</remarks>
         public void RequestTimeCode()
         {
-            this.InternalSwitcherReference.RequestTimeCode();
-            return;
+            try
+            {
+                this.InternalSwitcherReference.RequestTimeCode();
+                return;
+            }
+            catch (COMException e)
+            {
+                if (FailedException.IsFailedException(e.ErrorCode))
+                {
+                    throw new FailedException(e);
+                }
+
+                throw;
+            }
         }
 
         /// <summary>
         /// The GetTimeCodeLocked method indicates whether the timecode can be changed with SetTimeCode.
         /// </summary>
         /// <returns>The current timecode locked flag.</returns>
-        /// <remarks>Blackmagic Switcher SDK - 2.3.2.20</remarks>
+        /// <remarks>Blackmagic Switcher SDK - 2.3.2.23</remarks>
         public bool GetTimeCodeLocked()
         {
             this.InternalSwitcherReference.GetTimeCodeLocked(out int timeCodeLocked);
-            return timeCodeLocked != 0;
+            return Convert.ToBoolean(timeCodeLocked);
         }
 
         /// <summary>
         /// The GetTimeCodeMode method returns the current timecode mode of the switcher.
         /// </summary>
         /// <returns>The current timecode mode.</returns>
-        /// <remarks>Blackmagic Switcher SDK - 2.3.2.21</remarks>
+        /// <remarks>Blackmagic Switcher SDK - 2.3.2.24</remarks>
         public _BMDSwitcherTimeCodeMode GetTimeCodeMode()
         {
             this.InternalSwitcherReference.GetTimeCodeMode(out _BMDSwitcherTimeCodeMode timeCodeMode);
@@ -684,11 +693,24 @@ namespace BlackmagicAtemWrapper
         /// </summary>
         /// <param name="timeCodeMode">The timecode mode to be set.</param>
         /// <exception cref="ArgumentException">The timeCodeMode parameter is invalid.</exception>
-        /// <remarks>Blackmagic Switcher SDK - 2.3.2.22</remarks>
+        /// <exception cref="FailedException">Failure.</exception>
+        /// <remarks>Blackmagic Switcher SDK - 2.3.2.25</remarks>
         public void SetTimeCodeMode(_BMDSwitcherTimeCodeMode timeCodeMode)
         {
-            this.InternalSwitcherReference.SetTimeCodeMode(timeCodeMode);
-            return;
+            try
+            {
+                this.InternalSwitcherReference.SetTimeCodeMode(timeCodeMode);
+                return;
+            }
+            catch (COMException e)
+            {
+                if (FailedException.IsFailedException(e.ErrorCode))
+                {
+                    throw new FailedException(e);
+                }
+
+                throw;
+            }
         }
 
         /// <summary>
@@ -697,11 +719,11 @@ namespace BlackmagicAtemWrapper
         /// only have configurable outputs.
         /// </summary>
         /// <returns>Boolean that indicates if the switcher only has configurable outputs.</returns>
-        /// <remarks>Blackmagic Switcher SDK - 2.3.2.23</remarks>
+        /// <remarks>Blackmagic Switcher SDK - 2.3.2.26</remarks>
         public bool GetAreOutputsConfigurable()
         {
             this.InternalSwitcherReference.GetAreOutputsConfigurable(out int configurable);
-            return configurable != 0;
+            return Convert.ToBoolean(configurable);
         }
 
         /// <summary>
@@ -709,11 +731,11 @@ namespace BlackmagicAtemWrapper
         /// </summary>
         /// <returns>The current SuperSource cascade flag.</returns>
         /// <exception cref="NotImplementedException">The switcher does not support SuperSource cascade</exception>
-        /// <remarks>Blackmagic Switcher SDK - 2.3.2.24</remarks>
+        /// <remarks>Blackmagic Switcher SDK - 2.3.2.27</remarks>
         public bool GetSuperSourceCascade()
         {
             this.InternalSwitcherReference.GetSuperSourceCascade(out int cascade);
-            return cascade != 0;
+            return Convert.ToBoolean(cascade);
         }
 
         /// <summary>
@@ -721,10 +743,10 @@ namespace BlackmagicAtemWrapper
         /// </summary>
         /// <param name="cascade">The desired SuperSource cascade flag.</param>
         /// <exception cref="NotImplementedException">The switcher does not support SuperSource cascade.</exception>
-        /// <remarks>Blackmagic Switcher SDK - 2.3.2.25</remarks>
+        /// <remarks>Blackmagic Switcher SDK - 2.3.2.28</remarks>
         public void SetSuperSourceCascade(bool cascade)
         {
-            this.InternalSwitcherReference.SetSuperSourceCascade(cascade ? 1 : 0);
+            this.InternalSwitcherReference.SetSuperSourceCascade(Convert.ToInt32(cascade));
             return;
         }
 
@@ -737,7 +759,7 @@ namespace BlackmagicAtemWrapper
         public bool GetAutoVideoMode()
         {
             this.InternalSwitcherReference.GetAutoVideoMode(out int enabled);
-            return enabled != 0;
+            return Convert.ToBoolean(enabled);
         }
 
         /// <summary>
@@ -745,11 +767,60 @@ namespace BlackmagicAtemWrapper
         /// </summary>
         /// <returns>A Boolean value indicating whether an input video mode has been detected.</returns>
         /// <exception cref="NotImplementedException">The switcher does not support auto video mode.</exception>
+        /// <exception cref="FailedException">Failure.</exception>
         /// <remarks>Blackmagic Switcher SDK - 2.3.2.28</remarks>
         public bool GetAutoVideoModeDetected()
         {
-            this.InternalSwitcherReference.GetAutoVideoModeDetected(out int detected);
-            return detected != 0;
+            try
+            {
+                this.InternalSwitcherReference.GetAutoVideoModeDetected(out int detected);
+                return Convert.ToBoolean(detected);
+            }
+            catch (COMException e)
+            {
+                if (FailedException.IsFailedException(e.ErrorCode))
+                {
+                    throw new FailedException(e);
+                }
+
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// The GetFadeToBlackEnabled method indicates whether Fade To Black control is currently enabled.
+        /// </summary>
+        /// <returns>A Boolean value indicating whether Fade To Black control is enabled.</returns>
+        /// <remarks>Blackmagic Switcher SDK - 2.3.2.30</remarks>
+        public bool GetFadeToBlackEnabled()
+        {
+            this.InternalSwitcherReference.GetFadeToBlackEnabled(out int enabled);
+            return Convert.ToBoolean(enabled);
+        }
+
+        /// <summary>
+        /// The SetFadeToBlackEnabled method is used to enable or disable Fade To Black control. Fade To Black can only be activated while this setting is enabled.
+        /// </summary>
+        /// <param name="enabled">A Boolean value indicating whether Fade To Black control should be enabled.</param>
+        /// <exception cref="NotImplementedException">The switcher does not support disabling Fade To Black control.</exception>
+        /// <exception cref="FailedException">Failure.</exception>
+        /// <remarks>Blackmagic Switcher SDK - 2.3.2.31</remarks>
+        public void SetFadeToBlackEnabled(bool enabled)
+        { 
+            try
+            {
+                this.InternalSwitcherReference.SetFadeToBlackEnabled(Convert.ToInt32(enabled));
+                return;
+            }
+            catch (COMException e)
+            {
+                if (FailedException.IsFailedException(e.ErrorCode))
+                {
+                    throw new FailedException(e);
+                }
+
+                throw;
+            }
         }
 
         /// <summary>
@@ -757,11 +828,82 @@ namespace BlackmagicAtemWrapper
         /// </summary>
         /// <param name="enabled">A Boolean value indicating whether auto video mode should be enabled.</param>
         /// <exception cref="NotImplementedException">The switcher does not support auto video mode.</exception>
-        /// <remarks>Blackmagic Switcher SDK - 2.3.2.29</remarks>
+        /// <remarks>Blackmagic Switcher SDK - 2.3.2.33</remarks>
         public void SetAutoVideoMode(bool enabled)
         {
-            this.InternalSwitcherReference.SetAutoVideoMode(enabled ? 1 : 0);
+            this.InternalSwitcherReference.SetAutoVideoMode(Convert.ToInt32(enabled));
             return;
         }
+        #endregion
+
+        #region IBMDSwitcherCallback interface
+        /// <summary>
+        /// <para>The Notify is called when IBMDSwitcher events occur, such as property changes.</para>
+        /// <para>This method is called from a separate thread created by the switcher SDK so care should be exercised when interacting with other threads.</para>
+        /// <para>Callbacks should be processed as quickly as possible to avoid delaying other callbacks or affecting the connection to the switcher.</para>
+        /// <para>The return value (required by COM) is ignored by the caller.</para>
+        /// </summary>
+        /// <param name="eventType"><seealso cref="_BMDSwitcherEventType"/> that describes the type of event that has occurred.</param>
+        /// <param name="coreVideoMode">Video standard for which the event was triggered. This parameter is used in bmdSwitcherEventTypeDownConverted, HDVideoModeChanged and bmdSwitcherEventTypeMultiViewVideo ModeChanged event types.</param>
+        void IBMDSwitcherCallback.Notify(_BMDSwitcherEventType eventType, _BMDSwitcherVideoMode coreVideoMode)
+        {
+            switch (eventType)
+            {
+                case _BMDSwitcherEventType.bmdSwitcherEventTypeVideoModeChanged:
+                    this.OnVideoModeChanged?.Invoke(this, coreVideoMode);
+                    break;
+
+                case _BMDSwitcherEventType.bmdSwitcherEventTypeMethodForDownConvertedSDChanged:
+                    this.OnMethodForDownConvertedSDChanged?.Invoke(this);
+                    break;
+
+                case _BMDSwitcherEventType.bmdSwitcherEventTypeDownConvertedHDVideoModeChanged:
+                    this.OnDownConvertedHDVideoModeChanged?.Invoke(this, coreVideoMode);
+                    break;
+
+                case _BMDSwitcherEventType.bmdSwitcherEventTypeMultiViewVideoModeChanged:
+                    this.OnMultiViewVideoModeChanged?.Invoke(this, coreVideoMode);
+                    break;
+
+                case _BMDSwitcherEventType.bmdSwitcherEventTypePowerStatusChanged:
+                    this.OnPowerStatusChanged?.Invoke(this);
+                    break;
+
+                case _BMDSwitcherEventType.bmdSwitcherEventTypeDisconnected:
+                    this.OnDisconnected?.Invoke(this);
+                    break;
+
+                case _BMDSwitcherEventType.bmdSwitcherEventType3GSDIOutputLevelChanged:
+                    this.On3GSDIOutputLevelChanged?.Invoke(this);
+                    break;
+
+                case _BMDSwitcherEventType.bmdSwitcherEventTypeTimeCodeChanged:
+                    this.OnTimeCodeChanged?.Invoke(this);
+                    break;
+
+                case _BMDSwitcherEventType.bmdSwitcherEventTypeTimeCodeLockedChanged:
+                    this.OnTimeCodeLockedChanged?.Invoke(this);
+                    break;
+
+                case _BMDSwitcherEventType.bmdSwitcherEventTypeTimeCodeModeChanged:
+                    this.OnTimeCodeModeChanged?.Invoke(this);
+                    break;
+
+                case _BMDSwitcherEventType.bmdSwitcherEventTypeSuperSourceCascadeChanged:
+                    this.OnSuperSourceCascadeChanged?.Invoke(this);
+                    break;
+
+                case _BMDSwitcherEventType.bmdSwitcherEventTypeAutoVideoModeChanged:
+                    this.OnAutoVideoModeChanged?.Invoke(this);
+                    break;
+
+                case _BMDSwitcherEventType.bmdSwitcherEventTypeAutoVideoModeDetectedChanged:
+                    this.OnAutoVideoModeDetectedChanged?.Invoke(this);
+                    break;
+            }
+
+            return;
+        }
+        #endregion IBMDSwitcherCallback interface
     }
 }
