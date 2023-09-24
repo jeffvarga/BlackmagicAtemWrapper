@@ -162,7 +162,7 @@ namespace BlackmagicAtemWrapper
             get
             {
                 this.InternalSwitcherInputReference.IsProgramTallied(out int isTallied);
-                return isTallied != 0;
+                return Convert.ToBoolean(isTallied);
             }
         }
 
@@ -175,7 +175,7 @@ namespace BlackmagicAtemWrapper
             get
             {
                 this.InternalSwitcherInputReference.IsPreviewTallied(out int isTallied);
-                return isTallied != 0;
+                return Convert.ToBoolean(isTallied);
             }
         }
 
@@ -287,7 +287,7 @@ namespace BlackmagicAtemWrapper
         {
             int isDefault = 0;
             this.InternalSwitcherInputReference.AreNamesDefault(ref isDefault);
-            return isDefault != 0;
+            return Convert.ToBoolean(isDefault);
         }
 
         /// <summary>

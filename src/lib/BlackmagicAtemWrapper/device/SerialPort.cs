@@ -114,7 +114,7 @@ namespace BlackmagicAtemWrapper.device
         public bool DoesSupportFunction(_BMDSwitcherSerialPortFunction function)
         {
             InternalSerialPortReference.DoesSupportFunction(function, out int supported);
-            return supported != 0;
+            return Convert.ToBoolean(supported);
         }
         #endregion
 

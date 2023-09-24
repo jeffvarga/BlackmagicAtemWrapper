@@ -127,7 +127,7 @@ namespace BlackmagicAtemWrapper
             get
             {
                 this.InternalMultiViewReference.CanChangeLayout(out int canChangeLayout);
-                return canChangeLayout != 0;
+                return Convert.ToBoolean(canChangeLayout);
             }
         }
 
@@ -150,7 +150,7 @@ namespace BlackmagicAtemWrapper
             get
             {
                 this.InternalMultiViewReference.SupportsQuadrantLayout(out int supportsQuadrantLayout);
-                return supportsQuadrantLayout != 0;
+                return Convert.ToBoolean(supportsQuadrantLayout);
             }
         }
 
@@ -171,7 +171,7 @@ namespace BlackmagicAtemWrapper
             get
             {
                 this.InternalMultiViewReference.CanRouteInputs(out int canRoute);
-                return canRoute != 0;
+                return Convert.ToBoolean(canRoute);
             }
         }
 
@@ -184,7 +184,7 @@ namespace BlackmagicAtemWrapper
             get
             {
                 this.InternalMultiViewReference.SupportsVuMeters(out int supportsVuMeters);
-                return supportsVuMeters != 0;
+                return Convert.ToBoolean(supportsVuMeters);
             }
         }
 
@@ -197,7 +197,7 @@ namespace BlackmagicAtemWrapper
             get
             {
                 this.InternalMultiViewReference.CanAdjustVuMeterOpacity(out int canAdjustVuMeterOpacity);
-                return canAdjustVuMeterOpacity != 0;
+                return Convert.ToBoolean(canAdjustVuMeterOpacity);
             }
         }
 
@@ -219,7 +219,7 @@ namespace BlackmagicAtemWrapper
             get
             {
                 this.InternalMultiViewReference.CanToggleSafeAreaEnabled(out int canToggleSafeAreaEnabled);
-                return canToggleSafeAreaEnabled != 0;
+                return Convert.ToBoolean(canToggleSafeAreaEnabled);
             }
         }
 
@@ -232,7 +232,7 @@ namespace BlackmagicAtemWrapper
             get
             {
                 this.InternalMultiViewReference.SupportsProgramPreviewSwap(out int supportsProgramPreviewSwap);
-                return supportsProgramPreviewSwap != 0;
+                return Convert.ToBoolean(supportsProgramPreviewSwap);
             }
         }
 
@@ -344,7 +344,7 @@ namespace BlackmagicAtemWrapper
         public bool CurrentInputSupportsVuMeter(uint window)
         {
             this.InternalMultiViewReference.CurrentInputSupportsVuMeter(window, out int supportsVuMeter);
-            return supportsVuMeter != 0;
+            return Convert.ToBoolean(supportsVuMeter);
         }
 
         /// <summary>
@@ -358,7 +358,7 @@ namespace BlackmagicAtemWrapper
         public bool GetVuMeterEnabled(uint window)
         {
             this.InternalMultiViewReference.GetVuMeterEnabled(window, out int enabled);
-            return enabled != 0;
+            return Convert.ToBoolean(enabled);
         }
 
         /// <summary>
@@ -371,7 +371,7 @@ namespace BlackmagicAtemWrapper
         /// <bug>window parameter is uint rather than int.</bug>
         public void SetVuMeterEnabled(uint window, bool enabled)
         {
-            this.InternalMultiViewReference.SetVuMeterEnabled(window, enabled ? 1 : 0);
+            this.InternalMultiViewReference.SetVuMeterEnabled(window, Convert.ToInt32(enabled));
             return;
         }
 
@@ -437,7 +437,7 @@ namespace BlackmagicAtemWrapper
             try
             {
                 this.InternalMultiViewReference.CurrentInputSupportsSafeArea(window, out int supportsSafeArea);
-                return supportsSafeArea != 0;
+                return Convert.ToBoolean(supportsSafeArea);
             }
             catch (COMException e)
             {
@@ -460,7 +460,7 @@ namespace BlackmagicAtemWrapper
         public bool GetSafeAreaEnabled(uint window)
         {
             this.InternalMultiViewReference.GetSafeAreaEnabled(window, out int enabled);
-            return enabled != 0;
+            return Convert.ToBoolean(enabled);
         }
 
         /// <summary>
@@ -475,7 +475,7 @@ namespace BlackmagicAtemWrapper
         {
             try
             {
-                this.InternalMultiViewReference.SetSafeAreaEnabled(window, enabled ? 1 : 0);
+                this.InternalMultiViewReference.SetSafeAreaEnabled(window, Convert.ToInt32(enabled));
                 return;
             }
             catch (COMException e)
@@ -497,7 +497,7 @@ namespace BlackmagicAtemWrapper
         public bool GetProgramPreviewSwapped()
         {
             this.InternalMultiViewReference.GetProgramPreviewSwapped(out int swapped);
-            return swapped != 0;
+            return Convert.ToBoolean(swapped);
         }
 
         /// <summary>
@@ -508,7 +508,7 @@ namespace BlackmagicAtemWrapper
         /// <remarks>Blackmagic Switcher SDK - 2.3.15.23</remarks>
         public void SetProgramPreviewSwapped(bool swapped)
         {
-            this.InternalMultiViewReference.SetProgramPreviewSwapped(swapped ? 1 : 0);
+            this.InternalMultiViewReference.SetProgramPreviewSwapped(Convert.ToInt32(swapped));
             return;
         }
         #endregion

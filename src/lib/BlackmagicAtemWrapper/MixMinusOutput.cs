@@ -24,6 +24,7 @@
 
 namespace BlackmagicAtemWrapper
 {
+    using System;
     using System.Runtime.InteropServices;
     using BlackmagicAtemWrapper.utility;
     using BMDSwitcherAPI;
@@ -106,7 +107,7 @@ namespace BlackmagicAtemWrapper
             get
             {
                 this.InternalMixMinusOutputReference.HasMinusAudioInputId(out int hasMinusAudioInputId);
-                return hasMinusAudioInputId != 0;
+                return Convert.ToBoolean(hasMinusAudioInputId);
             }
         }
 
