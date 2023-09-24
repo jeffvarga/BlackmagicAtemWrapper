@@ -37,7 +37,7 @@ namespace BlackmagicAtemWrapper.Macros
         /// <summary>
         /// Internal reference to the raw <see cref="IBMDSwitcherTransferMacro"/>
         /// </summary>
-        private IBMDSwitcherTransferMacro InternalTransferMacroReference;
+        private readonly IBMDSwitcherTransferMacro InternalTransferMacroReference;
 
         /// <summary>
         /// Initializes an instance of the <see cref="TransferMacro"/> class.

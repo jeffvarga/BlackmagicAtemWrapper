@@ -37,7 +37,7 @@ namespace BlackmagicAtemWrapper.Macros
         /// <summary>
         /// Internal reference to the raw <see cref="IBMDSwitcherMacroPool"/>
         /// </summary>
-        private IBMDSwitcherMacroPool InternalMacroPoolReference;
+        private readonly IBMDSwitcherMacroPool InternalMacroPoolReference;
 
         /// <summary>
         /// Initializes an instance of the <see cref="MacroPool"/> class.

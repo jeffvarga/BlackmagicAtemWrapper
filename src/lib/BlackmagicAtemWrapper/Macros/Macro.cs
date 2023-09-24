@@ -39,7 +39,7 @@ namespace BlackmagicAtemWrapper.Macros
         /// <summary>
         /// Internal reference to the raw <see cref="IBMDSwitcherMacro"/>
         /// </summary>
-        private IBMDSwitcherMacro InternalMacroReference;
+        private readonly IBMDSwitcherMacro InternalMacroReference;
 
         /// <summary>
         /// Initializes an instance of the <see cref="Macro"/> class.
