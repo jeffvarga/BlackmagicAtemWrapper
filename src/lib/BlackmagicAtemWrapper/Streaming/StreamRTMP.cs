@@ -38,7 +38,7 @@ namespace BlackmagicAtemWrapper.Streaming
         /// <summary>
         /// Internal reference to the raw <see cref="IBMDSwitcherStreamRTMP"/>
         /// </summary>
-        private IBMDSwitcherStreamRTMP InternalStreamRTMPReference;
+        private readonly IBMDSwitcherStreamRTMP InternalStreamRTMPReference;
 
         /// <summary>
         /// Initializes an instances of the <see cref="StreamRTMP"/> class.
@@ -433,7 +433,7 @@ namespace BlackmagicAtemWrapper.Streaming
         /// <param name="lowBitrate">Maximum video streaming bitrate for low framerates, in bits per second.</param>
         /// <param name="highBitrate">Maximum video streaming bitrate for high framerates, in bits per second.</param>
         /// <remarks>Blackmagic Switcher SDK - 11.3.1.12</remarks>
-        public void GetVideoBitrates(uint lowBitrate, uint highBitrate)
+        public void GetVideoBitrates(out uint lowBitrate, out uint highBitrate)
         {
             this.InternalStreamRTMPReference.GetVideoBitrates(out lowBitrate, out highBitrate);
             return;
@@ -470,7 +470,7 @@ namespace BlackmagicAtemWrapper.Streaming
         /// <param name="lowBitrate">Maximum audio streaming bitrate for low framerates, in bits per second.</param>
         /// <param name="highBitrate">Maximum audio streaming bitrate for high framerates, in bits per second.</param>
         /// <remarks>Blackmagic Switcher SDK - 11.3.1.14</remarks>
-        public void GetAudioBitrates(uint lowBitrate, uint highBitrate)
+        public void GetAudioBitrates(out uint lowBitrate, out uint highBitrate)
         {
             this.InternalStreamRTMPReference.GetAudioBitrates(out lowBitrate, out highBitrate);
             return;
@@ -581,7 +581,7 @@ namespace BlackmagicAtemWrapper.Streaming
         /// <param name="password">Streaming server authentication password.</param>
         /// <exception cref="OutOfMemoryException">Out of memory, could not assign the username and/or password parameters.</exception>
         /// <remarks>Blackmagic Switcher SDK - 11.3.1.21</remarks>
-        public void GetAuthentication(string username, string password)
+        public void GetAuthentication(out string username, out string password)
         {
             this.InternalStreamRTMPReference.GetAuthentication(out username, out password);
             return;
