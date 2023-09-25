@@ -46,12 +46,7 @@ namespace BlackmagicAtemWrapper
         /// <param name="multiView">The native <seealso cref="IBMDSwitcherMultiView"/> from the BMDSwitcherAPI.</param>
         public MultiView(IBMDSwitcherMultiView multiView)
         {
-            if (null == multiView)
-            {
-                throw new ArgumentNullException(nameof(multiView));
-            }
-
-            this.InternalMultiViewReference = multiView;
+            this.InternalMultiViewReference = multiView ?? throw new ArgumentNullException(nameof(multiView));
             this.InternalMultiViewReference.AddCallback(this);
         }
 
