@@ -78,7 +78,7 @@ namespace BlackmagicAtemWrapper.audio
         /// <param name="numPeakLevels">The number of peak levels of the master out.</param>
         /// <param name="peakLevels">The highest encountered peak dB level of the master out since the last reset.</param>
         /// <remarks>Blackmagic Switcher SDK - 7.5.2.2</remarks>
-        public delegate void FairlighAudioMixerMasterOutLevelEventHandler(object sender, uint numLevels, double levels, uint numPeakLevels, double peakLevels);
+        public delegate void FairlightAudioMixerMasterOutLevelEventHandler(object sender, uint numLevels, double levels, uint numPeakLevels, double peakLevels);
 
         /// <summary>
         /// The <see cref="MasterOutFaderGain"/> changed.
@@ -101,10 +101,10 @@ namespace BlackmagicAtemWrapper.audio
         public event FairlightAudioMixerEventHandler OnMicTalkbackGainChanged;
 
         /// <summary>
-        /// <para>The OnAudioMixerMasterOutLevelChanged event is called periodically to report the current dB levels and the last known peak levels.These peak levels can be reset using IBMDSwitcherFairlightAudioMixer::ResetMasterOutPeakLevels.</para>
-        /// <para>Note that this is an opt-in subscription.Enable or disable receiving these calls using IBMDSwitcherFairlightAudioMixer::SetAllLevelNotificationsEnabled.</para>
+        /// <para>The OnAudioMixerMasterOutLevelChanged event is called periodically to report the current dB levels and the last known peak levels. These peak levels can be reset using <see cref="ResetMasterOutPeakLevels"/>.</para>
+        /// <para>Note that this is an opt-in subscription. Enable or disable receiving these calls using <see cref="SetAllLevelNotificationsEnabled"/>.</para>
         /// </summary>
-        public event FairlighAudioMixerMasterOutLevelEventHandler OnAudioMixerMasterOutLevelChanged;
+        public event FairlightAudioMixerMasterOutLevelEventHandler OnAudioMixerMasterOutLevelChanged;
         #endregion
 
         #region Properties
@@ -412,6 +412,7 @@ namespace BlackmagicAtemWrapper.audio
         void IBMDSwitcherFairlightAudioMixerCallback.MasterOutLevelNotification(uint numLevels, ref double levels, uint numPeakLevels, ref double peakLevels)
         {
             this.OnAudioMixerMasterOutLevelChanged?.Invoke(this, numLevels, levels, numPeakLevels, peakLevels);
+            return;
         }
         #endregion
     }
