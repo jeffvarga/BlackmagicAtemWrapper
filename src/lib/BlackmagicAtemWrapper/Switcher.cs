@@ -224,13 +224,13 @@ namespace BlackmagicAtemWrapper
         }
 
         /// <summary>
-        /// Gets the switcher's <see cref="audio.FairlightAudioMixer"/>
+        /// Gets the switcher's <see cref="Audio.FairlightAudioMixer"/>
         /// </summary>
-        public audio.FairlightAudioMixer AudioMixer
+        public Audio.FairlightAudioMixer AudioMixer
         {
             get
             {
-                return new audio.FairlightAudioMixer(this.InternalSwitcherReference as IBMDSwitcherFairlightAudioMixer);
+                return new Audio.FairlightAudioMixer(this.InternalSwitcherReference as IBMDSwitcherFairlightAudioMixer);
             }
         }
 

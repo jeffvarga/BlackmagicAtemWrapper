@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// <copyright file="AudioMixer.cs">
+// <copyright file="FairlightAudioMixer.cs">
 //   Copyright (c) 2023 Jeff Varga
 //
 //   Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -22,7 +22,7 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-namespace BlackmagicAtemWrapper.audio
+namespace BlackmagicAtemWrapper.Audio
 {
     using System;
     using System.Runtime.InteropServices;
@@ -46,12 +46,7 @@ namespace BlackmagicAtemWrapper.audio
         /// <param name="audioMixer">The native <seealso cref="IBMDSwitcherFairlightAudioMixer"/> from the BMDSwitcherAPI.</param>
         public FairlightAudioMixer(IBMDSwitcherFairlightAudioMixer audioMixer)
         {
-            if(audioMixer == null)
-            {
-                throw new System.ArgumentNullException(nameof(audioMixer));
-            }
-
-            this.InternalFairlightAudioMixerReference = audioMixer;
+            this.InternalFairlightAudioMixerReference = audioMixer ?? throw new System.ArgumentNullException(nameof(audioMixer));
             this.InternalFairlightAudioMixerReference.AddCallback(this);
         }
 

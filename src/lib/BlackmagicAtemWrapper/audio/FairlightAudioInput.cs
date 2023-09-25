@@ -22,7 +22,7 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-namespace BlackmagicAtemWrapper.audio
+namespace BlackmagicAtemWrapper.Audio
 {
     using System.Runtime.InteropServices;
     using BlackmagicAtemWrapper.utility;
@@ -31,6 +31,7 @@ namespace BlackmagicAtemWrapper.audio
     /// <summary>
     /// The FairlightAudioInput class is used for managing a Fairlight audio input.
     /// </summary>
+    /// <remarks>Blackmagic Switcher SDK - 7.5.4</remarks>
     public class FairlightAudioInput : IBMDSwitcherFairlightAudioInputCallback
     {
         /// <summary>
@@ -76,6 +77,14 @@ namespace BlackmagicAtemWrapper.audio
         #endregion
 
         #region Properties
+        /// <summary>
+        /// Gets the collection of connected audio sources
+        /// </summary>
+        public FairlightAudioSourceCollection AudioSources
+        {
+            get { return new FairlightAudioSourceCollection(InternalFairlightAudioInputReference); }
+        }
+
         /// <summary>
         /// Gets the audio input type.
         /// </summary>
@@ -125,6 +134,7 @@ namespace BlackmagicAtemWrapper.audio
         /// <returns>The Fairlight audio input type.</returns>
         /// <exception cref="FailedException">Failure.</exception>
         /// <remarks>Blackmagic Switcher SDK - 7.5.4.1</remarks>
+        /// <bug>7.2.2 enum lists MediaPlayer twice, leaves off audioin and embedded</bug>
         public new _BMDSwitcherFairlightAudioInputType GetType()
         {
             try

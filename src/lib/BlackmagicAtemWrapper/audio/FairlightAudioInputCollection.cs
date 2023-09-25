@@ -22,7 +22,7 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-namespace BlackmagicAtemWrapper.audio
+namespace BlackmagicAtemWrapper.Audio
 {
     using System;
     using System.Collections;
