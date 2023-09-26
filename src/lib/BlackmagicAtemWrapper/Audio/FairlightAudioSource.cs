@@ -394,8 +394,14 @@ namespace BlackmagicAtemWrapper.Audio
             }
         }
 
-        // TODO: GetEffect 7.5.7.11
-        public void GetEffect<EffectType>(out EffectType effectObject)
+        /// <summary>
+        /// Gets the associated/supported effects
+        /// </summary>
+        /// <typeparam name="EffectType">The <see cref="Audio.Effects"/> type.</typeparam>
+        /// <returns>An object of type <typeparamref name="EffectType"/></returns>
+        /// <exception cref="NotSupportedException"></exception>
+        /// <remarks>Blackmagic Switcher SDK - 7.5.7.11</remarks>
+        public EffectType GetEffect<EffectType>()
         {
             Guid guid;
             IntPtr ppv;
@@ -404,14 +410,16 @@ namespace BlackmagicAtemWrapper.Audio
             {
                 guid = typeof(IBMDSwitcherFairlightAudioDynamicsProcessor).GUID;
                 this.InternalFairlightAudioSourceReference.GetEffect(ref guid, out ppv);
-                effectObject = (EffectType) Convert.ChangeType(new Effects.FairlightAudioDynamicsProcessor(Marshal.GetObjectForIUnknown(ppv) as IBMDSwitcherFairlightAudioDynamicsProcessor), typeof(EffectType));
+                return (EffectType) Convert.ChangeType(new Effects.FairlightAudioDynamicsProcessor(Marshal.GetObjectForIUnknown(ppv) as IBMDSwitcherFairlightAudioDynamicsProcessor), typeof(EffectType));
             }
-            else
+            else if (typeof(EffectType) == typeof(Effects.FairlightAudioEqualizer))
             {
-                throw new NotSupportedException(typeof(EffectType).ToString());
+                guid = typeof(IBMDSwitcherFairlightAudioEqualizer).GUID;
+                this.InternalFairlightAudioSourceReference.GetEffect(ref guid, out ppv);
+                return (EffectType) Convert.ChangeType(new Effects.FairlightAudioEqualizer(Marshal.GetObjectForIUnknown(ppv) as IBMDSwitcherFairlightAudioEqualizer), typeof(EffectType));
             }
 
-            return;
+            throw new NotSupportedException(typeof(EffectType).ToString());
         }
 
         /// <summary>
