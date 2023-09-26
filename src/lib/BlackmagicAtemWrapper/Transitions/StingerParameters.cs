@@ -245,7 +245,7 @@ namespace BlackmagicAtemWrapper.Transitions
         /// <summary>
         /// The SetPreMultiplied method sets the pre-multiplied flag.
         /// </summary>
-        /// <param name="preMultiplied"></param>
+        /// <param name="preMultiplied">The desired pre-multiplied flag.</param>
         /// <exception cref="FailedException">The desired pre-multiplied flag.</exception>
         /// <remarks>Blackmagic Switcher SDK - 3.2.9.4</remarks>
         public void SetPreMultiplied(bool preMultiplied)
