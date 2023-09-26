@@ -31,7 +31,7 @@ namespace BlackmagicAtemWrapper.Audio.Effects
     using BMDSwitcherAPI;
 
     /// <summary>
-    /// The InputCollection class is used to enumerate the bands of a Fairlight audio equalizer
+    /// The <see cref="FairlightAudioEqualizerBandCollection"/> class is used to enumerate the bands of a Fairlight audio equalizer
     /// </summary>
     /// <remarks>Wraps Blackmagic Switcher SDK - 2.1.1</remarks>
     public class FairlightAudioEqualizerBandCollection : IEnumerable<FairlightAudioEqualizerBand>
