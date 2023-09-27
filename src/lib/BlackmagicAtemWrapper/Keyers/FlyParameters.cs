@@ -593,8 +593,8 @@ namespace BlackmagicAtemWrapper.Keyers
         }
 
         /// <summary>
-        /// <param>The IsAtKeyFrames method returns a bit set of key frames that match the current frame.</param>
-        /// <param>Zero is returned if the current frame does not match any built-in or user-defined frames.</param>
+        /// <para>The IsAtKeyFrames method returns a bit set of key frames that match the current frame.</para>
+        /// <para>Zero is returned if the current frame does not match any built-in or user-defined frames.</para>
         /// </summary>
         /// <returns>All key frames that match the current frame.</returns>
         /// <remarks>Blackmagic Switcher SDK - 5.2.14.24</remarks>

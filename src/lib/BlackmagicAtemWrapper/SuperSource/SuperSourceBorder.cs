@@ -444,7 +444,7 @@ namespace BlackmagicAtemWrapper.SuperSource
         /// <summary>
         /// The SetBorderSoftnessIn method sets the border inner softness.
         /// </summary>
-        /// <returns>The desired border inner softness.</returns>
+        /// <param name="softnessIn">The desired border inner softness.</param>
         /// <exception cref="FailedException">Failure.</exception>
         /// <remarks>Blackmagic Switcher SDK - 6.2.6.13</remarks>
         public void SetBorderSoftnessIn(double softnessIn)
