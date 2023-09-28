@@ -112,6 +112,14 @@ namespace BlackmagicAtemWrapper
         }
 
         /// <summary>
+        /// Gets the port type for the input.
+        /// </summary>
+        public _BMDSwitcherPortType PortType
+        {
+            get { return this.GetPortType(); }
+        }
+
+        /// <summary>
         /// Gets a value indicating the outputs this input can be routed to, as a BMDSwitcherInputAvailability mask.
         /// </summary>
         public _BMDSwitcherInputAvailability InputAvailability

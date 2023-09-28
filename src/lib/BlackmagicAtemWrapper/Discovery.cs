@@ -44,7 +44,7 @@ namespace BlackmagicAtemWrapper
         /// <returns><see cref="Switcher"/> object for the connected switcher.</returns>
         /// <exception cref="Exception">Reason for connection failure as a BMDSwitcherConnectToFailure value.</exception>
         /// <remarks>Blackmagic Switcher SDK - 2.3.1.1</remarks>
-        public static Switcher ConnectTo(string deviceAddress)
+        public static Switcher ConnectTo(string deviceAddress = "")
         {
             IBMDSwitcherDiscovery discovery = new CBMDSwitcherDiscovery();
             discovery.ConnectTo(deviceAddress, out IBMDSwitcher switcherDevice, out _BMDSwitcherConnectToFailure failReason);
