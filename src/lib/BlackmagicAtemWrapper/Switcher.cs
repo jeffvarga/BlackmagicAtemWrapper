@@ -235,6 +235,11 @@ namespace BlackmagicAtemWrapper
         }
 
         /// <summary>
+        /// Gets the switcher's media players.
+        /// </summary>
+        public Media.MediaPlayerCollection MediaPlayers => new(this.InternalSwitcherReference);
+
+        /// <summary>
         /// Gets the switcher's <see cref="Streaming.StreamRTMP"/> interface.
         /// </summary>
         public Streaming.StreamRTMP Stream => new(this.InternalSwitcherReference as IBMDSwitcherStreamRTMP);
