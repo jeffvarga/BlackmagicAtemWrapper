@@ -26,6 +26,7 @@ namespace BlackmagicAtemWrapper
 {
     using System;
     using System.Runtime.InteropServices;
+    using BlackmagicAtemWrapper.utility;
     using BMDSwitcherAPI;
 
     /// <summary>
@@ -188,6 +189,15 @@ namespace BlackmagicAtemWrapper
         }
 
         /// <summary>
+        /// Gets or sets the camera model.
+        /// </summary>
+        public uint CameraModel
+        {
+            get { return this.GetCameraModel(); }
+            set { this.SetCameraModel(value); }
+        }
+
+        /// <summary>
         /// Gets the <see cref="SuperSource.InputSuperSource"/> object for this Input.  Returns null if this input is not a SuperSource input.
         /// </summary>
         public SuperSource.InputSuperSource SuperSource
@@ -329,6 +339,41 @@ namespace BlackmagicAtemWrapper
         {
             this.InternalSwitcherInputReference.SetCurrentExternalPortType(type);
             return;
+        }
+
+        /// <summary>
+        /// Gets current camera model.
+        /// </summary>
+        /// <returns>The camera model.</returns>
+        /// <bug>Does not exist in documentation.</bug>
+        public uint GetCameraModel()
+        {
+            this.InternalSwitcherInputReference.GetCameraModel(out uint cameraId);
+            return cameraId;
+        }
+
+        /// <summary>
+        /// Sets the current camera model
+        /// </summary>
+        /// <param name="cameraId">The camera model</param>
+        /// <exception cref="FailedException">Failure.</exception>
+        /// <bug>Does not exist in documentation.</bug>
+        public void SetCameraModel(uint cameraId)
+        { 
+            try
+            {
+                this.InternalSwitcherInputReference.SetCameraModel(cameraId);
+                return;
+            }
+            catch (COMException e)
+            {
+                if (FailedException.IsFailedException(e.ErrorCode))
+                {
+                    throw new FailedException(e);
+                }
+
+                throw;
+            }
         }
         #endregion
 
