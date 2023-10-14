@@ -25,7 +25,6 @@
 namespace BlackmagicAtemWrapper.Media
 {
     using System;
-    using System.Collections.Generic;
     using System.Runtime.InteropServices;
     using BlackmagicAtemWrapper.utility;
     using BMDSwitcherAPI;
@@ -42,7 +41,7 @@ namespace BlackmagicAtemWrapper.Media
         private readonly IBMDSwitcherMediaPlayer InternalMediaPlayerReference;
 
         /// <summary>
-        /// Initializes an instances of the <see cref="MediaPlayer"/> class.
+        /// Initializes an instance of the <see cref="MediaPlayer"/> class.
         /// </summary>
         /// <param name="mediaPlayer">The native <see cref="IBMDSwitcherMediaPlayer"/> from the BMDSwitcherAPI.</param>
         public MediaPlayer(IBMDSwitcherMediaPlayer mediaPlayer)
