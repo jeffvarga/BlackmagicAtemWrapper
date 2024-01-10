@@ -303,8 +303,7 @@ namespace BlackmagicAtemWrapper
         /// <bug>IDL declares AreNamesDefault as an [in] parameter</bug>
         public bool AreNamesDefault()
         {
-            int isDefault = 0;
-            this.InternalSwitcherInputReference.AreNamesDefault(ref isDefault);
+            this.InternalSwitcherInputReference.AreNamesDefault(out int isDefault);
             return Convert.ToBoolean(isDefault);
         }
 

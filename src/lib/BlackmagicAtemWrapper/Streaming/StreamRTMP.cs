@@ -92,18 +92,26 @@ namespace BlackmagicAtemWrapper.Streaming
         /// The video bitrates changed.
         /// </summary>
         /// <see cref="GetVideoBitrates"/>
+        /// <see cref="SetVideoBitrates(uint, uint)"/>
         public event StreamRTMPEventHandler OnVideoBitratesChanged;
 
         /// <summary>
         /// The audio bitrates changed.
         /// </summary>
         /// <see cref="GetAudioBitrates"/>
+        /// <see cref="SetAudioBitrates(uint, uint)"/>
         public event StreamRTMPEventHandler OnAudioBitratesChanged;
+
+        /// <summary>
+        /// The <see cref="DownConvertMode"/> value changed.
+        /// </summary>
+        /// <see cref="GetDownConvertMode"/>
+        /// <see cref="SetDownConvertMode(_BMDSwitcherStreamDownConvertMode)"/>
+        public event StreamRTMPEventHandler OnDownConvertChanged;
 
         /// <summary>
         /// The <see cref="EncodingBitrate"/> changed.
         /// </summary>
-        /// 
         public event StreamRTMPEventHandler OnEncodingBitrateChanged;
 
         /// <summary>
@@ -132,6 +140,21 @@ namespace BlackmagicAtemWrapper.Streaming
         /// The <see cref="IsLowLatency"/> flag changed;
         /// </summary>
         public event StreamRTMPEventHandler OnLowLatencyChanged;
+
+        /// <summary>
+        /// The SRT extensions have changed.
+        /// </summary>
+        public event StreamRTMPEventHandler OnSRTExtensionsChanged;
+
+        /// <summary>
+        /// The availability of streaming has changed.
+        /// </summary>
+        public event StreamRTMPEventHandler OnAvailabilityChanged;
+
+        /// <summary>
+        /// The current streaming quality profile has changed.
+        /// </summary>
+        public event StreamRTMPEventHandler OnProfileChanged;
 
         /// <summary>
         /// Not streaming.
@@ -165,6 +188,71 @@ namespace BlackmagicAtemWrapper.Streaming
             {
                 this.InternalStreamRTMPReference.IsStreaming(out int streaming);
                 return Convert.ToBoolean(streaming);
+            }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether the switcher is able to stream with RTMP.
+        /// </summary>
+        /// <remarks>Blackmagic Switcher SDK - 11.3.1.5</remarks>
+        public bool CanStreamRTMP
+        {
+            get
+            {
+                this.InternalStreamRTMPReference.CanStreamRTMP(out int canStreamRTMP);
+                return Convert.ToBoolean(canStreamRTMP);
+            }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether the switcher is able to stream with RTMPS.
+        /// </summary>
+        /// <remarks>Blackmagic Switcher SDK - 11.3.1.6</remarks>
+        public bool CanStreamRTMPS
+        {
+            get
+            {
+                this.InternalStreamRTMPReference.CanStreamRTMPS(out int canStreamRTMPS);
+                return Convert.ToBoolean(canStreamRTMPS);
+            }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether the switcher is able to stream with SRT.
+        /// </summary>
+        /// <remarks>Blackmagic Switcher SDK - 11.3.1.7</remarks>
+        public bool CanStreamSRT
+        {
+            get
+            {
+                this.InternalStreamRTMPReference.CanStreamSRT(out int canStreamSRT);
+                return Convert.ToBoolean(canStreamSRT);
+            }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether the switcher is able to stream in 4K video standard.
+        /// </summary>
+        /// <remarks>Blackmagic Switcher SDK - 11.3.1.8</remarks>
+        public bool CanStream4K
+        {
+            get
+            {
+                this.InternalStreamRTMPReference.CanStream4K(out int canStream4K);
+                return Convert.ToBoolean(canStream4K);
+            }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether the switcher is capable of streaming at a lower resolution video standard than the video standard it is operating in.
+        /// </summary>
+        /// <remarks>Blackmagic Switcher SDK - 11.3.1.9</remarks>
+        public bool CanDownConvert
+        {
+            get
+            {
+                this.InternalStreamRTMPReference.CanDownConvert(out int canDownConvert);
+                return Convert.ToBoolean(canDownConvert);
             }
         }
 
@@ -212,6 +300,24 @@ namespace BlackmagicAtemWrapper.Streaming
         }
 
         /// <summary>
+        /// Gets or sets a value indicating the current down convert mode used for streaming.
+        /// </summary>
+        public _BMDSwitcherStreamDownConvertMode DownConvertMode
+        {
+            get { return this.GetDownConvertMode(); }
+            set { this.SetDownConvertMode(value); }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating the current SRT stream extensions.
+        /// </summary>
+        public string SRTExtensions
+        {
+            get { return this.GetSRTExtensions(); }
+            set { this.SetSRTExtensions(value); }
+        }
+
+        /// <summary>
         /// Gets the current encoding bitrate, in bits per second.
         /// </summary>
         public uint EncodingBitrate
@@ -234,6 +340,15 @@ namespace BlackmagicAtemWrapper.Streaming
         {
             get { return this.GetLowLatency(); }
             set { this.SetLowLatency(value); }
+        }
+
+        /// <summary>
+        /// Sets a value setting the streaming profile using the XML text format.
+        /// </summary>
+        /// <see cref="SetProfileXml(string)"/>
+        public string ProfileXml
+        {
+            set { this.SetProfileXml(value); }
         }
         #endregion
 
@@ -299,7 +414,7 @@ namespace BlackmagicAtemWrapper.Streaming
         /// </summary>
         /// <param name="serviceName">Name of the streaming service.</param>
         /// <exception cref="FailedException">Failure.</exception>
-        /// <remarks>Blackmagic Switcher SDK - 11.3.1.5</remarks>
+        /// <remarks>Blackmagic Switcher SDK - 11.3.1.10</remarks>
         public void SetServiceName(string serviceName)
         {
             try
@@ -323,7 +438,7 @@ namespace BlackmagicAtemWrapper.Streaming
         /// </summary>
         /// <returns>Name of the streaming service.</returns>
         /// <exception cref="OutOfMemoryException">Insufficient memory to get the service name.</exception>
-        /// <remarks>Blackmagic Switcher SDK - 11.3.1.6</remarks>
+        /// <remarks>Blackmagic Switcher SDK - 11.3.1.11</remarks>
         public string GetServiceName()
         {
             this.InternalStreamRTMPReference.GetServiceName(out string serviceName);
@@ -335,7 +450,7 @@ namespace BlackmagicAtemWrapper.Streaming
         /// </summary>
         /// <param name="url">Streaming server URL.</param>
         /// <exception cref="FailedException">Failure.</exception>
-        /// <remarks>Blackmagic Switcher SDK - 11.3.1.7</remarks>
+        /// <remarks>Blackmagic Switcher SDK - 11.3.1.12</remarks>
         public void SetUrl(string url)
         {
             try
@@ -359,7 +474,7 @@ namespace BlackmagicAtemWrapper.Streaming
         /// </summary>
         /// <returns>Streaming server URL.</returns>
         /// <exception cref="OutOfMemoryException">Insufficient memory to get the URL.</exception>
-        /// <remarks>Blackmagic Switcher SDK - 11.3.1.8</remarks>
+        /// <remarks>Blackmagic Switcher SDK - 11.3.1.13</remarks>
         public string GetUrl()
         {
             this.InternalStreamRTMPReference.GetUrl(out string url);
@@ -371,7 +486,7 @@ namespace BlackmagicAtemWrapper.Streaming
         /// </summary>
         /// <param name="key">Streaming server key.</param>
         /// <exception cref="FailedException">Failure.</exception>
-        /// <remarks>Blackmagic Switcher SDK - 11.3.1.9</remarks>
+        /// <remarks>Blackmagic Switcher SDK - 11.3.1.14</remarks>
         public void SetKey(string key)
         {
             try
@@ -395,7 +510,7 @@ namespace BlackmagicAtemWrapper.Streaming
         /// </summary>
         /// <returns>Streaming server key.</returns>
         /// <exception cref="OutOfMemoryException">Insufficient memory to get the key.</exception>
-        /// <remarks>Blackmagic Switcher SDK - 11.3.1.10</remarks>
+        /// <remarks>Blackmagic Switcher SDK - 11.3.1.15</remarks>
         public string GetKey()
         {
             this.InternalStreamRTMPReference.GetKey(out string key);
@@ -408,7 +523,7 @@ namespace BlackmagicAtemWrapper.Streaming
         /// <param name="lowBitrate">Maximum video streaming bitrate for low framerates, in bits per second.</param>
         /// <param name="highBitrate">Maximum video streaming bitrate for high framerates, in bits per second.</param>
         /// <exception cref="FailedException">Failure.</exception>
-        /// <remarks>Blackmagic Switcher SDK - 11.3.1.11</remarks>
+        /// <remarks>Blackmagic Switcher SDK - 11.3.1.16</remarks>
         public void SetVideoBitrates(uint lowBitrate, uint highBitrate)
         {
             try
@@ -432,7 +547,7 @@ namespace BlackmagicAtemWrapper.Streaming
         /// </summary>
         /// <param name="lowBitrate">Maximum video streaming bitrate for low framerates, in bits per second.</param>
         /// <param name="highBitrate">Maximum video streaming bitrate for high framerates, in bits per second.</param>
-        /// <remarks>Blackmagic Switcher SDK - 11.3.1.12</remarks>
+        /// <remarks>Blackmagic Switcher SDK - 11.3.1.17</remarks>
         public void GetVideoBitrates(out uint lowBitrate, out uint highBitrate)
         {
             this.InternalStreamRTMPReference.GetVideoBitrates(out lowBitrate, out highBitrate);
@@ -445,7 +560,7 @@ namespace BlackmagicAtemWrapper.Streaming
         /// <param name="lowBitrate">Maximum audio streaming bitrate for low framerates, in bits per second.</param>
         /// <param name="highBitrate">Maximum audio streaming bitrate for high framerates, in bits per second.</param>
         /// <exception cref="FailedException">Failure.</exception>
-        /// <remarks>Blackmagic Switcher SDK - 11.3.1.13</remarks>
+        /// <remarks>Blackmagic Switcher SDK - 11.3.1.18</remarks>
         public void SetAudioBitrates(uint lowBitrate, uint highBitrate)
         {
             try
@@ -469,7 +584,7 @@ namespace BlackmagicAtemWrapper.Streaming
         /// </summary>
         /// <param name="lowBitrate">Maximum audio streaming bitrate for low framerates, in bits per second.</param>
         /// <param name="highBitrate">Maximum audio streaming bitrate for high framerates, in bits per second.</param>
-        /// <remarks>Blackmagic Switcher SDK - 11.3.1.14</remarks>
+        /// <remarks>Blackmagic Switcher SDK - 11.3.1.19</remarks>
         public void GetAudioBitrates(out uint lowBitrate, out uint highBitrate)
         {
             this.InternalStreamRTMPReference.GetAudioBitrates(out lowBitrate, out highBitrate);
@@ -480,7 +595,7 @@ namespace BlackmagicAtemWrapper.Streaming
         /// The RequestDuration method requests the current streaming duration and timecode from the switcher which will be cached when received.Use the GetDuration and GetTimecode methods to get the cached duration and cached timecode, respectively.
         /// </summary>
         /// <exception cref="FailedException">Failure.</exception>
-        /// <remarks>Blackmagic Switcher SDK - 11.3.1.15</remarks>
+        /// <remarks>Blackmagic Switcher SDK - 11.3.1.20</remarks>
         public void RequestDuration()
         {
             try
@@ -503,7 +618,7 @@ namespace BlackmagicAtemWrapper.Streaming
         /// The GetDuration method returns the streaming duration (in frames) that was last received from the switcher.
         /// </summary>
         /// <returns>Recording duration (in frames).</returns>
-        /// <remarks>Blackmagic Switcher SDK - 11.3.1.16</remarks>
+        /// <remarks>Blackmagic Switcher SDK - 11.3.1.21</remarks>
         public ulong GetDuration()
         {
             this.InternalStreamRTMPReference.GetDuration(out ulong duration);
@@ -514,7 +629,7 @@ namespace BlackmagicAtemWrapper.Streaming
         /// The GetTimeCode method returns the streaming timecode that was last received from the switcher.
         /// </summary>
         /// <returns>The timecode object for the current timecode.</returns>
-        /// <remarks>Blackmagic Switcher SDK - 11.3.1.17</remarks>
+        /// <remarks>Blackmagic Switcher SDK - 11.3.1.22</remarks>
         /// <bug>Documentation incorrectly cases GetTimeCode as GetTimecode</bug>
         public Timecode GetTimeCode()
         {
@@ -531,7 +646,7 @@ namespace BlackmagicAtemWrapper.Streaming
         /// The GetEncodingBitrate method returns the current encoding bitrate, in bits per second.
         /// </summary>
         /// <returns>The current encoding bitrate.</returns>
-        /// <remarks>Blackmagic Switcher SDK - 11.3.1.18</remarks>
+        /// <remarks>Blackmagic Switcher SDK - 11.3.1.23</remarks>
         public uint GetEncodingBitrate()
         {
             this.InternalStreamRTMPReference.GetEncodingBitrate(out uint encodingBitrate);
@@ -542,11 +657,45 @@ namespace BlackmagicAtemWrapper.Streaming
         /// The GetCacheUsed method returns the current usage level of the streaming cache, as a value with range 0.0 to 1.0.
         /// </summary>
         /// <returns>Current usage level of the streaming cache.</returns>
-        /// <remarks>Blackmagic Switcher SDK - 11.3.1.19</remarks>
+        /// <remarks>Blackmagic Switcher SDK - 11.3.1.24</remarks>
         public double GetCacheUsed()
         {
             this.InternalStreamRTMPReference.GetCacheUsed(out double cacheUsed);
             return cacheUsed;
+        }
+
+        /// <summary>
+        /// The SetStreamDownConvertMode method sets the current down convert mode used for streaming.
+        /// </summary>
+        /// <param name="downConvertMode">Current down convert mode used for streaming.</param>
+        /// <exception cref="FailedException">Failure.</exception>
+        /// <remarks>Blackmagic Switcher SDK - 11.3.1.25</remarks>
+        public void SetDownConvertMode(_BMDSwitcherStreamDownConvertMode downConvertMode)
+        {
+            try
+            {
+                this.InternalStreamRTMPReference.SetDownConvertMode(downConvertMode);
+            }
+            catch (COMException e)
+            {
+                if (FailedException.IsFailedException(e.ErrorCode))
+                {
+                    throw new FailedException(e);
+                }
+
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// The GetStreamDownConvertMode method gets the current down convert mode used for streaming.
+        /// </summary>
+        /// <returns>Current down convert mode used for streaming.</returns>
+        /// <remarks>Blackmagic Switcher SDK - 11.3.1.26</remarks>
+        public _BMDSwitcherStreamDownConvertMode GetDownConvertMode()
+        {
+            this.InternalStreamRTMPReference.GetDownConvertMode(out _BMDSwitcherStreamDownConvertMode downConvertMode);
+            return downConvertMode;
         }
 
         /// <summary>
@@ -555,7 +704,7 @@ namespace BlackmagicAtemWrapper.Streaming
         /// <param name="username">Streaming server authentication username.</param>
         /// <param name="password">Streaming server authentication password.</param>
         /// <exception cref="FailedException">Failure.</exception>
-        /// <remarks>Blackmagic Switcher SDK - 11.3.1.20</remarks>
+        /// <remarks>Blackmagic Switcher SDK - 11.3.1.27</remarks>
         public void SetAuthentication(string username, String password)
         {
             try
@@ -580,7 +729,7 @@ namespace BlackmagicAtemWrapper.Streaming
         /// <param name="username">Streaming server authentication username.</param>
         /// <param name="password">Streaming server authentication password.</param>
         /// <exception cref="OutOfMemoryException">Out of memory, could not assign the username and/or password parameters.</exception>
-        /// <remarks>Blackmagic Switcher SDK - 11.3.1.21</remarks>
+        /// <remarks>Blackmagic Switcher SDK - 11.3.1.28</remarks>
         public void GetAuthentication(out string username, out string password)
         {
             this.InternalStreamRTMPReference.GetAuthentication(out username, out password);
@@ -592,7 +741,7 @@ namespace BlackmagicAtemWrapper.Streaming
         /// </summary>
         /// <param name="lowLatency">Boolean value indicating whether low latency is active.</param>
         /// <exception cref="FailedException">Failure.</exception>
-        /// <remarks>Blackmagic Switcher SDK - 11.3.1.22</remarks>
+        /// <remarks>Blackmagic Switcher SDK - 11.3.1.29</remarks>
         public void SetLowLatency(bool lowLatency)
         {
             try
@@ -615,11 +764,95 @@ namespace BlackmagicAtemWrapper.Streaming
         /// The GetLowLatency method returns the low latency mode.
         /// </summary>
         /// <returns>Boolean value indicating whether low latency is active.</returns>
-        /// <remarks>Blackmagic Switcher SDK - 11.3.1.23</remarks>
+        /// <remarks>Blackmagic Switcher SDK - 11.3.1.30</remarks>
         public bool GetLowLatency()
         {
             this.InternalStreamRTMPReference.GetLowLatency(out int lowLatency);
             return Convert.ToBoolean(lowLatency);
+        }
+
+        /// <summary>
+        /// The SetSRTExtensions method sets the SRT stream extensions.
+        /// </summary>
+        /// <param name="extensions">SRT stream extensions.</param>
+        /// <exception cref="FailedException">Failure.</exception>
+        /// <remarks>Blackmagic Switcher SDK - 11.3.1.31</remarks>
+        public void SetSRTExtensions(string extensions)
+        {
+            try
+            {
+                this.InternalStreamRTMPReference.SetSRTExtensions(extensions);
+            }
+            catch (COMException e)
+            {
+                if (FailedException.IsFailedException(e.ErrorCode))
+                {
+                    throw new FailedException(e);
+                }
+
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// The GetSRTExtensions method gets the SRT stream extensions.
+        /// </summary>
+        /// <returns>SRT stream extensions.</returns>
+        /// <exception cref="OutOfMemoryException">Insufficient memory to get the SRT stream ID extensions.</exception>
+        /// <remarks>Blackmagic Switcher SDK - 11.3.1.32</remarks>
+        public string GetSRTExtensions()
+        {
+            this.InternalStreamRTMPReference.GetSRTExtensions(out string extensions);
+            return extensions;
+        }
+
+        /// <summary>
+        /// The SetProfileXml method sets the streaming profile using the XML text format. The streaming profile specifies encoder settings for different video standards.If the passed in XML is malformed it will be ignored.
+        /// </summary>
+        /// <param name="xml">Streaming profile in XML format.</param>
+        /// <exception cref="FailedException">Failure.</exception>
+        /// <remarks>Blackmagic Switcher SDK - 11.3.1.33</remarks>
+        public void SetProfileXml(string xml)
+        {
+            try
+            {
+                this.InternalStreamRTMPReference.SetProfileXml(xml);
+            }
+            catch (COMException e)
+            {
+                if (FailedException.IsFailedException(e.ErrorCode))
+                {
+                    throw new FailedException(e);
+                }
+
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// The GetStreamingProfile method returns a full description of the current streaming profile.
+        /// </summary>
+        /// <param name="profileName">Name of the profile.</param>
+        /// <param name="lowVideoBitrates">Maximum video streaming bitrate for low framerates, in bits per second.</param>
+        /// <param name="highVideoBitrates">Maximum video streaming bitrate for high framerates, in bits per second.</param>
+        /// <param name="lowAudioBitrates">Maximum audio streaming bitrate for low framerates, in bits per second.</param>
+        /// <param name="highAudioBitrates">Maximum audio streaming bitrate for high framerates, in bits per second.</param>
+        /// <param name="lowLatency">Boolean value indicating whether low latency is active.</param>
+        /// <param name="videoMode">The video standard used for streaming.</param>
+        /// <param name="videoCodec">The video codec used for streaming.</param>
+        /// <param name="keyFrameInterval">The key frame interval.</param>
+        /// <exception cref="NotImplementedException">The switcher does not report the streaming profile.</exception>
+        /// <exception cref="OutOfMemoryException">Insufficient memory to get the streaming profile.</exception>
+        /// <remarks>Blackmagic Switcher SDK - 11.3.1.34</remarks>
+        public void GetProfile(out string profileName, out uint lowVideoBitrates, out uint highVideoBitrates,
+            out uint lowAudioBitrates, out uint highAudioBitrates, out bool lowLatency,
+            out _BMDSwitcherVideoMode videoMode, out _BMDSwitcherVideoCodec videoCodec, out uint keyFrameInterval)
+        {
+            this.InternalStreamRTMPReference.GetProfile(
+                out profileName, out lowVideoBitrates, out highVideoBitrates,
+                out lowAudioBitrates, out highAudioBitrates, out int _lowLatency,
+                out videoMode, out videoCodec, out keyFrameInterval);
+            lowLatency = Convert.ToBoolean(_lowLatency);
         }
         #endregion
 
@@ -654,6 +887,10 @@ namespace BlackmagicAtemWrapper.Streaming
                     this.OnAudioBitratesChanged.Invoke(this);
                     break;
 
+                case _BMDSwitcherStreamRTMPEventType.bmdSwitcherStreamRTMPEventTypeDownConvertChanged:
+                    this.OnDownConvertChanged?.Invoke(this);
+                    break;
+
                 case _BMDSwitcherStreamRTMPEventType.bmdSwitcherStreamRTMPEventTypeEncodingBitrateChanged:
                     this.OnEncodingBitrateChanged?.Invoke(this);
                     break;
@@ -676,6 +913,18 @@ namespace BlackmagicAtemWrapper.Streaming
 
                 case _BMDSwitcherStreamRTMPEventType.bmdSwitcherStreamRTMPEventTypeLowLatencyChanged:
                     this.OnLowLatencyChanged?.Invoke(this);
+                    break;
+
+                case _BMDSwitcherStreamRTMPEventType.bmdSwitcherStreamRTMPEventTypeSRTExtensionsChanged:
+                    this.OnSRTExtensionsChanged?.Invoke(this);
+                    break;
+
+                case _BMDSwitcherStreamRTMPEventType.bmdSwitcherStreamRTMPEventTypeAvailabilityChanged:
+                    this.OnAvailabilityChanged?.Invoke(this);
+                    break;
+
+                case _BMDSwitcherStreamRTMPEventType.bmdSwitcherStreamRTMPEventTypeProfileChanged:
+                    this.OnProfileChanged?.Invoke(this);
                     break;
             }
 

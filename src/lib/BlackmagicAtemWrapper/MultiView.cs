@@ -108,6 +108,11 @@ namespace BlackmagicAtemWrapper
         public event MultiViewEventHandler OnSafeAreaEnabledChanged;
 
         /// <summary>
+        /// The type of the safe area overlay changed.
+        /// </summary>
+        public event MultiViewEventHandler OnSafeAreaTypeChanged;
+
+        /// <summary>
         /// The positioning of the program and preview windows changed from standard to swapped or from swapped to standard.
         /// </summary>
         public event MultiViewEventHandler OnProgramPreviewSwappedChanged;
@@ -485,6 +490,58 @@ namespace BlackmagicAtemWrapper
         }
 
         /// <summary>
+        /// The GetSupportedSafeAreaTypes method is used to determine which safe area overlay types are supported by the Switcher.
+        /// </summary>
+        /// <returns>A BMDSwitcherMultiViewSafeAreaType bit mask of the supported safe area types.</returns>
+        /// <exception cref="NotImplementedException">The switcher does not support changing the safe area overlay type.</exception>
+        /// <remarks>Blackmagic Switcher SDK - 2.3.15.21</remarks>
+        public _BMDSwitcherMultiViewSafeAreaType GetSupportedSafeAreaTypes()
+        {
+            this.InternalMultiViewReference.GetSupportedSafeAreaTypes(out uint supportedSafeAreaTypeFlags);
+            return (_BMDSwitcherMultiViewSafeAreaType) supportedSafeAreaTypeFlags;
+        }
+
+        /// <summary>
+        /// The GetSafeAreaType method is used to determine the type of safe area overlay currently displayed on the MultiView window.
+        /// </summary>
+        /// <param name="window">Zero-based window index.</param>
+        /// <returns>The current safe area overlay type as a BMDSwitcherMultiViewSafeAreaType bit mask.</returns>
+        /// <exception cref="ArgumentException">The <paramref name="window"/> parameter is not a valid window index.</exception>
+        /// <exception cref="NotImplementedException">The switcher does not support changing the safe area overlay type.</exception>
+        /// <remarks>Blackmagic Switcher SDK - 2.3.15.22</remarks>
+        public _BMDSwitcherMultiViewSafeAreaType GetSafeAreaType(uint window)
+        {
+            this.InternalMultiViewReference.GetSafeAreaType(window, out _BMDSwitcherMultiViewSafeAreaType type);
+            return (_BMDSwitcherMultiViewSafeAreaType) type;
+        }
+
+        /// <summary>
+        /// The SetSafeAreaType method is used to set the type of safe area overlay displayed on the MultiView window.
+        /// </summary>
+        /// <param name="window">Zero-based window index.</param>
+        /// <param name="type">The desired safe area overlay type as a BMDSwitcherMultiViewSafeAreaType bit mask.</param>
+        /// <exception cref="ArgumentException">The window parameter is not a valid window index.</exception>
+        /// <exception cref="NotImplementedException">The switcher does not support changing the safe area overlay type.</exception>
+        /// <exception cref="FailedException">Failure.</exception>
+        /// <remarks>Blackmagic Switcher SDK - 2.3.15.23</remarks>
+        public void SetSafeAreaType(uint window, _BMDSwitcherMultiViewSafeAreaType type)
+        { 
+            try
+            {
+                this.InternalMultiViewReference.SetSafeAreaType(window, type);
+            }
+            catch (COMException e)
+            {
+                if (FailedException.IsFailedException(e.ErrorCode))
+                {
+                    throw new FailedException(e);
+                }
+
+                throw;
+            }
+        }
+
+        /// <summary>
         /// The GetProgramPreviewSwapped method is used to determine if the MultiView program and preview window positions are currently swapped.
         /// </summary>
         /// <returns>A Boolean value indicating whether the program and preview window positions are currently swapped.</returns>
@@ -547,6 +604,10 @@ namespace BlackmagicAtemWrapper
 
                 case _BMDSwitcherMultiViewEventType.bmdSwitcherMultiViewEventTypeSafeAreaEnabledChanged:
                     this.OnSafeAreaEnabledChanged?.Invoke(this);
+                    break;
+
+                case _BMDSwitcherMultiViewEventType.bmdSwitcherMultiViewEventTypeSafeAreaTypeChanged:
+                    this.OnSafeAreaTypeChanged?.Invoke(this);
                     break;
 
                 case _BMDSwitcherMultiViewEventType.bmdSwitcherMultiViewEventTypeProgramPreviewSwappedChanged:

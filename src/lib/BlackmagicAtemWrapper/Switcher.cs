@@ -139,6 +139,11 @@ namespace BlackmagicAtemWrapper
         /// The auto video mode detection state has changed.
         /// </summary>
         public event SwitcherEventHandler OnAutoVideoModeDetectedChanged;
+
+        /// <summary>
+        /// The fade to black enabled state has changed.
+        /// </summary>
+        public event SwitcherEventHandler OnFadeToBlackEnabledChanged;
         #endregion
 
         /// <summary>
@@ -180,7 +185,7 @@ namespace BlackmagicAtemWrapper
         /// </summary>
         public SerialPortCollection SerialPorts
         {
-            get { return new SerialPortCollection(this.InternalSwitcherReference); } 
+            get { return new SerialPortCollection(this.InternalSwitcherReference); }
         }
 
         /// <summary>
@@ -385,6 +390,24 @@ namespace BlackmagicAtemWrapper
                 return Convert.ToBoolean(supported);
             }
         }
+
+        /// <summary>
+        /// Gets or sets a value indicating the current colorimetry mode.
+        /// </summary>
+        public _BMDSwitcherColorimetryMode ColorimetryMode
+        {
+            get { return this.GetColorimetryMode(); }
+            set { this.SetColorimetryMode(value); }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating if FadeToBlack is enabled
+        /// </summary>
+        public bool FadeToBlackEnabled
+        {
+            get { return this.GetFadeToBlackEnabled(); }
+            set { this.SetFadeToBlackEnabled(value); }
+        }
         #endregion
 
         #region IBMDSwitcher
@@ -587,7 +610,7 @@ namespace BlackmagicAtemWrapper
         /// <exception cref="FailedException">Failure.</exception>
         /// <remarks>Blackmagic Switcher SDK - 2.3.2.17</remarks>
         public void SetColorimetryMode(_BMDSwitcherColorimetryMode colorimetryMode)
-        { 
+        {
             try
             {
                 this.InternalSwitcherReference.SetColorimetryMode(colorimetryMode);
@@ -816,7 +839,7 @@ namespace BlackmagicAtemWrapper
         /// <exception cref="FailedException">Failure.</exception>
         /// <remarks>Blackmagic Switcher SDK - 2.3.2.31</remarks>
         public void SetFadeToBlackEnabled(bool enabled)
-        { 
+        {
             try
             {
                 this.InternalSwitcherReference.SetFadeToBlackEnabled(Convert.ToInt32(enabled));
@@ -909,6 +932,10 @@ namespace BlackmagicAtemWrapper
 
                 case _BMDSwitcherEventType.bmdSwitcherEventTypeAutoVideoModeDetectedChanged:
                     this.OnAutoVideoModeDetectedChanged?.Invoke(this);
+                    break;
+
+                case _BMDSwitcherEventType.bmdSwitcherEventTypeFadeToBlackEnabledChanged:
+                    this.OnFadeToBlackEnabledChanged?.Invoke(this);
                     break;
             }
 
