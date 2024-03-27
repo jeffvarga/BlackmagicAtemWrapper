@@ -117,6 +117,16 @@ namespace BlackmagicAtemWrapper
         /// </summary>
         public event MultiViewEventHandler OnProgramPreviewSwappedChanged;
 
+        /// <summary>
+        /// The visibility of a label or border in a MultiView window has changed.
+        /// </summary>
+        public event MultiViewEventHandler OnOverlayVisibilityChanged;
+
+        /// <summary>
+        /// The default MultiView border color has changed.
+        /// </summary>
+        public event MultiViewEventHandler OnBorderColorChanged;
+
         #region Properties
         /// <summary>
         /// Gets a value indicating whether the layout can be changed.
@@ -243,6 +253,19 @@ namespace BlackmagicAtemWrapper
         {
             get { return this.GetProgramPreviewSwapped(); }
             set { this.SetProgramPreviewSwapped(value); }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether it is possible to change the label and border visibility and border colour.
+        /// </summary>
+        /// <remarks>Blackmagic Switcher SDK - 2.3.15.27.  First appeared in 9.3.3.</remarks>
+        public bool CanChangeOverlayProperties
+        {
+            get
+            {
+                this.InternalMultiViewReference.CanChangeOverlayProperties(out int canChangeOverlayProperties);
+                return Convert.ToBoolean(canChangeOverlayProperties);
+            }
         }
         #endregion
 
@@ -563,6 +586,121 @@ namespace BlackmagicAtemWrapper
             this.InternalMultiViewReference.SetProgramPreviewSwapped(Convert.ToInt32(swapped));
             return;
         }
+
+        /// <summary>
+        /// The GetLabelVisible method is used to determine if the label is currently visible on the specified MultiView window.
+        /// </summary>
+        /// <param name="window">Zero-based window index.</param>
+        /// <returns>Boolean value indicating whether the label is currently visible on the specified window.</returns>
+        /// <exception cref="NotImplementedException">The switcher does not support changing the label visibility.</exception>
+        /// <exception cref="ArgumentException">The <paramref name="window"/> parameter is not a valid window index.</exception>
+        public bool GetLabelVisible(uint window)
+        {
+            this.InternalMultiViewReference.GetLabelVisible(window, out int visible);
+            return Convert.ToBoolean(visible);
+        }
+
+        /// <summary>
+        /// The SetLabelVisible method is used to hide or show the label on the specified MultiView window.
+        /// </summary>
+        /// <param name="window">Zero-based window index.</param>
+        /// <param name="visible">Boolean value indicating whether the label should be made visible on the specified window.</param>
+        /// <exception cref="NotImplementedException">The switcher does not support changing the label visibility.</exception>
+        /// <exception cref="ArgumentException">The window parameter is not a valid window index.</exception>
+        /// <exception cref="FailedException">Failure.</exception>
+        /// <remarks>Blackmagic Switcher SDK - 2.3.15.29.  First appeared in 9.3.3</remarks>
+        public void SetLabelVisible(uint window, bool visible)
+        {
+            try
+            {
+                this.InternalMultiViewReference.SetLabelVisible(window, Convert.ToInt32(visible));
+            }
+            catch (COMException e)
+            {
+                if (FailedException.IsFailedException(e.ErrorCode))
+                {
+                    throw new FailedException(e);
+                }
+
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// The GetBorderVisible method is used to determine if the border is currently visible on the specified MultiView window.
+        /// </summary>
+        /// <param name="window">Zero-based window index.</param>
+        /// <returns>Boolean value indicating whether the border is currently visible on the specified window.</returns>
+        /// <exception cref="NotImplementedException">The switcher does not support changing the border visibility.</exception>
+        /// <exception cref="ArgumentException">The window parameter is not a valid window index.</exception>
+        /// <remarks>Blackmagic Switcher SDK - 2.3.15.30.  First appeared in 9.3.3</remarks>
+        public bool GetBorderVisible(uint window)
+        {
+            this.InternalMultiViewReference.GetBorderVisible(window, out int visible);
+            return Convert.ToBoolean(visible);
+        }
+
+        /// <summary>
+        /// The SetBorderVisible method is used hide or show the border on the specified MultiView window.
+        /// </summary>
+        /// <param name="window">Zero-based window index.</param>
+        /// <param name="visible">Boolean value indicating whether the border should be made visible on the specified window.</param>
+        /// <exception cref="NotImplementedException">The switcher does not support changing the border visibility.</exception>
+        /// <exception cref="ArgumentException">The window parameter is not a valid window index.</exception>
+        /// <exception cref="FailedException">Failure.</exception>
+        /// <remarks>Blackmagic Switcher SDK - 2.3.15.31.  First appeared in 9.3.3</remarks>
+        public void SetBorderVisible(uint window, bool visible)
+        {
+            try
+            {
+                this.InternalMultiViewReference.SetBorderVisible(window, Convert.ToInt32(visible));
+            }
+            catch (COMException e)
+            {
+                if (FailedException.IsFailedException(e.ErrorCode))
+                {
+                    throw new FailedException(e);
+                }
+
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// The GetBorderColor method is used to determine the default border color of the MultiView.
+        /// </summary>
+        /// <returns>A Tuple&lt;double, double, double, double&gt; representing the red, green, blue, and alpha components of the color, in the range of 0.0 to 1.0.</returns>
+        /// <exception cref="NotImplementedException">The switcher does not support changing the border color.</exception>
+        /// <remarks>Blackmagic Switcher SDK - 2.3.15.32.  First appeared in 9.3.3</remarks>
+        public Tuple<double, double, double, double> GetBorderColor()
+        {
+            this.InternalMultiViewReference.GetBorderColor(out double red, out double green, out double blue, out double alpha);
+            return new Tuple<double, double, double, double>(red, green, blue, alpha);
+        }
+
+        /// <summary>
+        /// The SetBorderColor method is used to set the default border color of the MultiView. This does not effect the border colors for tally.
+        /// </summary>
+        /// <param name="color">A Tuple&lt;double, double, double, double&gt; representing the red, green, blue, and alpha components of the color, in the range of 0.0 to 1.0.</param>
+        /// <exception cref="NotImplementedException">The switcher does not support changing the border color.</exception>
+        /// <exception cref="FailedException">Failure.</exception>
+        /// <remarks>Blackmagic Switcher SDK - 2.3.15.33.  First appeared in 9.3.3</remarks>
+        public void SetBorderColor(Tuple<double, double, double, double> color)
+        {
+            try
+            {
+                this.InternalMultiViewReference.SetBorderColor(color.Item1, color.Item2, color.Item3, color.Item4);
+            }
+            catch (COMException e)
+            {
+                if (FailedException.IsFailedException(e.ErrorCode))
+                {
+                    throw new FailedException(e);
+                }
+
+                throw;
+            }
+        }
         #endregion
 
         #region IBMDSwitcherMultiViewCallback
@@ -612,6 +750,14 @@ namespace BlackmagicAtemWrapper
 
                 case _BMDSwitcherMultiViewEventType.bmdSwitcherMultiViewEventTypeProgramPreviewSwappedChanged:
                     this.OnProgramPreviewSwappedChanged?.Invoke(this);
+                    break;
+
+                case _BMDSwitcherMultiViewEventType.bmdSwitcherMultiViewEventTypeOverlayVisibilityChanged:
+                    this.OnOverlayVisibilityChanged?.Invoke(this);
+                    break;
+
+                case _BMDSwitcherMultiViewEventType.bmdSwitcherMultiViewEventTypeBorderColorChanged:
+                    this.OnBorderColorChanged?.Invoke(this);
                     break;
             }
 
